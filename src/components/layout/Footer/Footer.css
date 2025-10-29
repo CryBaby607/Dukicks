@@ -1,0 +1,265 @@
+/* src/components/layout/Footer/Footer.css */
+
+.footer {
+  background-color: #000000;
+  color: #ffffff;
+  border-top: 1px solid #333;
+  margin-top: auto;
+  width: 100%;
+}
+
+.footer__container {
+  /* CAMBIO PRINCIPAL: Eliminado max-width (1440px) para que ocupe el ancho completo */
+  width: 100%; 
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+.footer__content {
+  display: grid;
+  /* CORRECCIÓN: Ajustado a 1.2fr para balancear mejor las columnas */
+  grid-template-columns: 1.2fr 1fr 1fr 1fr;
+  gap: 40px;
+  padding: 50px 0 30px;
+  width: 100%;
+  align-items: start;
+}
+
+/* ===== COLUMNA PRINCIPAL (y el resto sin cambios) ===== */
+.footer__column:first-child {
+  min-width: 0;
+}
+
+.footer__title {
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  margin: 0 0 15px;
+  color: #ffffff;
+}
+
+.footer__description {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #cccccc;
+  margin: 0 0 20px;
+  max-width: 1580px;
+}
+
+/* ===== REDES SOCIALES ===== */
+.footer__social {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.footer__social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid #333;
+  border-radius: 50%;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.footer__social-link:hover {
+  background-color: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* ===== COLUMNAS DE ENLACES ===== */
+.footer__column-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0 0 15px;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.footer__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer__links li {
+  margin-bottom: 10px;
+}
+
+.footer__links a {
+  color: #cccccc;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 300;
+  transition: color 0.3s ease;
+  display: block;
+}
+
+.footer__links a:hover {
+  color: #ffffff;
+}
+
+/* ===== SECCIÓN INFERIOR ===== */
+.footer__bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 25px 0;
+  border-top: 1px solid #333;
+  width: 100%;
+}
+
+.footer__copyright {
+  font-size: 0.8rem;
+  color: #999;
+  margin: 0;
+  text-align: center;
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Desktop grande (1200px+) */
+@media (min-width: 1200px) {
+  /* Ya no se necesita sobrescribir max-width aquí */
+}
+
+/* Desktop medio (1024px - 1199px) - Se ajusta la descripción, pero mantiene 4 columnas */
+@media (max-width: 1199px) {
+  .footer__content {
+    gap: 35px;
+  }
+  
+  .footer__description {
+    /* Ajuste para que se vea bien en este rango */
+    max-width: 300px;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Tablet (max-width: 1023px) ELIMINADO. Sus estilos se movieron a 767px. */
+/* ---------------------------------------------------------------------- */
+
+
+/* Tablet pequeña (max-width: 767px) - AHORA es el punto de quiebre a 2 columnas */
+@media (max-width: 767px) {
+  .footer__container {
+    padding: 0 15px;
+  }
+
+  .footer__content {
+    /* TRANSICIÓN A 2 COLUMNAS */
+    grid-template-columns: 1fr 1fr;
+    gap: 30px; /* Ajustado de 35px */
+    padding: 35px 0 20px; /* Ajustado de 40px */
+  }
+
+  .footer__column:first-child {
+    /* PRIMERA COLUMNA A ANCHO COMPLETO Y CENTRADA */
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+
+  .footer__description {
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .footer__social {
+    justify-content: center;
+  }
+}
+
+/* Móvil (480px - 599px) - Transición a 1 columna */
+@media (max-width: 599px) {
+  .footer__content {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    padding: 30px 0 20px;
+  }
+
+  .footer__column:first-child {
+    /* Se revierte el grid-column para que solo ocupe 1 columna */
+    grid-column: 1; 
+  }
+
+  .footer__title {
+    font-size: 1.3rem;
+  }
+
+  .footer__description {
+    font-size: 0.85rem;
+    max-width: none;
+  }
+
+  .footer__column-title {
+    text-align: center;
+    font-size: 0.9rem;
+  }
+
+  .footer__links {
+    text-align: center;
+  }
+
+  .footer__links a {
+    font-size: 0.85rem;
+  }
+
+  .footer__bottom {
+    padding: 20px 0;
+  }
+
+  .footer__copyright {
+    font-size: 0.75rem;
+  }
+}
+
+/* Móvil pequeño (hasta 479px) */
+@media (max-width: 479px) {
+  .footer__container {
+    padding: 0 12px;
+  }
+
+  .footer__content {
+    padding: 25px 0 15px;
+    gap: 20px;
+  }
+
+  .footer__social-link {
+    width: 32px;
+    height: 32px;
+  }
+
+  .footer__social-link svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* Asegurar que el footer se mantenga en la parte inferior */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  margin-top: auto;
+}
+
+/* Asegurar que los enlaces no se corten */
+.footer__links a {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
