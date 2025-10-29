@@ -7,9 +7,11 @@ import Header from './components/layout/Header/Header.jsx';
 import Footer from './components/layout/Footer/Footer.jsx'; 
 
 // 3. Importa las nuevas páginas
-import Home from './pages/Home.jsx'; // Asume que creaste src/pages/Home.jsx
-import Products from './pages/Products.jsx'; // Asume que creaste src/pages/Products.jsx
-import Contact from './pages/Contact.jsx'; // Asume que creaste src/pages/Contact.jsx
+import Home from './pages/Home.jsx'; 
+import Gorras from './pages/Gorras.jsx'; // <--- NUEVA PÁGINA
+import Hombres from './pages/Hombres.jsx'; // <--- NUEVA PÁGINA
+import Mujeres from './pages/Mujeres.jsx'; // <--- NUEVA PÁGINA
+import Coleccion from './pages/Coleccion.jsx'; // <--- NUEVA PÁGINA
 
 
 function App() {
@@ -24,8 +26,10 @@ function App() {
         <Routes>
           {/* Define cada ruta (path) y su componente asociado (element) */}
           <Route path="/" element={<Home />} />
-          <Route path="/productos" element={<Products />} />
-          <Route path="/contacto" element={<Contact />} />
+          <Route path="/gorras" element={<Gorras />} /> 
+          <Route path="/hombres" element={<Hombres />} />
+          <Route path="/mujeres" element={<Mujeres />} />
+          <Route path="/coleccion" element={<Coleccion />} />
           
           {/* Opcional: Ruta para manejar URLs no encontradas (404) */}
           <Route path="*" element={<h1>404 | Página No Encontrada</h1>} />
