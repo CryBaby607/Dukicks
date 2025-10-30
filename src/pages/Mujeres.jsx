@@ -115,32 +115,6 @@ const Mujeres = () => {
       stock: true,
       nuevo: true,
       destacado: true
-    },
-    {
-      id: 'Mujer-9', // ID ACTUALIZADO
-      name: 'PREMIUM SPORT',
-      category: 'running',
-      price: 199,
-      image: '👟',
-      sizes: [6, 7, 8, 9],
-      color: 'Negro/Verde',
-      colorCode: 'negro',
-      stock: true,
-      nuevo: true,
-      destacado: true
-    },
-    {
-      id: 'Mujer-10', // ID ACTUALIZADO
-      name: 'COMFORT PLUS',
-      category: 'lifestyle',
-      price: 129,
-      image: '👟',
-      sizes: [5, 6, 7, 8, 9],
-      color: 'Gris',
-      colorCode: 'gris',
-      stock: true,
-      nuevo: false,
-      destacado: false
     }
   ];
 

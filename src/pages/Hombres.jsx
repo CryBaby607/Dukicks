@@ -106,18 +106,6 @@ const Hombres = () => {
       stock: true,
       nuevo: true,
       destacado: true
-    },
-    {
-      id: 9,
-      name: 'COMFORT WALK',
-      category: 'lifestyle',
-      price: 129,
-      image: '👟',
-      sizes: [8, 9, 10, 11],
-      color: 'Beige',
-      stock: true,
-      nuevo: false,
-      destacado: false
     }
   ];
 

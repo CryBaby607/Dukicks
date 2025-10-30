@@ -112,58 +112,6 @@ const Coleccion = () => {
       stock: true,
       nuevo: false,
       limitada: false
-    },
-    {
-      id: 'Coleccion-9', // ID ACTUALIZADO
-      name: 'BLACK EDITION',
-      category: 'clasica',
-      collection: 'Dark Series',
-      price: 50,
-      image: '👕',
-      description: 'Edición totalmente negra',
-      sizes: ['M', 'L', 'XL', 'XXL'],
-      stock: true,
-      nuevo: true,
-      limitada: true
-    },
-    {
-      id: 'Coleccion-10', // ID ACTUALIZADO
-      name: 'OVERSIZED TEE',
-      category: 'basica',
-      collection: 'Comfort Fit',
-      price: 42,
-      image: '👕',
-      description: 'Corte oversized relajado',
-      sizes: ['S', 'M', 'L', 'XL'],
-      stock: true,
-      nuevo: false,
-      limitada: false
-    },
-    {
-      id: 'Coleccion-11', // ID ACTUALIZADO
-      name: 'GRADIENT FLOW',
-      category: 'grafica',
-      collection: 'Art Collection',
-      price: 58,
-      image: '👕',
-      description: 'Estampado degradado único',
-      sizes: ['S', 'M', 'L', 'XL'],
-      stock: true,
-      nuevo: true,
-      limitada: true
-    },
-    {
-      id: 'Coleccion-12', // ID ACTUALIZADO
-      name: 'CLASSIC WHITE',
-      category: 'basica',
-      collection: 'Essentials',
-      price: 39,
-      image: '👕',
-      description: 'Blanco clásico premium',
-      sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-      stock: true,
-      nuevo: false,
-      limitada: false
     }
   ];
 
