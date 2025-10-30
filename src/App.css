@@ -1,42 +1,188 @@
+/* src/App.css */
+
+/* ===== CONTENEDOR PRINCIPAL DE LA APP ===== */
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* ===== CONTENIDO PRINCIPAL (Entre Header y Footer) ===== */
+.main-content {
+  flex: 1; /* Hace que el contenido empuje el footer hacia abajo */
+  width: 100%;
+  padding-top: 60px; /* Altura del header fijo */
+}
+
+/* ===== CONTENEDOR ROOT ===== */
 #root {
-  max-width: 1280px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== ESTILOS GENERALES PARA PÁGINAS ===== */
+.page-content {
+  min-height: calc(100vh - 60px); /* 60px = altura del header */
+  padding: 40px 20px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
+/* ===== RESPONSIVE ===== */
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+/* Desktop grande */
+@media (min-width: 1440px) {
+  .main-content {
+    /* El contenido puede tener max-width si lo deseas */
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+/* Tablets */
+@media (max-width: 768px) {
+  .main-content {
+    padding-top: 55px;
+  }
+
+  .page-content {
+    padding: 30px 15px;
+    min-height: calc(100vh - 55px);
   }
 }
 
-.card {
-  padding: 2em;
+/* Móviles */
+@media (max-width: 600px) {
+  .main-content {
+    padding-top: 55px;
+  }
+
+  .page-content {
+    padding: 20px 15px;
+  }
 }
 
-.read-the-docs {
+/* ===== UTILIDADES GLOBALES ===== */
+
+/* Para eliminar estilos de links cuando sea necesario */
+.link-reset {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Container centrado genérico */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Container pequeño para formularios, etc. */
+.container-sm {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ===== ANIMACIONES SUAVES ===== */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== SCROLL SUAVE ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ===== PERSONALIZACIÓN DEL SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #333 #000;
+}
+
+/* ===== ESTADOS DE CARGA (OPCIONAL) ===== */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.loading::after {
+  content: "Cargando...";
+  font-size: 1.2rem;
   color: #888;
+}
+
+/* ===== OVERLAY PARA MODALES (Si lo necesitas) ===== */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ===== AJUSTES PARA IMÁGENES ===== */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===== BOTONES BASE (Opcional - puedes usar los de Home.css) ===== */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ===== FOCUS VISIBLE PARA ACCESIBILIDAD ===== */
+*:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ===== SELECCIÓN DE TEXTO ===== */
+::selection {
+  background-color: #fff;
+  color: #000;
+}
+
+::-moz-selection {
+  background-color: #fff;
+  color: #000;
 }

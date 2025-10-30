@@ -1,50 +1,49 @@
 /* src/components/layout/Footer/Footer.css */
 
+/* ===== FOOTER PRINCIPAL ===== */
 .footer {
-  background-color: #000000;
-  color: #ffffff;
-  border-top: 1px solid #333;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-top: 1px solid var(--color-gray);
   margin-top: auto;
   width: 100%;
 }
 
 .footer__container {
-  /* CAMBIO PRINCIPAL: Eliminado max-width (1440px) para que ocupe el ancho completo */
   width: 100%; 
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 var(--spacing-md);
   box-sizing: border-box;
 }
 
 /* ===== CONTENIDO PRINCIPAL ===== */
 .footer__content {
   display: grid;
-  /* CORRECCIÓN: Ajustado a 1.2fr para balancear mejor las columnas */
   grid-template-columns: 1.2fr 1fr 1fr 1fr;
-  gap: 40px;
+  gap: var(--spacing-lg);
   padding: 50px 0 30px;
   width: 100%;
   align-items: start;
 }
 
-/* ===== COLUMNA PRINCIPAL (y el resto sin cambios) ===== */
+/* ===== COLUMNA PRINCIPAL ===== */
 .footer__column:first-child {
   min-width: 0;
 }
 
 .footer__title {
-  font-size: 1.5rem;
-  font-weight: 300;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-light);
   letter-spacing: 1px;
   margin: 0 0 15px;
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .footer__description {
   font-size: 0.9rem;
-  line-height: 1.5;
-  color: #cccccc;
-  margin: 0 0 20px;
+  line-height: var(--line-height-normal);
+  color: var(--color-light-gray);
+  margin: 0 0 var(--spacing-md);
   max-width: 1580px;
 }
 
@@ -61,27 +60,27 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  border: 1px solid #333;
-  border-radius: 50%;
-  color: #ffffff;
-  transition: all 0.3s ease;
+  border: 1px solid var(--color-gray);
+  border-radius: var(--border-radius-full);
+  color: var(--color-white);
+  transition: all var(--transition-normal);
   text-decoration: none;
   flex-shrink: 0;
 }
 
 .footer__social-link:hover {
-  background-color: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-white);
   transform: translateY(-2px);
 }
 
 /* ===== COLUMNAS DE ENLACES ===== */
 .footer__column-title {
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   margin: 0 0 15px;
-  color: #ffffff;
+  color: var(--color-white);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -93,20 +92,20 @@
 }
 
 .footer__links li {
-  margin-bottom: 10px;
+  margin-bottom: var(--spacing-sm);
 }
 
 .footer__links a {
-  color: #cccccc;
+  color: var(--color-light-gray);
   text-decoration: none;
-  font-size: 0.85rem;
-  font-weight: 300;
-  transition: color 0.3s ease;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-light);
+  transition: color var(--transition-normal);
   display: block;
 }
 
 .footer__links a:hover {
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 /* ===== SECCIÓN INFERIOR ===== */
@@ -115,13 +114,13 @@
   justify-content: center;
   align-items: center;
   padding: 25px 0;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--color-gray);
   width: 100%;
 }
 
 .footer__copyright {
-  font-size: 0.8rem;
-  color: #999;
+  font-size: var(--font-size-xs);
+  color: var(--color-medium-gray);
   margin: 0;
   text-align: center;
 }
@@ -130,41 +129,33 @@
 
 /* Desktop grande (1200px+) */
 @media (min-width: 1200px) {
-  /* Ya no se necesita sobrescribir max-width aquí */
+  /* Sin cambios necesarios */
 }
 
-/* Desktop medio (1024px - 1199px) - Se ajusta la descripción, pero mantiene 4 columnas */
+/* Desktop medio (1024px - 1199px) */
 @media (max-width: 1199px) {
   .footer__content {
     gap: 35px;
   }
   
   .footer__description {
-    /* Ajuste para que se vea bien en este rango */
     max-width: 300px;
   }
 }
 
-/* ---------------------------------------------------------------------- */
-/* Tablet (max-width: 1023px) ELIMINADO. Sus estilos se movieron a 767px. */
-/* ---------------------------------------------------------------------- */
-
-
-/* Tablet pequeña (max-width: 767px) - AHORA es el punto de quiebre a 2 columnas */
+/* Tablet pequeña (max-width: 767px) - Transición a 2 columnas */
 @media (max-width: 767px) {
   .footer__container {
     padding: 0 15px;
   }
 
   .footer__content {
-    /* TRANSICIÓN A 2 COLUMNAS */
     grid-template-columns: 1fr 1fr;
-    gap: 30px; /* Ajustado de 35px */
-    padding: 35px 0 20px; /* Ajustado de 40px */
+    gap: 30px;
+    padding: 35px 0 var(--spacing-md);
   }
 
   .footer__column:first-child {
-    /* PRIMERA COLUMNA A ANCHO COMPLETO Y CENTRADA */
     grid-column: 1 / -1;
     text-align: center;
   }
@@ -185,11 +176,10 @@
   .footer__content {
     grid-template-columns: 1fr;
     gap: 25px;
-    padding: 30px 0 20px;
+    padding: 30px 0 var(--spacing-md);
   }
 
   .footer__column:first-child {
-    /* Se revierte el grid-column para que solo ocupe 1 columna */
     grid-column: 1; 
   }
 
@@ -198,7 +188,7 @@
   }
 
   .footer__description {
-    font-size: 0.85rem;
+    font-size: var(--font-size-sm);
     max-width: none;
   }
 
@@ -212,11 +202,11 @@
   }
 
   .footer__links a {
-    font-size: 0.85rem;
+    font-size: var(--font-size-sm);
   }
 
   .footer__bottom {
-    padding: 20px 0;
+    padding: var(--spacing-md) 0;
   }
 
   .footer__copyright {
@@ -232,7 +222,7 @@
 
   .footer__content {
     padding: 25px 0 15px;
-    gap: 20px;
+    gap: var(--spacing-md);
   }
 
   .footer__social-link {
@@ -246,16 +236,9 @@
   }
 }
 
-/* Asegurar que el footer se mantenga en la parte inferior */
-.app-container {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.footer {
-  margin-top: auto;
-}
+/* ===== NOTA IMPORTANTE ===== */
+/* Los estilos de .app-container ahora se manejan en App.css */
+/* NO es necesario duplicarlos aquí */
 
 /* Asegurar que los enlaces no se corten */
 .footer__links a {

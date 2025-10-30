@@ -1,31 +1,34 @@
+/* src/components/layout/Header/Header.css */
+
+/* ===== HEADER PRINCIPAL ===== */
 .header {
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1000;
+  z-index: var(--z-fixed); /* Variable en lugar de 1000 */
   box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  background-color: #000000;
-  color: white;
-  border-bottom: 1px solid #333;
+  padding: 15px var(--spacing-md); /* Variable en lugar de 20px */
+  background-color: var(--color-black); /* Variable */
+  color: var(--color-white); /* Variable */
+  border-bottom: 1px solid var(--color-gray); /* Variable en lugar de #333 */
 }
 
 /* Enlaces generales */
 .header a {
   text-decoration: none;
-  color: white;
+  color: var(--color-white);
 }
 
 /* Logo minimalista */
 .header__logo {
-  font-size: 1.5rem;
-  font-weight: 300;
+  font-size: var(--font-size-xl); /* 1.5rem */
+  font-weight: var(--font-weight-light); /* 300 */
   letter-spacing: 1px;
-  color: white;
-  z-index: 1001;
+  color: var(--color-white);
+  z-index: calc(var(--z-fixed) + 1); /* 1031 */
 }
 
 /* ===== HAMBURGUESA (SOLO MÓVIL) ===== */
@@ -36,23 +39,23 @@
   background: none;
   border: none;
   cursor: pointer;
-  padding: 5px;
+  padding: var(--spacing-xs);
   width: 30px;
   height: 24px;
   position: relative;
-  z-index: 1001;
+  z-index: calc(var(--z-fixed) + 1);
 }
 
 .header__hamburger span {
   display: block;
   width: 100%;
   height: 3px;
-  background-color: #ffffff;
-  border-radius: 2px;
+  background-color: var(--color-white);
+  border-radius: var(--border-radius-sm);
   opacity: 1;
+  transition: var(--transition-fast);
 }
 
-/* Estados hover para consistencia con otros iconos */
 .header__hamburger:hover span {
   opacity: 0.7;
 }
@@ -71,11 +74,11 @@
 }
 
 .header__item a {
-  font-size: 1rem;
-  font-weight: 300;
-  color: white;
-  padding: 5px 0;
-  transition: opacity 0.2s;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-light);
+  color: var(--color-white);
+  padding: var(--spacing-xs) 0;
+  transition: opacity var(--transition-fast);
 }
 
 .header__item a:hover {
@@ -96,10 +99,10 @@
 .header__cart-btn {
   background: none;
   border: none;
-  color: white;
+  color: var(--color-white);
   cursor: pointer;
   padding: 8px;
-  transition: opacity 0.2s;
+  transition: opacity var(--transition-fast);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -117,11 +120,11 @@
   top: -100px;
   left: 0;
   width: 100%;
-  background-color: #000;
-  border-bottom: 1px solid #333;
-  z-index: 1001;
-  transition: top 0.3s ease;
-  padding: 15px 20px;
+  background-color: var(--color-black);
+  border-bottom: 1px solid var(--color-gray);
+  z-index: calc(var(--z-fixed) + 1);
+  transition: top var(--transition-normal);
+  padding: 15px var(--spacing-md);
   box-sizing: border-box;
 }
 
@@ -132,7 +135,7 @@
 .header__search-container {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--spacing-sm);
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
@@ -149,9 +152,9 @@
   flex: 1;
   background: none;
   border: none;
-  color: white;
+  color: var(--color-white);
   font-size: 1.1rem;
-  padding: 10px;
+  padding: var(--spacing-sm);
   outline: none;
   min-width: 0;
 }
@@ -163,13 +166,13 @@
 .header__search-close {
   background: none;
   border: none;
-  color: white;
+  color: var(--color-white);
   cursor: pointer;
-  padding: 5px;
+  padding: var(--spacing-xs);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s;
+  transition: opacity var(--transition-fast);
   flex-shrink: 0;
   width: 34px;
   height: 34px;
@@ -187,10 +190,10 @@
   width: 100%;
   max-width: 400px;
   height: 100vh;
-  background-color: #000;
-  border-left: 1px solid #333;
-  z-index: 1001;
-  transition: right 0.3s ease;
+  background-color: var(--color-black);
+  border-left: 1px solid var(--color-gray);
+  z-index: calc(var(--z-fixed) + 1);
+  transition: right var(--transition-normal);
   display: flex;
   flex-direction: column;
 }
@@ -204,27 +207,27 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid #333;
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-gray);
 }
 
 .header__cart-header h2 {
   font-size: 1.2rem;
-  font-weight: 300;
+  font-weight: var(--font-weight-light);
   margin: 0;
-  color: white;
+  color: var(--color-white);
 }
 
 .header__cart-close {
   background: none;
   border: none;
-  color: white;
+  color: var(--color-white);
   cursor: pointer;
-  padding: 5px;
+  padding: var(--spacing-xs);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: opacity 0.2s;
+  transition: opacity var(--transition-fast);
 }
 
 .header__cart-close:hover {
@@ -234,7 +237,7 @@
 /* Contenido del carrito */
 .header__cart-content {
   flex: 1;
-  padding: 20px;
+  padding: var(--spacing-md);
   overflow-y: auto;
 }
 
@@ -242,13 +245,13 @@
   text-align: center;
   color: #999;
   margin-top: 50px;
-  font-size: 1rem;
+  font-size: var(--font-size-base);
 }
 
 /* Footer del carrito */
 .header__cart-footer {
-  padding: 20px;
-  border-top: 1px solid #333;
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--color-gray);
 }
 
 .header__cart-total {
@@ -260,20 +263,20 @@
 }
 
 .header__cart-total-amount {
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   font-size: 1.3rem;
 }
 
 .header__cart-checkout {
   width: 100%;
   padding: 15px;
-  background-color: white;
-  color: black;
+  background-color: var(--color-white);
+  color: var(--color-black);
   border: none;
-  font-size: 1rem;
-  font-weight: 400;
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color var(--transition-fast);
 }
 
 .header__cart-checkout:hover {
@@ -288,7 +291,7 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  z-index: 999;
+  z-index: calc(var(--z-fixed) - 1); /* 1029 */
 }
 
 /* ===== RESPONSIVE ===== */
@@ -300,11 +303,11 @@
   }
 
   .header__menu {
-    gap: 20px;
+    gap: var(--spacing-md);
   }
 
   .header__actions {
-    gap: 10px;
+    gap: var(--spacing-sm);
   }
 
   .header__cart-panel {
@@ -343,8 +346,8 @@
   }
 
   .header__search-input {
-    font-size: 1rem;
-    padding: 8px 5px;
+    font-size: var(--font-size-base);
+    padding: 8px var(--spacing-xs);
   }
 
   .header__search-close {
@@ -367,13 +370,13 @@
     width: 80%;
     max-width: 300px;
     height: 100vh;
-    background-color: #000;
+    background-color: var(--color-black);
     flex-direction: column;
     justify-content: flex-start;
     padding-top: 80px;
-    transition: right 0.3s ease;
-    z-index: 1001;
-    border-left: 1px solid #333;
+    transition: right var(--transition-normal);
+    z-index: calc(var(--z-fixed) + 1);
+    border-left: 1px solid var(--color-gray);
   }
 
   .header__nav--active .header__menu {
@@ -384,14 +387,14 @@
 
   .header__nav--active .header__item {
     width: 100%;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--color-gray);
   }
 
   .header__nav--active .header__item a {
     display: block;
-    padding: 15px 20px;
+    padding: 15px var(--spacing-md);
     font-size: 1.1rem;
-    transition: background-color 0.2s;
+    transition: background-color var(--transition-fast);
   }
 
   .header__nav--active .header__item a:hover {
@@ -418,7 +421,7 @@
 /* Móvil pequeño (400px hacia abajo) */
 @media (max-width: 400px) {
   .header {
-    padding: 10px 12px;
+    padding: var(--spacing-sm) 12px;
   }
 
   .header__logo {
@@ -443,7 +446,7 @@
 
   /* Ajustes adicionales para la búsqueda en pantallas muy pequeñas */
   .header__search-bar {
-    padding: 10px 12px;
+    padding: var(--spacing-sm) 12px;
   }
 
   .header__search-container {
@@ -479,13 +482,3 @@
   }
 }
 
-/* Asegurar que el contenido principal no se oculte debajo del header fijo */
-body {
-  padding-top: 60px;
-}
-
-@media (max-width: 600px) {
-  body {
-    padding-top: 55px;
-  }
-}
