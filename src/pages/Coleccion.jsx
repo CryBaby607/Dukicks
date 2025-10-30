@@ -1,5 +1,6 @@
 // src/pages/Coleccion.jsx
 import React, { useState } from 'react';
+import { useCart } from '../context/CartContext'; // Importar useCart
 import './Coleccion.css';
 
 const Coleccion = () => {
@@ -9,7 +10,7 @@ const Coleccion = () => {
   // Datos de playeras de la colección
   const playerasData = [
     {
-      id: 1,
+      id: 'Coleccion-1', // ID ACTUALIZADO
       name: 'MIDNIGHT LOGO TEE',
       category: 'clasica',
       collection: 'Classic Series',
@@ -22,7 +23,7 @@ const Coleccion = () => {
       limitada: true
     },
     {
-      id: 2,
+      id: 'Coleccion-2', // ID ACTUALIZADO
       name: 'URBAN STREET',
       category: 'grafica',
       collection: 'Urban Collection',
@@ -35,7 +36,7 @@ const Coleccion = () => {
       limitada: false
     },
     {
-      id: 3,
+      id: 'Coleccion-3', // ID ACTUALIZADO
       name: 'MINIMAL BASIC',
       category: 'basica',
       collection: 'Essentials',
@@ -48,7 +49,7 @@ const Coleccion = () => {
       limitada: false
     },
     {
-      id: 4,
+      id: 'Coleccion-4', // ID ACTUALIZADO
       name: 'COLLAB ARTIST X',
       category: 'colaboracion',
       collection: 'Special Edition',
@@ -61,7 +62,7 @@ const Coleccion = () => {
       limitada: true
     },
     {
-      id: 5,
+      id: 'Coleccion-5', // ID ACTUALIZADO
       name: 'RETRO VINTAGE',
       category: 'grafica',
       collection: 'Throwback',
@@ -74,7 +75,7 @@ const Coleccion = () => {
       limitada: false
     },
     {
-      id: 6,
+      id: 'Coleccion-6', // ID ACTUALIZADO
       name: 'PREMIUM POLO',
       category: 'premium',
       collection: 'Luxury Line',
@@ -87,7 +88,7 @@ const Coleccion = () => {
       limitada: true
     },
     {
-      id: 7,
+      id: 'Coleccion-7', // ID ACTUALIZADO
       name: 'SPORT TECH',
       category: 'deportiva',
       collection: 'Performance',
@@ -100,7 +101,7 @@ const Coleccion = () => {
       limitada: false
     },
     {
-      id: 8,
+      id: 'Coleccion-8', // ID ACTUALIZADO
       name: 'SUMMER VIBES',
       category: 'grafica',
       collection: 'Seasonal',
@@ -113,7 +114,7 @@ const Coleccion = () => {
       limitada: false
     },
     {
-      id: 9,
+      id: 'Coleccion-9', // ID ACTUALIZADO
       name: 'BLACK EDITION',
       category: 'clasica',
       collection: 'Dark Series',
@@ -126,7 +127,7 @@ const Coleccion = () => {
       limitada: true
     },
     {
-      id: 10,
+      id: 'Coleccion-10', // ID ACTUALIZADO
       name: 'OVERSIZED TEE',
       category: 'basica',
       collection: 'Comfort Fit',
@@ -139,7 +140,7 @@ const Coleccion = () => {
       limitada: false
     },
     {
-      id: 11,
+      id: 'Coleccion-11', // ID ACTUALIZADO
       name: 'GRADIENT FLOW',
       category: 'grafica',
       collection: 'Art Collection',
@@ -152,7 +153,7 @@ const Coleccion = () => {
       limitada: true
     },
     {
-      id: 12,
+      id: 'Coleccion-12', // ID ACTUALIZADO
       name: 'CLASSIC WHITE',
       category: 'basica',
       collection: 'Essentials',
@@ -350,10 +351,26 @@ const Coleccion = () => {
 // ===== COMPONENTE DE TARJETA DE PLAYERA =====
 const PlayeraCard = ({ playera }) => {
   const [selectedSize, setSelectedSize] = useState(playera.sizes[2]); // Talla M por defecto
+  
+  // Obtener la función del carrito del contexto
+  const { addToCart, openCart } = useCart();
 
   const handleAddToCart = () => {
-    console.log('Agregado al carrito:', playera.name, 'Talla:', selectedSize);
-    // Aquí irá la lógica del carrito
+    // Crear el objeto del ítem del carrito
+    const cartItem = {
+      // Usar el nuevo ID de la playera
+      id: `${playera.id}-${selectedSize}`, // Crear un ID único que incluya la talla
+      name: playera.name,
+      price: playera.price,
+      image: playera.image,
+      color: 'N/A', 
+      selectedSize: selectedSize,
+      category: 'playeras' 
+    };
+    
+    // Agregar el ítem al carrito y abrirlo
+    addToCart(cartItem);
+    openCart(); 
   };
 
   return (

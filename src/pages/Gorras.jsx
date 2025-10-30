@@ -1,5 +1,6 @@
 // src/pages/Gorras.jsx
 import React, { useState } from 'react';
+import { useCart } from '../context/CartContext';
 import './Gorras.css';
 
 const Gorras = () => {
@@ -9,7 +10,7 @@ const Gorras = () => {
   // Datos de gorras
   const gorrasData = [
     {
-      id: 1,
+      id: 'gorra-1',
       name: 'CLASSIC CAP',
       category: 'clasica',
       price: 49,
@@ -20,7 +21,7 @@ const Gorras = () => {
       destacado: true
     },
     {
-      id: 2,
+      id: 'gorra-2',
       name: 'URBAN SNAPBACK',
       category: 'snapback',
       price: 59,
@@ -31,7 +32,7 @@ const Gorras = () => {
       destacado: true
     },
     {
-      id: 3,
+      id: 'gorra-3',
       name: 'TRUCKER HAT',
       category: 'trucker',
       price: 45,
@@ -42,7 +43,7 @@ const Gorras = () => {
       destacado: false
     },
     {
-      id: 4,
+      id: 'gorra-4',
       name: 'VINTAGE BASEBALL',
       category: 'clasica',
       price: 55,
@@ -53,7 +54,7 @@ const Gorras = () => {
       destacado: true
     },
     {
-      id: 5,
+      id: 'gorra-5',
       name: 'SPORT CAP',
       category: 'deportiva',
       price: 52,
@@ -64,7 +65,7 @@ const Gorras = () => {
       destacado: false
     },
     {
-      id: 6,
+      id: 'gorra-6',
       name: 'MINIMALIST HAT',
       category: 'clasica',
       price: 48,
@@ -75,7 +76,7 @@ const Gorras = () => {
       destacado: true
     },
     {
-      id: 7,
+      id: 'gorra-7',
       name: 'PREMIUM SNAPBACK',
       category: 'snapback',
       price: 65,
@@ -86,7 +87,7 @@ const Gorras = () => {
       destacado: true
     },
     {
-      id: 8,
+      id: 'gorra-8',
       name: 'MESH TRUCKER',
       category: 'trucker',
       price: 42,
@@ -224,9 +225,21 @@ const Gorras = () => {
 
 // ===== COMPONENTE DE TARJETA DE GORRA =====
 const GorraCard = ({ gorra }) => {
+  const { addToCart, openCart } = useCart();
+
   const handleAddToCart = () => {
-    console.log('Agregado al carrito:', gorra.name);
-    // Aquí irá la lógica del carrito
+    const cartItem = {
+      id: gorra.id,
+      name: gorra.name,
+      price: gorra.price,
+      image: gorra.image,
+      color: gorra.color,
+      selectedSize: 'Única', // Las gorras normalmente son talla única
+      category: 'gorras'
+    };
+
+    addToCart(cartItem);
+    openCart(); // Abrir el carrito automáticamente
   };
 
   return (

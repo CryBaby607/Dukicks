@@ -1,5 +1,6 @@
 // src/pages/Mujeres.jsx
 import React, { useState } from 'react';
+import { useCart } from '../context/CartContext'; 
 import './Mujeres.css';
 
 const Mujeres = () => {
@@ -12,7 +13,7 @@ const Mujeres = () => {
   // Datos de zapatillas para mujeres
   const zapatillasData = [
     {
-      id: 1,
+      id: 'Mujer-1', // ID ACTUALIZADO
       name: 'CLOUD RUNNER',
       category: 'running',
       price: 179,
@@ -25,7 +26,7 @@ const Mujeres = () => {
       destacado: true
     },
     {
-      id: 2,
+      id: 'Mujer-2', // ID ACTUALIZADO
       name: 'URBAN CHIC',
       category: 'lifestyle',
       price: 159,
@@ -38,7 +39,7 @@ const Mujeres = () => {
       destacado: true
     },
     {
-      id: 3,
+      id: 'Mujer-3', // ID ACTUALIZADO
       name: 'FITNESS PRO',
       category: 'training',
       price: 169,
@@ -51,7 +52,7 @@ const Mujeres = () => {
       destacado: true
     },
     {
-      id: 4,
+      id: 'Mujer-4', // ID ACTUALIZADO
       name: 'CASUAL STYLE',
       category: 'casual',
       price: 149,
@@ -64,7 +65,7 @@ const Mujeres = () => {
       destacado: false
     },
     {
-      id: 5,
+      id: 'Mujer-5', // ID ACTUALIZADO
       name: 'SPORT FLEX',
       category: 'running',
       price: 189,
@@ -77,7 +78,7 @@ const Mujeres = () => {
       destacado: false
     },
     {
-      id: 6,
+      id: 'Mujer-6', // ID ACTUALIZADO
       name: 'ELEGANT WALK',
       category: 'lifestyle',
       price: 139,
@@ -90,7 +91,7 @@ const Mujeres = () => {
       destacado: true
     },
     {
-      id: 7,
+      id: 'Mujer-7', // ID ACTUALIZADO
       name: 'POWER TRAINING',
       category: 'training',
       price: 175,
@@ -103,7 +104,7 @@ const Mujeres = () => {
       destacado: true
     },
     {
-      id: 8,
+      id: 'Mujer-8', // ID ACTUALIZADO
       name: 'STREET FASHION',
       category: 'casual',
       price: 155,
@@ -116,7 +117,7 @@ const Mujeres = () => {
       destacado: true
     },
     {
-      id: 9,
+      id: 'Mujer-9', // ID ACTUALIZADO
       name: 'PREMIUM SPORT',
       category: 'running',
       price: 199,
@@ -129,7 +130,7 @@ const Mujeres = () => {
       destacado: true
     },
     {
-      id: 10,
+      id: 'Mujer-10', // ID ACTUALIZADO
       name: 'COMFORT PLUS',
       category: 'lifestyle',
       price: 129,
@@ -393,10 +394,21 @@ const Mujeres = () => {
 // ===== COMPONENTE DE TARJETA DE ZAPATO =====
 const ZapatoCard = ({ zapato }) => {
   const [selectedSize, setSelectedSize] = useState(zapato.sizes[0]);
+  const { addToCart, openCart } = useCart();
 
   const handleAddToCart = () => {
-    console.log('Agregado al carrito:', zapato.name, 'Talla:', selectedSize);
-    // Aquí irá la lógica del carrito
+    const cartItem = {
+      id: zapato.id,
+      name: zapato.name,
+      price: zapato.price,
+      image: zapato.image,
+      color: zapato.color,
+      selectedSize: selectedSize,
+      category: 'zapatillas-mujeres' 
+    };
+
+    addToCart(cartItem);
+    openCart(); // Abrir el carrito automáticamente
   };
 
   return (
