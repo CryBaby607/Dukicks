@@ -186,3 +186,14 @@ button:disabled {
   background-color: #fff;
   color: #000;
 }
+
+/* ===== CONTENIDO PRINCIPAL (Entre Header y Footer) ===== */
+.main-content {
+  flex: 1; /* Hace que el contenido empuje el footer hacia abajo */
+  width: 100%;
+}
+
+/* Agregar padding solo cuando hay header (no en login/dashboard) */
+.main-content.with-header {
+  padding-top: 60px; /* Altura del header fijo */
+}

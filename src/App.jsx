@@ -1,41 +1,52 @@
 // src/App.jsx
 
 // 1. Importa los componentes de React Router
-import { Routes, Route } from 'react-router-dom';
-// 2. Importa el componente Header (ya lo tenías)
+import { Routes, Route, useLocation } from 'react-router-dom';
+// 2. Importa el componente Header y Footer
 import Header from './components/layout/Header/Header.jsx'; 
 import Footer from './components/layout/Footer/Footer.jsx'; 
 
-// 3. Importa las nuevas páginas
+// 3. Importa las páginas
 import Home from './pages/Home.jsx'; 
-import Gorras from './pages/Gorras.jsx'; // <--- NUEVA PÁGINA
-import Hombres from './pages/Hombres.jsx'; // <--- NUEVA PÁGINA
-import Mujeres from './pages/Mujeres.jsx'; // <--- NUEVA PÁGINA
-import Coleccion from './pages/Coleccion.jsx'; // <--- NUEVA PÁGINA
+import Gorras from './pages/Gorras.jsx';
+import Hombres from './pages/Hombres.jsx';
+import Mujeres from './pages/Mujeres.jsx';
+import Coleccion from './pages/Coleccion.jsx';
+import Login from './pages/Login.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 
 
 function App() {
+  const location = useLocation();
+  
+  // Rutas que NO deben mostrar Header y Footer
+  const noLayoutRoutes = ['/login', '/dashboard'];
+  const showLayout = !noLayoutRoutes.includes(location.pathname);
+
   return (
     <div className="app-container"> 
       
-      {/* El Header es un elemento de Layout que se muestra en todas las rutas */}
-      <Header /> 
+      {/* Mostrar Header solo si NO estamos en login o dashboard */}
+      {showLayout && <Header />}
       
-      {/* 4. Define el área donde se mostrarán los componentes de la ruta */}
-      <main className="main-content">
+      {/* Área de contenido con clase condicional */}
+      <main className={`main-content ${showLayout ? 'with-header' : ''}`}>
         <Routes>
-          {/* Define cada ruta (path) y su componente asociado (element) */}
           <Route path="/" element={<Home />} />
           <Route path="/gorras" element={<Gorras />} /> 
           <Route path="/hombres" element={<Hombres />} />
           <Route path="/mujeres" element={<Mujeres />} />
           <Route path="/coleccion" element={<Coleccion />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           
-          {/* Opcional: Ruta para manejar URLs no encontradas (404) */}
+          {/* Ruta 404 */}
           <Route path="*" element={<h1>404 | Página No Encontrada</h1>} />
         </Routes>
       </main>
-      <Footer/>
+      
+      {/* Mostrar Footer solo si NO estamos en login o dashboard */}
+      {showLayout && <Footer />}
     </div>
   );
 }

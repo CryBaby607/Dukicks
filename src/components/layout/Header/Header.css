@@ -27,7 +27,7 @@
   font-size: var(--font-size-xl); /* 1.5rem */
   font-weight: var(--font-weight-light); /* 300 */
   letter-spacing: 1px;
-  color: var(--color-white);
+  color: var(--color-gold);
   z-index: calc(var(--z-fixed) + 1); /* 1031 */
 }
 

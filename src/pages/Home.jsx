@@ -186,12 +186,6 @@ const Features = () => {
       title: 'GARANTÍA',
       description: 'Productos 100% originales'
     },
-    {
-      id: 4,
-      icon: '💳',
-      title: 'PAGO SEGURO',
-      description: 'Múltiples métodos de pago'
-    }
   ];
 
   return (
