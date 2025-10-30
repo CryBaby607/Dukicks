@@ -12,7 +12,6 @@
 .mujeres-content {
   max-width: 1400px;
   margin: 0 auto;
-  padding: var(--spacing-xl) var(--spacing-md);
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: var(--spacing-xl);
