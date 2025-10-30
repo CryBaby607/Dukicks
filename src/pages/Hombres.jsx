@@ -1,5 +1,6 @@
 // src/pages/Hombres.jsx
 import React, { useState } from 'react';
+import { useCart } from '../context/CartContext';
 import './Hombres.css';
 
 const Hombres = () => {
@@ -325,10 +326,21 @@ const Hombres = () => {
 // ===== COMPONENTE DE TARJETA DE ZAPATO =====
 const ZapatoCard = ({ zapato }) => {
   const [selectedSize, setSelectedSize] = useState(zapato.sizes[0]);
+  const { addToCart, openCart } = useCart();
 
   const handleAddToCart = () => {
-    console.log('Agregado al carrito:', zapato.name, 'Talla:', selectedSize);
-    // Aquí irá la lógica del carrito
+    const cartItem = {
+      id: zapato.id,
+      name: zapato.name,
+      price: zapato.price,
+      image: zapato.image,
+      color: zapato.color,
+      selectedSize: selectedSize,
+      category: 'zapatillas'
+    };
+
+    addToCart(cartItem);
+    openCart(); // Abrir el carrito automáticamente
   };
 
   return (
