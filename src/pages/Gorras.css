@@ -1,0 +1,460 @@
+/* src/pages/Gorras.css */
+
+/* ===== PÁGINA DE GORRAS ===== */
+.gorras-page {
+  width: 100%;
+  background-color: var(--color-black);
+  color: var(--color-white);
+  min-height: 100vh;
+}
+
+/* ===== HERO SECTION ===== */
+.gorras-hero {
+  padding: clamp(80px, 15vh, 150px) var(--spacing-md);
+  text-align: center;
+  background: linear-gradient(135deg, var(--color-black) 0%, #1a1a1a 50%, var(--color-black) 100%);
+  border-bottom: 1px solid var(--color-gray);
+}
+
+.gorras-hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.gorras-hero-title {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  background: linear-gradient(135deg, var(--color-white) 0%, #999 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gorras-hero-subtitle {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--color-light-gray);
+  font-weight: var(--font-weight-light);
+}
+
+/* ===== FILTROS Y ORDENAMIENTO ===== */
+.gorras-filters {
+  padding: var(--spacing-lg) var(--spacing-md);
+  border-bottom: 1px solid var(--color-gray);
+  background-color: var(--color-black);
+  position: sticky;
+  top: 60px;
+  z-index: 100;
+}
+
+.gorras-filters-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+/* Categorías */
+.gorras-categories {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+  flex: 1;
+}
+
+.category-btn {
+  padding: 10px var(--spacing-md);
+  background-color: transparent;
+  color: var(--color-light-gray);
+  border: 1px solid var(--color-gray);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.category-btn:hover {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-white);
+}
+
+.category-btn.active {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-white);
+}
+
+/* Ordenamiento */
+.gorras-sort {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.gorras-sort label {
+  font-size: var(--font-size-sm);
+  color: var(--color-light-gray);
+  white-space: nowrap;
+}
+
+.gorras-sort select {
+  padding: 10px 15px;
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  border: 1px solid var(--color-gray);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.gorras-sort select:focus {
+  border-color: var(--color-white);
+}
+
+/* ===== PRODUCTOS ===== */
+.gorras-products {
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.gorras-products-container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.products-count {
+  font-size: var(--font-size-sm);
+  color: var(--color-medium-gray);
+  margin-bottom: var(--spacing-md);
+  letter-spacing: 1px;
+}
+
+/* Grid de gorras */
+.gorras-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* Tarjeta de gorra */
+.gorra-card {
+  background-color: var(--color-dark);
+  border: 1px solid var(--color-gray);
+  transition: all var(--transition-normal);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.gorra-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-white);
+}
+
+.gorra-card.out-of-stock {
+  opacity: 0.6;
+}
+
+.gorra-card.out-of-stock:hover {
+  transform: none;
+}
+
+/* Etiquetas */
+.gorra-badges {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.badge {
+  padding: 5px 12px;
+  font-size: 0.7rem;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 1px;
+  width: fit-content;
+}
+
+.badge-new {
+  background-color: var(--color-white);
+  color: var(--color-black);
+}
+
+.badge-featured {
+  background-color: var(--color-gold);
+  color: var(--color-black);
+}
+
+.badge-out {
+  background-color: var(--color-gray);
+  color: var(--color-white);
+}
+
+/* Imagen */
+.gorra-image {
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-black);
+  border-bottom: 1px solid var(--color-gray);
+}
+
+.gorra-icon {
+  font-size: 5rem;
+  opacity: 0.7;
+  transition: transform var(--transition-normal);
+}
+
+.gorra-card:hover .gorra-icon {
+  transform: scale(1.1);
+}
+
+/* Información */
+.gorra-info {
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.gorra-name {
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  color: var(--color-white);
+}
+
+.gorra-color {
+  font-size: 0.85rem;
+  color: var(--color-medium-gray);
+  margin-bottom: auto;
+  font-weight: var(--font-weight-light);
+}
+
+.gorra-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-md);
+  padding-top: 15px;
+  border-top: 1px solid var(--color-gray);
+}
+
+.gorra-price {
+  font-size: 1.5rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-white);
+}
+
+.gorra-add-btn {
+  padding: 10px var(--spacing-md);
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border: none;
+  font-size: 0.85rem;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.gorra-add-btn:hover:not(:disabled) {
+  background-color: #ddd;
+}
+
+.gorra-add-btn:disabled {
+  background-color: var(--color-gray);
+  color: var(--color-medium-gray);
+  cursor: not-allowed;
+}
+
+/* Sin resultados */
+.no-results {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-md);
+  color: var(--color-medium-gray);
+}
+
+.no-results p {
+  font-size: 1.1rem;
+}
+
+/* ===== INFORMACIÓN ADICIONAL ===== */
+.gorras-info {
+  padding: 80px var(--spacing-md);
+  background-color: var(--color-dark);
+  border-top: 1px solid var(--color-gray);
+}
+
+.gorras-info-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-lg);
+  text-align: center;
+}
+
+.info-card {
+  padding: var(--spacing-md);
+}
+
+.info-icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.info-card h3 {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.info-card p {
+  font-size: 0.9rem;
+  color: var(--color-medium-gray);
+  font-weight: var(--font-weight-light);
+}
+
+/* ===== RESPONSIVE ===== */
+
+/* Tablet (max-width: 768px) */
+@media (max-width: 768px) {
+  .gorras-hero {
+    padding: clamp(60px, 12vh, 100px) var(--spacing-md);
+  }
+
+  .gorras-filters {
+    padding: var(--spacing-md) 15px;
+    top: 55px;
+  }
+
+  .gorras-filters-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .gorras-categories {
+    order: 2;
+    justify-content: center;
+  }
+
+  .gorras-sort {
+    order: 1;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .gorras-sort select {
+    flex: 1;
+  }
+
+  .gorras-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  .gorras-info-container {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-lg);
+  }
+}
+
+/* Móvil (max-width: 600px) */
+@media (max-width: 600px) {
+  .gorras-hero {
+    padding: 50px 15px;
+  }
+
+  .gorras-hero-title {
+    font-size: 2rem;
+  }
+
+  .gorras-filters {
+    padding: 15px;
+  }
+
+  .gorras-categories {
+    gap: 8px;
+  }
+
+  .category-btn {
+    padding: 8px 15px;
+    font-size: 0.8rem;
+  }
+
+  .gorras-products {
+    padding: var(--spacing-md) 15px;
+  }
+
+  .gorras-grid {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .gorra-image {
+    aspect-ratio: 16/9;
+  }
+
+  .gorra-icon {
+    font-size: 4rem;
+  }
+
+  .gorra-name {
+    font-size: 1rem;
+  }
+
+  .gorra-price {
+    font-size: 1.3rem;
+  }
+
+  .gorra-add-btn {
+    padding: 10px 15px;
+    font-size: 0.8rem;
+  }
+
+  .gorras-info {
+    padding: var(--spacing-xl) 15px;
+  }
+}
+
+/* Móvil pequeño (max-width: 400px) */
+@media (max-width: 400px) {
+  .gorras-hero-title {
+    font-size: 1.8rem;
+    letter-spacing: 1px;
+  }
+
+  .category-btn {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+  }
+
+  .gorra-info {
+    padding: 15px;
+  }
+
+  .gorra-footer {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: stretch;
+  }
+
+  .gorra-add-btn {
+    width: 100%;
+  }
+}
