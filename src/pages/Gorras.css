@@ -191,7 +191,7 @@
   transform: scale(1.1);
 }
 
-/* Información */
+/* Información - ACTUALIZADO */
 .gorra-info {
   padding: var(--spacing-md);
   display: flex;
@@ -199,19 +199,21 @@
   flex: 1;
 }
 
-.gorra-name {
-  font-size: 1.1rem;
-  font-weight: var(--font-weight-semibold);
+.gorra-brand {
+  font-size: 1rem;
+  font-weight: var(--font-weight-bold);
   letter-spacing: 1px;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   color: var(--color-white);
+  text-transform: uppercase;
 }
 
-.gorra-color {
-  font-size: 0.85rem;
-  color: var(--color-medium-gray);
+.gorra-model {
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-light-gray);
   margin-bottom: auto;
-  font-weight: var(--font-weight-light);
+  letter-spacing: 0.5px;
 }
 
 .gorra-footer {
@@ -329,7 +331,12 @@
     font-size: 4rem;
   }
 
-  .gorra-name {
+  /* Responsive actualizado para marca y modelo */
+  .gorra-brand {
+    font-size: 0.9rem;
+  }
+
+  .gorra-model {
     font-size: 1rem;
   }
 

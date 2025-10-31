@@ -4,17 +4,17 @@ import { useCart } from '../context/CartContext';
 import './Hombres.css';
 
 const Hombres = () => {
-  const [selectedCategory, setSelectedCategory] = useState('todas');
+  const [selectedBrand, setSelectedBrand] = useState('todas');
   const [selectedSize, setSelectedSize] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('destacado');
 
-  // Datos de zapatillas para hombres
+  // Datos de zapatillas para hombres con marca y modelo
   const zapatillasData = [
     {
       id: 1,
-      name: 'AIR RUNNER PRO',
-      category: 'running',
+      model: 'AIR RUNNER PRO',
+      brand: 'Nike',
       price: 189,
       image: '👟',
       sizes: [8, 9, 10, 11, 12],
@@ -25,8 +25,8 @@ const Hombres = () => {
     },
     {
       id: 2,
-      name: 'URBAN STREET',
-      category: 'lifestyle',
+      model: 'URBAN STREET',
+      brand: 'Adidas',
       price: 159,
       image: '👟',
       sizes: [8, 9, 10, 11],
@@ -37,8 +37,8 @@ const Hombres = () => {
     },
     {
       id: 3,
-      name: 'BASKETBALL ELITE',
-      category: 'basketball',
+      model: 'BASKETBALL ELITE',
+      brand: 'Nike',
       price: 199,
       image: '👟',
       sizes: [9, 10, 11, 12, 13],
@@ -49,8 +49,8 @@ const Hombres = () => {
     },
     {
       id: 4,
-      name: 'CLASSIC LEATHER',
-      category: 'casual',
+      model: 'CLASSIC LEATHER',
+      brand: 'Reebok',
       price: 149,
       image: '👟',
       sizes: [8, 9, 10, 11, 12],
@@ -61,8 +61,8 @@ const Hombres = () => {
     },
     {
       id: 5,
-      name: 'SPORT TRAINER',
-      category: 'training',
+      model: 'SPORT TRAINER',
+      brand: 'Puma',
       price: 169,
       image: '👟',
       sizes: [8, 9, 10, 11],
@@ -73,8 +73,8 @@ const Hombres = () => {
     },
     {
       id: 6,
-      name: 'RUNNING BOOST',
-      category: 'running',
+      model: 'RUNNING BOOST',
+      brand: 'Adidas',
       price: 179,
       image: '👟',
       sizes: [9, 10, 11, 12],
@@ -85,8 +85,8 @@ const Hombres = () => {
     },
     {
       id: 7,
-      name: 'SKATE PRO',
-      category: 'casual',
+      model: 'SKATE PRO',
+      brand: 'Otros',
       price: 139,
       image: '👟',
       sizes: [8, 9, 10, 11, 12],
@@ -97,8 +97,8 @@ const Hombres = () => {
     },
     {
       id: 8,
-      name: 'PERFORMANCE MAX',
-      category: 'training',
+      model: 'PERFORMANCE MAX',
+      brand: 'Nike',
       price: 209,
       image: '👟',
       sizes: [9, 10, 11, 12, 13],
@@ -109,9 +109,19 @@ const Hombres = () => {
     }
   ];
 
+  // Marcas disponibles - 4 MARCAS ESPECÍFICAS
+  const brands = [
+    { value: 'todas', label: 'Todas' },
+    { value: 'Nike', label: 'NIKE' },
+    { value: 'Adidas', label: 'ADIDAS' },
+    { value: 'Puma', label: 'PUMA' },
+    { value: 'Reebok', label: 'REEBOK' },
+    { value: 'Otros', label: 'OTROS' }
+  ];
+
   // Filtrar zapatillas
   const filteredZapatillas = zapatillasData.filter(zapato => {
-    const categoryMatch = selectedCategory === 'todas' || zapato.category === selectedCategory;
+    const brandMatch = selectedBrand === 'todas' || zapato.brand === selectedBrand;
     const sizeMatch = selectedSize === 'all' || zapato.sizes.includes(parseInt(selectedSize));
     const priceMatch = 
       priceRange === 'all' ||
@@ -119,14 +129,14 @@ const Hombres = () => {
       (priceRange === 'mid' && zapato.price >= 150 && zapato.price <= 180) ||
       (priceRange === 'high' && zapato.price > 180);
     
-    return categoryMatch && sizeMatch && priceMatch;
+    return brandMatch && sizeMatch && priceMatch;
   });
 
   // Ordenar zapatillas
   const sortedZapatillas = [...filteredZapatillas].sort((a, b) => {
     if (sortBy === 'precio-asc') return a.price - b.price;
     if (sortBy === 'precio-desc') return b.price - a.price;
-    if (sortBy === 'nombre') return a.name.localeCompare(b.name);
+    if (sortBy === 'nombre') return a.model.localeCompare(b.model);
     if (sortBy === 'destacado') return b.destacado - a.destacado;
     return 0;
   });
@@ -140,46 +150,19 @@ const Hombres = () => {
         {/* SIDEBAR DE FILTROS */}
         <aside className="hombres-sidebar">
           
-          {/* Categorías */}
+          {/* Marcas */}
           <div className="filter-group">
-            <h3 className="filter-title">Categoría</h3>
+            <h3 className="filter-title">Marca</h3>
             <div className="filter-options">
-              <button 
-                className={`filter-btn ${selectedCategory === 'todas' ? 'active' : ''}`}
-                onClick={() => setSelectedCategory('todas')}
-              >
-                Todas
-              </button>
-              <button 
-                className={`filter-btn ${selectedCategory === 'running' ? 'active' : ''}`}
-                onClick={() => setSelectedCategory('running')}
-              >
-                Running
-              </button>
-              <button 
-                className={`filter-btn ${selectedCategory === 'basketball' ? 'active' : ''}`}
-                onClick={() => setSelectedCategory('basketball')}
-              >
-                Basketball
-              </button>
-              <button 
-                className={`filter-btn ${selectedCategory === 'lifestyle' ? 'active' : ''}`}
-                onClick={() => setSelectedCategory('lifestyle')}
-              >
-                Lifestyle
-              </button>
-              <button 
-                className={`filter-btn ${selectedCategory === 'casual' ? 'active' : ''}`}
-                onClick={() => setSelectedCategory('casual')}
-              >
-                Casual
-              </button>
-              <button 
-                className={`filter-btn ${selectedCategory === 'training' ? 'active' : ''}`}
-                onClick={() => setSelectedCategory('training')}
-              >
-                Training
-              </button>
+              {brands.map(brand => (
+                <button 
+                  key={brand.value}
+                  className={`filter-btn ${selectedBrand === brand.value ? 'active' : ''}`}
+                  onClick={() => setSelectedBrand(brand.value)}
+                >
+                  {brand.label}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -251,7 +234,7 @@ const Hombres = () => {
                 onChange={(e) => setSortBy(e.target.value)}
               >
                 <option value="destacado">Destacados</option>
-                <option value="nombre">Nombre</option>
+                <option value="nombre">Modelo</option>
                 <option value="precio-asc">Precio: Menor a Mayor</option>
                 <option value="precio-desc">Precio: Mayor a Menor</option>
               </select>
@@ -272,7 +255,7 @@ const Hombres = () => {
               <button 
                 className="reset-filters-btn"
                 onClick={() => {
-                  setSelectedCategory('todas');
+                  setSelectedBrand('todas');
                   setSelectedSize('all');
                   setPriceRange('all');
                 }}
@@ -297,7 +280,7 @@ const ZapatoCard = ({ zapato }) => {
   const handleAddToCart = () => {
     const cartItem = {
       id: zapato.id,
-      name: zapato.name,
+      name: `${zapato.brand.toUpperCase()} ${zapato.model}`,
       price: zapato.price,
       image: zapato.image,
       color: zapato.color,
@@ -326,8 +309,8 @@ const ZapatoCard = ({ zapato }) => {
 
       {/* Información */}
       <div className="zapato-info">
-        <h3 className="zapato-name">{zapato.name}</h3>
-        <p className="zapato-color">{zapato.color}</p>
+        <h3 className="zapato-brand">{zapato.brand.toUpperCase()}</h3>
+        <p className="zapato-model">{zapato.model}</p>
         
         {/* Selector de tallas */}
         {zapato.stock && (

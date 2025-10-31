@@ -4,17 +4,17 @@ import { useCart } from '../context/CartContext';
 import './Mujeres.css';
 
 const Mujeres = () => {
-  const [selectedCategory, setSelectedCategory] = useState('todas');
+  const [selectedBrand, setSelectedBrand] = useState('todas');
   const [selectedSize, setSelectedSize] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('destacado');
 
-  // Datos de zapatillas para mujeres
+  // Datos de zapatillas para mujeres - SOLO MARCAS Y MODELOS
   const zapatillasData = [
     {
-      id: 'Mujer-1', // ID ACTUALIZADO
-      name: 'CLOUD RUNNER',
-      category: 'running',
+      id: 'Mujer-1',
+      brand: 'Nike',
+      model: 'Air Max 270',
       price: 179,
       image: '👟',
       sizes: [5, 6, 7, 8, 9],
@@ -25,9 +25,9 @@ const Mujeres = () => {
       destacado: true
     },
     {
-      id: 'Mujer-2', // ID ACTUALIZADO
-      name: 'URBAN CHIC',
-      category: 'lifestyle',
+      id: 'Mujer-2',
+      brand: 'Adidas',
+      model: 'Ultraboost 22',
       price: 159,
       image: '👟',
       sizes: [5, 6, 7, 8, 9, 10],
@@ -38,9 +38,9 @@ const Mujeres = () => {
       destacado: true
     },
     {
-      id: 'Mujer-3', // ID ACTUALIZADO
-      name: 'FITNESS PRO',
-      category: 'training',
+      id: 'Mujer-3',
+      brand: 'Nike',
+      model: 'Metcon 8',
       price: 169,
       image: '👟',
       sizes: [6, 7, 8, 9],
@@ -51,9 +51,9 @@ const Mujeres = () => {
       destacado: true
     },
     {
-      id: 'Mujer-4', // ID ACTUALIZADO
-      name: 'CASUAL STYLE',
-      category: 'casual',
+      id: 'Mujer-4',
+      brand: 'Puma',
+      model: 'Cali Dream',
       price: 149,
       image: '👟',
       sizes: [5, 6, 7, 8, 9],
@@ -64,9 +64,9 @@ const Mujeres = () => {
       destacado: false
     },
     {
-      id: 'Mujer-5', // ID ACTUALIZADO
-      name: 'SPORT FLEX',
-      category: 'running',
+      id: 'Mujer-5',
+      brand: 'New Balance',
+      model: 'FuelCell Rebel',
       price: 189,
       image: '👟',
       sizes: [6, 7, 8, 9, 10],
@@ -77,9 +77,9 @@ const Mujeres = () => {
       destacado: false
     },
     {
-      id: 'Mujer-6', // ID ACTUALIZADO
-      name: 'ELEGANT WALK',
-      category: 'lifestyle',
+      id: 'Mujer-6',
+      brand: 'Adidas',
+      model: 'NMD_R1',
       price: 139,
       image: '👟',
       sizes: [5, 6, 7, 8],
@@ -90,9 +90,9 @@ const Mujeres = () => {
       destacado: true
     },
     {
-      id: 'Mujer-7', // ID ACTUALIZADO
-      name: 'POWER TRAINING',
-      category: 'training',
+      id: 'Mujer-7',
+      brand: 'Nike',
+      model: 'Free Metcon 5',
       price: 175,
       image: '👟',
       sizes: [6, 7, 8, 9],
@@ -103,9 +103,9 @@ const Mujeres = () => {
       destacado: true
     },
     {
-      id: 'Mujer-8', // ID ACTUALIZADO
-      name: 'STREET FASHION',
-      category: 'casual',
+      id: 'Mujer-8',
+      brand: 'Puma',
+      model: 'RS-X',
       price: 155,
       image: '👟',
       sizes: [5, 6, 7, 8, 9, 10],
@@ -117,9 +117,12 @@ const Mujeres = () => {
     }
   ];
 
+  // Obtener marcas únicas para los filtros
+  const brands = ['todas', ...new Set(zapatillasData.map(zapato => zapato.brand))];
+
   // Filtrar zapatillas
   const filteredZapatillas = zapatillasData.filter(zapato => {
-    const categoryMatch = selectedCategory === 'todas' || zapato.category === selectedCategory;
+    const brandMatch = selectedBrand === 'todas' || zapato.brand === selectedBrand;
     const sizeMatch = selectedSize === 'all' || zapato.sizes.includes(parseInt(selectedSize));
     const priceMatch = 
       priceRange === 'all' ||
@@ -127,61 +130,39 @@ const Mujeres = () => {
       (priceRange === 'mid' && zapato.price >= 150 && zapato.price <= 175) ||
       (priceRange === 'high' && zapato.price > 175);
     
-    return categoryMatch && sizeMatch && priceMatch;
+    return brandMatch && sizeMatch && priceMatch;
   });
 
   // Ordenar zapatillas
   const sortedZapatillas = [...filteredZapatillas].sort((a, b) => {
     if (sortBy === 'precio-asc') return a.price - b.price;
     if (sortBy === 'precio-desc') return b.price - a.price;
-    if (sortBy === 'nombre') return a.name.localeCompare(b.name);
+    if (sortBy === 'marca') return a.brand.localeCompare(b.brand);
+    if (sortBy === 'modelo') return a.model.localeCompare(b.model);
     if (sortBy === 'destacado') return b.destacado - a.destacado;
     return 0;
   });
 
   return (
     <div className="mujeres-page">
-
-      {/* CONTENEDOR PRINCIPAL CON SIDEBAR Y PRODUCTOS */}
       <div className="mujeres-content">
         
         {/* SIDEBAR DE FILTROS */}
         <aside className="mujeres-sidebar">
           
-          {/* Categorías */}
+          {/* Marcas */}
           <div className="filter-group">
-            <h3 className="filter-title">Categoría</h3>
+            <h3 className="filter-title">Marca</h3>
             <div className="filter-options">
-              <button 
-                className={`filter-btn ${selectedCategory === 'todas' ? 'active' : ''}`}
-                onClick={() => setSelectedCategory('todas')}
-              >
-                Todas
-              </button>
-              <button 
-                className={`filter-btn ${selectedCategory === 'running' ? 'active' : ''}`}
-                onClick={() => setSelectedCategory('running')}
-              >
-                Running
-              </button>
-              <button 
-                className={`filter-btn ${selectedCategory === 'training' ? 'active' : ''}`}
-                onClick={() => setSelectedCategory('training')}
-              >
-                Training
-              </button>
-              <button 
-                className={`filter-btn ${selectedCategory === 'lifestyle' ? 'active' : ''}`}
-                onClick={() => setSelectedCategory('lifestyle')}
-              >
-                Lifestyle
-              </button>
-              <button 
-                className={`filter-btn ${selectedCategory === 'casual' ? 'active' : ''}`}
-                onClick={() => setSelectedCategory('casual')}
-              >
-                Casual
-              </button>
+              {brands.map(brand => (
+                <button 
+                  key={brand}
+                  className={`filter-btn ${selectedBrand === brand ? 'active' : ''}`}
+                  onClick={() => setSelectedBrand(brand)}
+                >
+                  {brand === 'todas' ? 'Todas las marcas' : brand}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -253,7 +234,8 @@ const Mujeres = () => {
                 onChange={(e) => setSortBy(e.target.value)}
               >
                 <option value="destacado">Destacados</option>
-                <option value="nombre">Nombre</option>
+                <option value="marca">Marca</option>
+                <option value="modelo">Modelo</option>
                 <option value="precio-asc">Precio: Menor a Mayor</option>
                 <option value="precio-desc">Precio: Mayor a Menor</option>
               </select>
@@ -274,7 +256,7 @@ const Mujeres = () => {
               <button 
                 className="reset-filters-btn"
                 onClick={() => {
-                  setSelectedCategory('todas');
+                  setSelectedBrand('todas');
                   setSelectedSize('all');
                   setPriceRange('all');
                 }}
@@ -297,7 +279,7 @@ const ZapatoCard = ({ zapato }) => {
   const handleAddToCart = () => {
     const cartItem = {
       id: zapato.id,
-      name: zapato.name,
+      name: `${zapato.brand.toUpperCase()} ${zapato.model}`,
       price: zapato.price,
       image: zapato.image,
       color: zapato.color,
@@ -326,8 +308,8 @@ const ZapatoCard = ({ zapato }) => {
 
       {/* Información */}
       <div className="zapato-info">
-        <h3 className="zapato-name">{zapato.name}</h3>
-        <p className="zapato-color">{zapato.color}</p>
+        <h3 className="zapato-brand">{zapato.brand}</h3>
+        <h4 className="zapato-model">{zapato.model}</h4>
         
         {/* Selector de tallas */}
         {zapato.stock && (

@@ -16,7 +16,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, var(--color-black) 0%, #1a1a1a 50%, var(--color-black) 100%);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(26, 26, 26, 0.7) 50%, rgba(0, 0, 0, 0.7) 100%),
+              url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   overflow: hidden;
 }
 
@@ -351,8 +355,9 @@
 /* Tablets */
 @media (max-width: 768px) {
   .hero {
-    height: 80vh;
+    height: 100vh;
     min-height: 500px;
+    background-attachment: scroll;
   }
 
   .hero-content {
@@ -382,7 +387,7 @@
 /* Móviles */
 @media (max-width: 600px) {
   .hero {
-    height: 70vh;
+    height: 100vh;
     min-height: 450px;
   }
 

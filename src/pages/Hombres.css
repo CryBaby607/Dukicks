@@ -230,7 +230,7 @@
   transform: scale(1.1) rotate(-10deg);
 }
 
-/* Información */
+/* Información - ACTUALIZADO */
 .zapato-info {
   padding: var(--spacing-md);
   display: flex;
@@ -238,19 +238,21 @@
   flex: 1;
 }
 
-.zapato-name {
-  font-size: 1.1rem;
-  font-weight: var(--font-weight-semibold);
+.zapato-brand {
+  font-size: 1rem;
+  font-weight: var(--font-weight-bold);
   letter-spacing: 1px;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   color: var(--color-white);
+  text-transform: uppercase;
 }
 
-.zapato-color {
-  font-size: 0.85rem;
-  color: var(--color-medium-gray);
+.zapato-model {
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-light-gray);
   margin-bottom: 15px;
-  font-weight: var(--font-weight-light);
+  letter-spacing: 0.5px;
 }
 
 /* Selector de tallas */
@@ -435,12 +437,22 @@
     font-size: 4rem;
   }
 
-  .zapato-name {
+  /* Responsive actualizado para marca y modelo */
+  .zapato-brand {
+    font-size: 0.9rem;
+  }
+
+  .zapato-model {
     font-size: 1rem;
   }
 
   .zapato-price {
     font-size: 1.3rem;
+  }
+
+  .zapato-add-btn {
+    padding: 10px 15px;
+    font-size: 0.8rem;
   }
 }
 

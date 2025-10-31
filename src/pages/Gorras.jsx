@@ -1,18 +1,17 @@
-// src/pages/Gorras.jsx
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import './Gorras.css';
 
 const Gorras = () => {
-  const [selectedCategory, setSelectedCategory] = useState('todas');
+  const [selectedBrand, setSelectedBrand] = useState('todas');
   const [sortBy, setSortBy] = useState('destacado');
 
-  // Datos de gorras
+  // Datos de gorras con marcas y modelos
   const gorrasData = [
     {
       id: 'gorra-1',
-      name: 'CLASSIC CAP',
-      category: 'clasica',
+      model: 'CLASSIC CAP',
+      brand: '31 Hats',
       price: 49,
       image: '🧢',
       color: 'Negro',
@@ -22,8 +21,8 @@ const Gorras = () => {
     },
     {
       id: 'gorra-2',
-      name: 'URBAN SNAPBACK',
-      category: 'snapback',
+      model: 'URBAN SNAPBACK',
+      brand: 'Dandy Hats',
       price: 59,
       image: '🧢',
       color: 'Blanco',
@@ -33,8 +32,8 @@ const Gorras = () => {
     },
     {
       id: 'gorra-3',
-      name: 'TRUCKER HAT',
-      category: 'trucker',
+      model: 'TRUCKER HAT',
+      brand: 'Barba Hats',
       price: 45,
       image: '🧢',
       color: 'Negro/Blanco',
@@ -44,8 +43,8 @@ const Gorras = () => {
     },
     {
       id: 'gorra-4',
-      name: 'VINTAGE BASEBALL',
-      category: 'clasica',
+      model: 'VINTAGE BASEBALL',
+      brand: 'Otros',
       price: 55,
       image: '🧢',
       color: 'Gris',
@@ -55,8 +54,8 @@ const Gorras = () => {
     },
     {
       id: 'gorra-5',
-      name: 'SPORT CAP',
-      category: 'deportiva',
+      model: 'SPORT CAP',
+      brand: '31 Hats',
       price: 52,
       image: '🧢',
       color: 'Negro',
@@ -66,8 +65,8 @@ const Gorras = () => {
     },
     {
       id: 'gorra-6',
-      name: 'MINIMALIST HAT',
-      category: 'clasica',
+      model: 'MINIMALIST HAT',
+      brand: 'Dandy Hats',
       price: 48,
       image: '🧢',
       color: 'Blanco',
@@ -77,8 +76,8 @@ const Gorras = () => {
     },
     {
       id: 'gorra-7',
-      name: 'PREMIUM SNAPBACK',
-      category: 'snapback',
+      model: 'PREMIUM SNAPBACK',
+      brand: 'Barba Hats',
       price: 65,
       image: '🧢',
       color: 'Negro',
@@ -88,8 +87,8 @@ const Gorras = () => {
     },
     {
       id: 'gorra-8',
-      name: 'MESH TRUCKER',
-      category: 'trucker',
+      model: 'MESH TRUCKER',
+      brand: 'Otros',
       price: 42,
       image: '🧢',
       color: 'Blanco/Negro',
@@ -99,16 +98,25 @@ const Gorras = () => {
     }
   ];
 
-  // Filtrar gorras
+  // Marcas disponibles - SOLO LAS 4 MARCAS ESPECIFICADAS
+  const brands = [
+    { value: 'todas', label: 'Todas' },
+    { value: '31 Hats', label: '31 HATS' },
+    { value: 'Dandy Hats', label: 'DANDY HATS' },
+    { value: 'Barba Hats', label: 'BARBA HATS' },
+    { value: 'Otros', label: 'OTROS' }
+  ];
+
+  // Filtrar gorras por marca
   const filteredGorras = gorrasData.filter(gorra => 
-    selectedCategory === 'todas' || gorra.category === selectedCategory
+    selectedBrand === 'todas' || gorra.brand === selectedBrand
   );
 
   // Ordenar gorras
   const sortedGorras = [...filteredGorras].sort((a, b) => {
     if (sortBy === 'precio-asc') return a.price - b.price;
     if (sortBy === 'precio-desc') return b.price - a.price;
-    if (sortBy === 'nombre') return a.name.localeCompare(b.name);
+    if (sortBy === 'nombre') return a.model.localeCompare(b.model);
     if (sortBy === 'destacado') return b.destacado - a.destacado;
     return 0;
   });
@@ -119,38 +127,17 @@ const Gorras = () => {
       <section className="gorras-filters">
         <div className="gorras-filters-container">
           
-          {/* Categorías */}
+          {/* Marcas */}
           <div className="gorras-categories">
-            <button 
-              className={`category-btn ${selectedCategory === 'todas' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('todas')}
-            >
-              Todas
-            </button>
-            <button 
-              className={`category-btn ${selectedCategory === 'clasica' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('clasica')}
-            >
-              Clásicas
-            </button>
-            <button 
-              className={`category-btn ${selectedCategory === 'snapback' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('snapback')}
-            >
-              Snapback
-            </button>
-            <button 
-              className={`category-btn ${selectedCategory === 'trucker' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('trucker')}
-            >
-              Trucker
-            </button>
-            <button 
-              className={`category-btn ${selectedCategory === 'deportiva' ? 'active' : ''}`}
-              onClick={() => setSelectedCategory('deportiva')}
-            >
-              Deportivas
-            </button>
+            {brands.map(brand => (
+              <button 
+                key={brand.value}
+                className={`category-btn ${selectedBrand === brand.value ? 'active' : ''}`}
+                onClick={() => setSelectedBrand(brand.value)}
+              >
+                {brand.label}
+              </button>
+            ))}
           </div>
 
           {/* Ordenamiento */}
@@ -162,7 +149,7 @@ const Gorras = () => {
               onChange={(e) => setSortBy(e.target.value)}
             >
               <option value="destacado">Destacados</option>
-              <option value="nombre">Nombre</option>
+              <option value="nombre">Modelo</option>
               <option value="precio-asc">Precio: Menor a Mayor</option>
               <option value="precio-desc">Precio: Mayor a Menor</option>
             </select>
@@ -187,7 +174,7 @@ const Gorras = () => {
 
           {sortedGorras.length === 0 && (
             <div className="no-results">
-              <p>No se encontraron productos en esta categoría</p>
+              <p>No se encontraron productos de esta marca</p>
             </div>
           )}
 
@@ -204,16 +191,16 @@ const GorraCard = ({ gorra }) => {
   const handleAddToCart = () => {
     const cartItem = {
       id: gorra.id,
-      name: gorra.name,
+      name: `${gorra.brand.toUpperCase()} ${gorra.model}`,
       price: gorra.price,
       image: gorra.image,
       color: gorra.color,
-      selectedSize: 'Única', // Las gorras normalmente son talla única
+      selectedSize: 'Única',
       category: 'gorras'
     };
 
     addToCart(cartItem);
-    openCart(); // Abrir el carrito automáticamente
+    openCart();
   };
 
   return (
@@ -233,8 +220,8 @@ const GorraCard = ({ gorra }) => {
 
       {/* Información */}
       <div className="gorra-info">
-        <h3 className="gorra-name">{gorra.name}</h3>
-        <p className="gorra-color">{gorra.color}</p>
+        <h3 className="gorra-brand">{gorra.brand.toUpperCase()}</h3>
+        <p className="gorra-model">{gorra.model}</p>
         <div className="gorra-footer">
           <span className="gorra-price">${gorra.price}</span>
           <button 
