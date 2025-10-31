@@ -193,32 +193,6 @@ const Gorras = () => {
 
         </div>
       </section>
-
-      {/* INFORMACIÓN ADICIONAL */}
-      <section className="gorras-info">
-        <div className="gorras-info-container">
-          
-          <div className="info-card">
-            <div className="info-icon">✓</div>
-            <h3>Calidad Premium</h3>
-            <p>Materiales duraderos y confortables</p>
-          </div>
-
-          <div className="info-card">
-            <div className="info-icon">🚚</div>
-            <h3>Envío Gratis</h3>
-            <p>En compras superiores a $500</p>
-          </div>
-
-          <div className="info-card">
-            <div className="info-icon">↩️</div>
-            <h3>Devolución Fácil</h3>
-            <p>30 días para cambios</p>
-          </div>
-
-        </div>
-      </section>
-
     </div>
   );
 };

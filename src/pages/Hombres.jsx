@@ -285,28 +285,6 @@ const Hombres = () => {
         </main>
 
       </div>
-
-      {/* SECCIÓN DE CARACTERÍSTICAS */}
-      <section className="hombres-features">
-        <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon">⚡</div>
-            <h3>Alta Performance</h3>
-            <p>Tecnología avanzada para máximo rendimiento</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon">💎</div>
-            <h3>Diseño Premium</h3>
-            <p>Estilo contemporáneo y materiales de calidad</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon">🛡️</div>
-            <h3>Garantía Total</h3>
-            <p>Productos 100% originales y garantizados</p>
-          </div>
-        </div>
-      </section>
-
     </div>
   );
 };

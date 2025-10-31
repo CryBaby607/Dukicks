@@ -6,7 +6,6 @@ import './Mujeres.css';
 const Mujeres = () => {
   const [selectedCategory, setSelectedCategory] = useState('todas');
   const [selectedSize, setSelectedSize] = useState('all');
-  const [selectedColor, setSelectedColor] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('destacado');
 
@@ -122,14 +121,13 @@ const Mujeres = () => {
   const filteredZapatillas = zapatillasData.filter(zapato => {
     const categoryMatch = selectedCategory === 'todas' || zapato.category === selectedCategory;
     const sizeMatch = selectedSize === 'all' || zapato.sizes.includes(parseInt(selectedSize));
-    const colorMatch = selectedColor === 'all' || zapato.colorCode === selectedColor;
     const priceMatch = 
       priceRange === 'all' ||
       (priceRange === 'low' && zapato.price < 150) ||
       (priceRange === 'mid' && zapato.price >= 150 && zapato.price <= 175) ||
       (priceRange === 'high' && zapato.price > 175);
     
-    return categoryMatch && sizeMatch && colorMatch && priceMatch;
+    return categoryMatch && sizeMatch && priceMatch;
   });
 
   // Ordenar zapatillas
@@ -204,56 +202,7 @@ const Mujeres = () => {
               <option value="10">10</option>
             </select>
           </div>
-
-          {/* Color */}
-          <div className="filter-group">
-            <h3 className="filter-title">Color</h3>
-            <div className="color-options">
-              <button 
-                className={`color-btn ${selectedColor === 'all' ? 'active' : ''}`}
-                onClick={() => setSelectedColor('all')}
-                title="Todos"
-              >
-                Todos
-              </button>
-              <button 
-                className={`color-btn color-negro ${selectedColor === 'negro' ? 'active' : ''}`}
-                onClick={() => setSelectedColor('negro')}
-                title="Negro"
-              >
-                <span className="color-circle"></span>
-              </button>
-              <button 
-                className={`color-btn color-blanco ${selectedColor === 'blanco' ? 'active' : ''}`}
-                onClick={() => setSelectedColor('blanco')}
-                title="Blanco"
-              >
-                <span className="color-circle"></span>
-              </button>
-              <button 
-                className={`color-btn color-rosa ${selectedColor === 'rosa' ? 'active' : ''}`}
-                onClick={() => setSelectedColor('rosa')}
-                title="Rosa"
-              >
-                <span className="color-circle"></span>
-              </button>
-              <button 
-                className={`color-btn color-gris ${selectedColor === 'gris' ? 'active' : ''}`}
-                onClick={() => setSelectedColor('gris')}
-                title="Gris"
-              >
-                <span className="color-circle"></span>
-              </button>
-              <button 
-                className={`color-btn color-beige ${selectedColor === 'beige' ? 'active' : ''}`}
-                onClick={() => setSelectedColor('beige')}
-                title="Beige"
-              >
-                <span className="color-circle"></span>
-              </button>
-            </div>
-          </div>
-
+          
           {/* Rango de precio */}
           <div className="filter-group">
             <h3 className="filter-title">Precio</h3>
@@ -327,7 +276,6 @@ const Mujeres = () => {
                 onClick={() => {
                   setSelectedCategory('todas');
                   setSelectedSize('all');
-                  setSelectedColor('all');
                   setPriceRange('all');
                 }}
               >
@@ -335,32 +283,8 @@ const Mujeres = () => {
               </button>
             </div>
           )}
-
         </main>
-
       </div>
-
-      {/* SECCIÓN DE CARACTERÍSTICAS */}
-      <section className="mujeres-features">
-        <div className="features-grid">
-          <div className="feature-card">
-            <div className="feature-icon">✨</div>
-            <h3>Diseño Exclusivo</h3>
-            <p>Colecciones únicas que reflejan tu personalidad</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon">💪</div>
-            <h3>Máximo Confort</h3>
-            <p>Tecnología adaptada para cada actividad</p>
-          </div>
-          <div className="feature-card">
-            <div className="feature-icon">🌟</div>
-            <h3>Calidad Premium</h3>
-            <p>Materiales duraderos y sostenibles</p>
-          </div>
-        </div>
-      </section>
-
     </div>
   );
 };

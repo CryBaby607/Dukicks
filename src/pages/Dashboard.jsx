@@ -126,14 +126,6 @@ const Dashboard = () => {
     setShowModal(false);
   };
 
-  // Calcular estadísticas
-  const stats = {
-    totalProducts: products.length,
-    inStock: products.filter(p => p.stock).length,
-    outOfStock: products.filter(p => !p.stock).length,
-    totalValue: products.reduce((sum, p) => sum + p.price, 0)
-  };
-
   const username = localStorage.getItem('adminUsername');
 
   return (
@@ -157,35 +149,6 @@ const Dashboard = () => {
       {/* Contenido Principal */}
       <main className="dashboard-content">
         
-        {/* Estadísticas */}
-        <div className="stats-grid">
-          <StatCard
-            icon="📦"
-            label="Total Productos"
-            value={stats.totalProducts}
-            change="+12% vs mes anterior"
-          />
-          <StatCard
-            icon="✓"
-            label="En Stock"
-            value={stats.inStock}
-            change="+5%"
-          />
-          <StatCard
-            icon="⚠"
-            label="Agotados"
-            value={stats.outOfStock}
-            change="-2%"
-            isNegative={true}
-          />
-          <StatCard
-            icon="💰"
-            label="Valor Total"
-            value={`$${stats.totalValue}`}
-            change="+8%"
-          />
-        </div>
-
         {/* Sección de Productos */}
         <section className="products-section">
           
@@ -244,24 +207,6 @@ const Dashboard = () => {
         />
       )}
 
-    </div>
-  );
-};
-
-// ===== COMPONENTE DE TARJETA DE ESTADÍSTICA =====
-const StatCard = ({ icon, label, value, change, isNegative }) => {
-  return (
-    <div className="stat-card">
-      <div className="stat-header">
-        <div>
-          <p className="stat-label">{label}</p>
-          <h3 className="stat-value">{value}</h3>
-          <p className={`stat-change ${isNegative ? 'negative' : ''}`}>
-            {change}
-          </p>
-        </div>
-        <div className="stat-icon">{icon}</div>
-      </div>
     </div>
   );
 };
