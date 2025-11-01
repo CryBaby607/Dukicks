@@ -1,7 +1,9 @@
-// src/pages/Hombres.jsx
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import './Hombres.css';
+
+// Importar imágenes (ajusta las rutas según tu estructura de archivos)
+import gorra1Image from '../assets/images/gorras/31Hats.jpg';
 
 const Hombres = () => {
   const [selectedBrand, setSelectedBrand] = useState('todas');
@@ -9,17 +11,16 @@ const Hombres = () => {
   const [priceRange, setPriceRange] = useState('all');
   const [sortBy, setSortBy] = useState('destacado');
 
-  // Datos de zapatillas para hombres con marca y modelo
+  // Datos de zapatillas para hombres con imágenes reales
   const zapatillasData = [
     {
       id: 1,
       model: 'AIR RUNNER PRO',
       brand: 'Nike',
       price: 189,
-      image: '👟',
+      image: gorra1Image,
       sizes: [8, 9, 10, 11, 12],
       color: 'Negro/Blanco',
-      stock: true,
       nuevo: true,
       destacado: true
     },
@@ -28,10 +29,9 @@ const Hombres = () => {
       model: 'URBAN STREET',
       brand: 'Adidas',
       price: 159,
-      image: '👟',
+      image: '',
       sizes: [8, 9, 10, 11],
       color: 'Blanco/Gris',
-      stock: true,
       nuevo: false,
       destacado: true
     },
@@ -40,10 +40,9 @@ const Hombres = () => {
       model: 'BASKETBALL ELITE',
       brand: 'Nike',
       price: 199,
-      image: '👟',
+      image: '',
       sizes: [9, 10, 11, 12, 13],
       color: 'Negro/Rojo',
-      stock: true,
       nuevo: true,
       destacado: true
     },
@@ -52,10 +51,9 @@ const Hombres = () => {
       model: 'CLASSIC LEATHER',
       brand: 'Reebok',
       price: 149,
-      image: '👟',
+      image: '',
       sizes: [8, 9, 10, 11, 12],
       color: 'Café',
-      stock: true,
       nuevo: false,
       destacado: false
     },
@@ -64,10 +62,9 @@ const Hombres = () => {
       model: 'SPORT TRAINER',
       brand: 'Puma',
       price: 169,
-      image: '👟',
+      image: '',
       sizes: [8, 9, 10, 11],
       color: 'Negro',
-      stock: false,
       nuevo: false,
       destacado: false
     },
@@ -76,10 +73,9 @@ const Hombres = () => {
       model: 'RUNNING BOOST',
       brand: 'Adidas',
       price: 179,
-      image: '👟',
+      image: '',
       sizes: [9, 10, 11, 12],
       color: 'Azul/Blanco',
-      stock: true,
       nuevo: true,
       destacado: true
     },
@@ -88,10 +84,9 @@ const Hombres = () => {
       model: 'SKATE PRO',
       brand: 'Otros',
       price: 139,
-      image: '👟',
+      image: '',
       sizes: [8, 9, 10, 11, 12],
       color: 'Negro/Blanco',
-      stock: true,
       nuevo: false,
       destacado: false
     },
@@ -100,10 +95,9 @@ const Hombres = () => {
       model: 'PERFORMANCE MAX',
       brand: 'Nike',
       price: 209,
-      image: '👟',
+      image: '',
       sizes: [9, 10, 11, 12, 13],
       color: 'Gris/Verde',
-      stock: true,
       nuevo: true,
       destacado: true
     }
@@ -275,6 +269,7 @@ const Hombres = () => {
 // ===== COMPONENTE DE TARJETA DE ZAPATO =====
 const ZapatoCard = ({ zapato }) => {
   const [selectedSize, setSelectedSize] = useState(zapato.sizes[0]);
+  const [imageError, setImageError] = useState(false);
   const { addToCart, openCart } = useCart();
 
   const handleAddToCart = () => {
@@ -292,19 +287,37 @@ const ZapatoCard = ({ zapato }) => {
     openCart(); // Abrir el carrito automáticamente
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  // Mostrar placeholder si no hay imagen o si falló la carga
+  const hasValidImage = zapato.image && !imageError;
+
   return (
-    <div className={`zapato-card ${!zapato.stock ? 'out-of-stock' : ''}`}>
+    <div className="zapato-card">
       
       {/* Etiquetas */}
       <div className="zapato-badges">
         {zapato.nuevo && <span className="badge badge-new">NUEVO</span>}
         {zapato.destacado && <span className="badge badge-featured">DESTACADO</span>}
-        {!zapato.stock && <span className="badge badge-out">AGOTADO</span>}
       </div>
 
       {/* Imagen */}
       <div className="zapato-image">
-        <span className="zapato-icon">{zapato.image}</span>
+        {hasValidImage ? (
+          <img 
+            src={zapato.image} 
+            alt={`${zapato.brand} ${zapato.model}`}
+            className="zapato-img"
+            onError={handleImageError}
+            loading="lazy"
+          />
+        ) : (
+          <div className="zapato-placeholder">
+            <span className="zapato-icon">👟</span>
+          </div>
+        )}
       </div>
 
       {/* Información */}
@@ -313,35 +326,31 @@ const ZapatoCard = ({ zapato }) => {
         <p className="zapato-model">{zapato.model}</p>
         
         {/* Selector de tallas */}
-        {zapato.stock && (
-          <div className="zapato-sizes">
-            <label className="size-label">Talla (US):</label>
-            <div className="size-options">
-              {zapato.sizes.map(size => (
-                <button
-                  key={size}
-                  className={`size-btn ${selectedSize === size ? 'active' : ''}`}
-                  onClick={() => setSelectedSize(size)}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
+        <div className="zapato-sizes">
+          <label className="size-label">Talla (US):</label>
+          <div className="size-options">
+            {zapato.sizes.map(size => (
+              <button
+                key={size}
+                className={`size-btn ${selectedSize === size ? 'active' : ''}`}
+                onClick={() => setSelectedSize(size)}
+              >
+                {size}
+              </button>
+            ))}
           </div>
-        )}
+        </div>
 
         <div className="zapato-footer">
           <span className="zapato-price">${zapato.price}</span>
           <button 
             className="zapato-add-btn"
             onClick={handleAddToCart}
-            disabled={!zapato.stock}
           >
-            {zapato.stock ? 'Agregar' : 'Agotado'}
+            Agregar
           </button>
         </div>
       </div>
-
     </div>
   );
 };

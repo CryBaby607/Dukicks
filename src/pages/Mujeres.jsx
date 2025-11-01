@@ -1,4 +1,3 @@
-// src/pages/Mujeres.jsx
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext'; 
 import './Mujeres.css';
@@ -20,7 +19,6 @@ const Mujeres = () => {
       sizes: [5, 6, 7, 8, 9],
       color: 'Rosa/Blanco',
       colorCode: 'rosa',
-      stock: true,
       nuevo: true,
       destacado: true
     },
@@ -33,7 +31,6 @@ const Mujeres = () => {
       sizes: [5, 6, 7, 8, 9, 10],
       color: 'Blanco',
       colorCode: 'blanco',
-      stock: true,
       nuevo: true,
       destacado: true
     },
@@ -46,7 +43,6 @@ const Mujeres = () => {
       sizes: [6, 7, 8, 9],
       color: 'Negro/Morado',
       colorCode: 'negro',
-      stock: true,
       nuevo: false,
       destacado: true
     },
@@ -59,7 +55,6 @@ const Mujeres = () => {
       sizes: [5, 6, 7, 8, 9],
       color: 'Beige',
       colorCode: 'beige',
-      stock: true,
       nuevo: false,
       destacado: false
     },
@@ -72,7 +67,6 @@ const Mujeres = () => {
       sizes: [6, 7, 8, 9, 10],
       color: 'Coral',
       colorCode: 'rosa',
-      stock: false,
       nuevo: false,
       destacado: false
     },
@@ -85,7 +79,6 @@ const Mujeres = () => {
       sizes: [5, 6, 7, 8],
       color: 'Negro',
       colorCode: 'negro',
-      stock: true,
       nuevo: false,
       destacado: true
     },
@@ -98,7 +91,6 @@ const Mujeres = () => {
       sizes: [6, 7, 8, 9],
       color: 'Gris/Rosa',
       colorCode: 'gris',
-      stock: true,
       nuevo: true,
       destacado: true
     },
@@ -111,7 +103,6 @@ const Mujeres = () => {
       sizes: [5, 6, 7, 8, 9, 10],
       color: 'Blanco/Dorado',
       colorCode: 'blanco',
-      stock: true,
       nuevo: true,
       destacado: true
     }
@@ -292,13 +283,12 @@ const ZapatoCard = ({ zapato }) => {
   };
 
   return (
-    <div className={`zapato-card ${!zapato.stock ? 'out-of-stock' : ''}`}>
+    <div className="zapato-card">
       
       {/* Etiquetas */}
       <div className="zapato-badges">
         {zapato.nuevo && <span className="badge badge-new">NUEVO</span>}
         {zapato.destacado && <span className="badge badge-featured">DESTACADO</span>}
-        {!zapato.stock && <span className="badge badge-out">AGOTADO</span>}
       </div>
 
       {/* Imagen */}
@@ -312,35 +302,30 @@ const ZapatoCard = ({ zapato }) => {
         <h4 className="zapato-model">{zapato.model}</h4>
         
         {/* Selector de tallas */}
-        {zapato.stock && (
-          <div className="zapato-sizes">
-            <label className="size-label">Talla (US):</label>
-            <div className="size-options">
-              {zapato.sizes.map(size => (
-                <button
-                  key={size}
-                  className={`size-btn ${selectedSize === size ? 'active' : ''}`}
-                  onClick={() => setSelectedSize(size)}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
+        <div className="zapato-sizes">
+          <label className="size-label">Talla (US):</label>
+          <div className="size-options">
+            {zapato.sizes.map(size => (
+              <button
+                key={size}
+                className={`size-btn ${selectedSize === size ? 'active' : ''}`}
+                onClick={() => setSelectedSize(size)}
+              >
+                {size}
+              </button>
+            ))}
           </div>
-        )}
-
+        </div>
         <div className="zapato-footer">
           <span className="zapato-price">${zapato.price}</span>
           <button 
             className="zapato-add-btn"
             onClick={handleAddToCart}
-            disabled={!zapato.stock}
           >
-            {zapato.stock ? 'Agregar' : 'Agotado'}
+            Agregar
           </button>
         </div>
       </div>
-
     </div>
   );
 };

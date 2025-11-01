@@ -130,14 +130,6 @@
   border-color: #000000;
 }
 
-.gorra-card.out-of-stock {
-  opacity: 0.6;
-}
-
-.gorra-card.out-of-stock:hover {
-  transform: none;
-}
-
 /* Etiquetas */
 .gorra-badges {
   position: absolute;
@@ -165,11 +157,6 @@
 .badge-featured {
   background-color: var(--color-gold);
   color: #000000;
-}
-
-.badge-out {
-  background-color: #999999;
-  color: #ffffff;
 }
 
 /* Imagen */
@@ -275,14 +262,8 @@
   transition: all var(--transition-fast);
 }
 
-.gorra-add-btn:hover:not(:disabled) {
+.gorra-add-btn:hover {
   background-color: #333333;
-}
-
-.gorra-add-btn:disabled {
-  background-color: #cccccc;
-  color: #666666;
-  cursor: not-allowed;
 }
 
 /* Sin resultados */

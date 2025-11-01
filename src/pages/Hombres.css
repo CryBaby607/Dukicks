@@ -1,10 +1,8 @@
-/* src/pages/Hombres.css */
-
 /* ===== PÁGINA DE HOMBRES ===== */
 .hombres-page {
   width: 100%;
-  background-color: var(--color-black);
-  color: var(--color-white);
+  background-color: #ffffff;
+  color: #333333;
   min-height: 100vh;
 }
 
@@ -23,15 +21,17 @@
   position: sticky;
   top: 100px;
   height: fit-content;
-  background-color: var(--color-dark);
-  border: 1px solid var(--color-gray);
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
   padding: var(--spacing-lg);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .filter-group {
   margin-bottom: var(--spacing-lg);
   padding-bottom: var(--spacing-lg);
-  border-bottom: 1px solid var(--color-gray);
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .filter-group:last-child {
@@ -45,7 +45,7 @@
   font-weight: var(--font-weight-semibold);
   margin-bottom: 15px;
   letter-spacing: 1px;
-  color: var(--color-white);
+  color: #333333;
 }
 
 .filter-options {
@@ -57,42 +57,44 @@
 .filter-btn {
   padding: 10px 15px;
   background-color: transparent;
-  color: var(--color-light-gray);
-  border: 1px solid var(--color-gray);
+  color: #666666;
+  border: 1px solid #cccccc;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-light);
   text-align: left;
   cursor: pointer;
   transition: all var(--transition-fast);
+  border-radius: 4px;
 }
 
 .filter-btn:hover {
-  background-color: var(--color-white);
-  color: var(--color-black);
-  border-color: var(--color-white);
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
 }
 
 .filter-btn.active {
-  background-color: var(--color-white);
-  color: var(--color-black);
-  border-color: var(--color-white);
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
   font-weight: var(--font-weight-medium);
 }
 
 .filter-select {
   width: 100%;
   padding: 10px 15px;
-  background-color: var(--color-black);
-  color: var(--color-white);
-  border: 1px solid var(--color-gray);
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #cccccc;
   font-size: var(--font-size-sm);
   cursor: pointer;
   outline: none;
   transition: border-color var(--transition-fast);
+  border-radius: 4px;
 }
 
 .filter-select:focus {
-  border-color: var(--color-white);
+  border-color: #000000;
 }
 
 /* ===== ÁREA PRINCIPAL DE PRODUCTOS ===== */
@@ -107,14 +109,14 @@
   align-items: center;
   margin-bottom: var(--spacing-lg);
   padding-bottom: var(--spacing-md);
-  border-bottom: 1px solid var(--color-gray);
+  border-bottom: 1px solid #e0e0e0;
   flex-wrap: wrap;
   gap: 15px;
 }
 
 .products-count {
   font-size: var(--font-size-sm);
-  color: var(--color-medium-gray);
+  color: #666666;
   letter-spacing: 1px;
 }
 
@@ -126,23 +128,24 @@
 
 .hombres-sort label {
   font-size: var(--font-size-sm);
-  color: var(--color-light-gray);
+  color: #666666;
   white-space: nowrap;
 }
 
 .hombres-sort select {
   padding: 8px 15px;
-  background-color: var(--color-dark);
-  color: var(--color-white);
-  border: 1px solid var(--color-gray);
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #cccccc;
   font-size: var(--font-size-sm);
   cursor: pointer;
   outline: none;
   transition: border-color var(--transition-fast);
+  border-radius: 4px;
 }
 
 .hombres-sort select:focus {
-  border-color: var(--color-white);
+  border-color: #000000;
 }
 
 /* Grid de productos */
@@ -154,26 +157,21 @@
 
 /* ===== TARJETA DE ZAPATO ===== */
 .zapato-card {
-  background-color: var(--color-dark);
-  border: 1px solid var(--color-gray);
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
   transition: all var(--transition-normal);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   position: relative;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .zapato-card:hover {
   transform: translateY(-5px);
-  border-color: var(--color-white);
-}
-
-.zapato-card.out-of-stock {
-  opacity: 0.6;
-}
-
-.zapato-card.out-of-stock:hover {
-  transform: none;
+  border-color: #000000;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
 }
 
 /* Etiquetas */
@@ -193,36 +191,57 @@
   font-weight: var(--font-weight-bold);
   letter-spacing: 1px;
   width: fit-content;
+  border-radius: 4px;
 }
 
 .badge-new {
-  background-color: var(--color-white);
-  color: var(--color-black);
+  background-color: #000000;
+  color: #ffffff;
 }
 
 .badge-featured {
-  background-color: var(--color-gold);
-  color: var(--color-black);
+  background-color: #d4af37;
+  color: #000000;
 }
 
-.badge-out {
-  background-color: var(--color-gray);
-  color: var(--color-white);
-}
-
-/* Imagen */
+/* ===== ESTILOS DE IMAGEN ===== */
 .zapato-image {
   aspect-ratio: 4/3;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-black);
-  border-bottom: 1px solid var(--color-gray);
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Estilos para la imagen real */
+.zapato-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-normal);
+}
+
+.zapato-card:hover .zapato-img {
+  transform: scale(1.05);
+}
+
+/* Placeholder cuando no hay imagen o falla la carga */
+.zapato-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
 }
 
 .zapato-icon {
-  font-size: 5rem;
-  opacity: 0.7;
+  font-size: 4rem;
+  opacity: 0.3;
   transition: transform var(--transition-normal);
 }
 
@@ -230,12 +249,13 @@
   transform: scale(1.1) rotate(-10deg);
 }
 
-/* Información - ACTUALIZADO */
+/* ===== INFORMACIÓN DEL PRODUCTO ===== */
 .zapato-info {
   padding: var(--spacing-md);
   display: flex;
   flex-direction: column;
   flex: 1;
+  background-color: #ffffff;
 }
 
 .zapato-brand {
@@ -243,14 +263,14 @@
   font-weight: var(--font-weight-bold);
   letter-spacing: 1px;
   margin-bottom: 5px;
-  color: var(--color-white);
+  color: #333333;
   text-transform: uppercase;
 }
 
 .zapato-model {
   font-size: 1.1rem;
   font-weight: var(--font-weight-semibold);
-  color: var(--color-light-gray);
+  color: #666666;
   margin-bottom: 15px;
   letter-spacing: 0.5px;
 }
@@ -262,7 +282,7 @@
 
 .size-label {
   font-size: 0.8rem;
-  color: var(--color-light-gray);
+  color: #666666;
   display: block;
   margin-bottom: 8px;
 }
@@ -276,24 +296,25 @@
 .size-btn {
   padding: 6px 12px;
   background-color: transparent;
-  color: var(--color-light-gray);
-  border: 1px solid var(--color-gray);
+  color: #666666;
+  border: 1px solid #cccccc;
   font-size: 0.8rem;
   cursor: pointer;
   transition: all var(--transition-fast);
   min-width: 40px;
+  border-radius: 4px;
 }
 
 .size-btn:hover {
-  background-color: var(--color-white);
-  color: var(--color-black);
-  border-color: var(--color-white);
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
 }
 
 .size-btn.active {
-  background-color: var(--color-white);
-  color: var(--color-black);
-  border-color: var(--color-white);
+  background-color: #000000;
+  color: #ffffff;
+  border-color: #000000;
   font-weight: var(--font-weight-semibold);
 }
 
@@ -304,42 +325,37 @@
   align-items: center;
   margin-top: auto;
   padding-top: 15px;
-  border-top: 1px solid var(--color-gray);
+  border-top: 1px solid #e0e0e0;
 }
 
 .zapato-price {
   font-size: 1.5rem;
   font-weight: var(--font-weight-bold);
-  color: var(--color-white);
+  color: #333333;
 }
 
 .zapato-add-btn {
   padding: 10px var(--spacing-md);
-  background-color: var(--color-white);
-  color: var(--color-black);
+  background-color: #000000;
+  color: #ffffff;
   border: none;
   font-size: 0.85rem;
   font-weight: var(--font-weight-semibold);
   letter-spacing: 1px;
   cursor: pointer;
   transition: all var(--transition-fast);
+  border-radius: 4px;
 }
 
-.zapato-add-btn:hover:not(:disabled) {
-  background-color: #ddd;
-}
-
-.zapato-add-btn:disabled {
-  background-color: var(--color-gray);
-  color: var(--color-medium-gray);
-  cursor: not-allowed;
+.zapato-add-btn:hover {
+  background-color: #333333;
 }
 
 /* Sin resultados */
 .no-results {
   text-align: center;
   padding: var(--spacing-xl) var(--spacing-md);
-  color: var(--color-medium-gray);
+  color: #666666;
 }
 
 .no-results p {
@@ -349,18 +365,19 @@
 
 .reset-filters-btn {
   padding: 12px var(--spacing-lg);
-  background-color: var(--color-white);
-  color: var(--color-black);
+  background-color: #000000;
+  color: #ffffff;
   border: none;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
   letter-spacing: 1px;
   cursor: pointer;
   transition: all var(--transition-fast);
+  border-radius: 4px;
 }
 
 .reset-filters-btn:hover {
-  background-color: #ddd;
+  background-color: #333333;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -434,10 +451,9 @@
   }
 
   .zapato-icon {
-    font-size: 4rem;
+    font-size: 3rem;
   }
 
-  /* Responsive actualizado para marca y modelo */
   .zapato-brand {
     font-size: 0.9rem;
   }
@@ -485,5 +501,9 @@
     padding: 5px 10px;
     font-size: 0.75rem;
     min-width: 35px;
+  }
+
+  .zapato-icon {
+    font-size: 2.5rem;
   }
 }

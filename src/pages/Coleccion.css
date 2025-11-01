@@ -1,5 +1,3 @@
-/* src/pages/Coleccion.css */
-
 /* ===== PÁGINA DE COLECCIÓN ===== */
 .coleccion-page {
   width: 100%;
@@ -129,14 +127,6 @@
   border-color: var(--color-white);
 }
 
-.playera-card.out-of-stock {
-  opacity: 0.6;
-}
-
-.playera-card.out-of-stock:hover {
-  transform: none;
-}
-
 /* Etiquetas */
 .playera-badges {
   position: absolute;
@@ -168,11 +158,6 @@
 
 .badge-collab {
   background-color: #ff6b6b;
-  color: var(--color-white);
-}
-
-.badge-out {
-  background-color: var(--color-gray);
   color: var(--color-white);
 }
 
@@ -300,14 +285,8 @@
   transition: all var(--transition-fast);
 }
 
-.playera-add-btn:hover:not(:disabled) {
+.playera-add-btn:hover {
   background-color: #ddd;
-}
-
-.playera-add-btn:disabled {
-  background-color: var(--color-gray);
-  color: var(--color-medium-gray);
-  cursor: not-allowed;
 }
 
 /* Sin resultados */

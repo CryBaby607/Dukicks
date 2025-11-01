@@ -18,7 +18,6 @@ const Coleccion = () => {
       image: '👕',
       description: 'Logo bordado premium en algodón',
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-      stock: true,
       nuevo: true,
       limitada: true
     },
@@ -31,7 +30,6 @@ const Coleccion = () => {
       image: '👕',
       description: 'Diseño gráfico exclusivo oversized',
       sizes: ['S', 'M', 'L', 'XL'],
-      stock: true,
       nuevo: true,
       limitada: false
     },
@@ -44,7 +42,6 @@ const Coleccion = () => {
       image: '👕',
       description: 'Esencial de algodón orgánico',
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-      stock: true,
       nuevo: false,
       limitada: false
     },
@@ -57,7 +54,6 @@ const Coleccion = () => {
       image: '👕',
       description: 'Colaboración artista limitada',
       sizes: ['M', 'L', 'XL'],
-      stock: true,
       nuevo: true,
       limitada: true
     },
@@ -70,7 +66,6 @@ const Coleccion = () => {
       image: '👕',
       description: 'Estampado vintage wash',
       sizes: ['S', 'M', 'L', 'XL'],
-      stock: false,
       nuevo: false,
       limitada: false
     },
@@ -83,7 +78,6 @@ const Coleccion = () => {
       image: '👕',
       description: 'Polo premium de algodón piqué',
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-      stock: true,
       nuevo: true,
       limitada: true
     },
@@ -96,7 +90,6 @@ const Coleccion = () => {
       image: '👕',
       description: 'Tecnología anti-humedad',
       sizes: ['S', 'M', 'L', 'XL'],
-      stock: true,
       nuevo: true,
       limitada: false
     },
@@ -109,7 +102,6 @@ const Coleccion = () => {
       image: '👕',
       description: 'Diseño de temporada exclusivo',
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-      stock: true,
       nuevo: false,
       limitada: false
     }
@@ -253,14 +245,13 @@ const PlayeraCard = ({ playera }) => {
   };
 
   return (
-    <div className={`playera-card ${!playera.stock ? 'out-of-stock' : ''}`}>
+    <div className="playera-card">
       
       {/* Etiquetas */}
       <div className="playera-badges">
         {playera.nuevo && <span className="badge badge-new">NUEVO</span>}
         {playera.limitada && <span className="badge badge-limited">LIMITADA</span>}
         {playera.category === 'colaboracion' && <span className="badge badge-collab">COLLAB</span>}
-        {!playera.stock && <span className="badge badge-out">AGOTADO</span>}
       </div>
 
       {/* Imagen */}
@@ -275,35 +266,31 @@ const PlayeraCard = ({ playera }) => {
         <p className="playera-desc">{playera.description}</p>
         
         {/* Selector de tallas */}
-        {playera.stock && (
-          <div className="playera-sizes">
-            <label className="size-label">Talla:</label>
-            <div className="size-options">
-              {playera.sizes.map(size => (
-                <button
-                  key={size}
-                  className={`size-btn ${selectedSize === size ? 'active' : ''}`}
-                  onClick={() => setSelectedSize(size)}
-                >
-                  {size}
-                </button>
-              ))}
-            </div>
+        <div className="playera-sizes">
+          <label className="size-label">Talla:</label>
+          <div className="size-options">
+            {playera.sizes.map(size => (
+              <button
+                key={size}
+                className={`size-btn ${selectedSize === size ? 'active' : ''}`}
+                onClick={() => setSelectedSize(size)}
+              >
+                {size}
+              </button>
+            ))}
           </div>
-        )}
+        </div>
 
         <div className="playera-footer">
           <span className="playera-price">${playera.price}</span>
           <button 
             className="playera-add-btn"
             onClick={handleAddToCart}
-            disabled={!playera.stock}
           >
-            {playera.stock ? 'Agregar' : 'Agotado'}
+            Agregar
           </button>
         </div>
       </div>
-
     </div>
   );
 };

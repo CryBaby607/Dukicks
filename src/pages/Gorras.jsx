@@ -18,7 +18,6 @@ const Gorras = () => {
       price: 49,
       image: gorra1Image, // Usar la importación
       color: 'Negro',
-      stock: true,
       nuevo: false,
       destacado: true
     },
@@ -29,7 +28,6 @@ const Gorras = () => {
       price: 59,
       image: '', // Sin imagen
       color: 'Blanco',
-      stock: true,
       nuevo: true,
       destacado: true
     },
@@ -40,7 +38,6 @@ const Gorras = () => {
       price: 45,
       image: '', // Sin imagen
       color: 'Negro/Blanco',
-      stock: true,
       nuevo: false,
       destacado: false
     },
@@ -51,7 +48,6 @@ const Gorras = () => {
       price: 55,
       image: '', // Sin imagen
       color: 'Gris',
-      stock: true,
       nuevo: true,
       destacado: true
     },
@@ -62,7 +58,6 @@ const Gorras = () => {
       price: 52,
       image: '', // Sin imagen
       color: 'Negro',
-      stock: false,
       nuevo: false,
       destacado: false
     },
@@ -73,7 +68,6 @@ const Gorras = () => {
       price: 48,
       image: '', // Sin imagen
       color: 'Blanco',
-      stock: true,
       nuevo: false,
       destacado: true
     },
@@ -84,7 +78,6 @@ const Gorras = () => {
       price: 65,
       image: '', // Sin imagen
       color: 'Negro',
-      stock: true,
       nuevo: true,
       destacado: true
     },
@@ -95,7 +88,6 @@ const Gorras = () => {
       price: 42,
       image: '', // Sin imagen
       color: 'Blanco/Negro',
-      stock: true,
       nuevo: false,
       destacado: false
     }
@@ -215,13 +207,12 @@ const GorraCard = ({ gorra }) => {
   const hasValidImage = gorra.image && !imageError;
 
   return (
-    <div className={`gorra-card ${!gorra.stock ? 'out-of-stock' : ''}`}>
+    <div className="gorra-card">
       
       {/* Etiquetas */}
       <div className="gorra-badges">
         {gorra.nuevo && <span className="badge badge-new">NUEVO</span>}
         {gorra.destacado && <span className="badge badge-featured">DESTACADO</span>}
-        {!gorra.stock && <span className="badge badge-out">AGOTADO</span>}
       </div>
 
       {/* Imagen */}
@@ -250,9 +241,8 @@ const GorraCard = ({ gorra }) => {
           <button 
             className="gorra-add-btn"
             onClick={handleAddToCart}
-            disabled={!gorra.stock}
           >
-            {gorra.stock ? 'Agregar' : 'Agotado'}
+            Agregar
           </button>
         </div>
       </div>

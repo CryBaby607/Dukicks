@@ -165,14 +165,6 @@
   border-color: var(--color-white);
 }
 
-.zapato-card.out-of-stock {
-  opacity: 0.6;
-}
-
-.zapato-card.out-of-stock:hover {
-  transform: none;
-}
-
 /* Etiquetas */
 .zapato-badges {
   position: absolute;
@@ -200,11 +192,6 @@
 .badge-featured {
   background-color: var(--color-gold);
   color: var(--color-black);
-}
-
-.badge-out {
-  background-color: var(--color-gray);
-  color: var(--color-white);
 }
 
 /* Imagen */
@@ -323,14 +310,8 @@
   transition: all var(--transition-fast);
 }
 
-.zapato-add-btn:hover:not(:disabled) {
+.zapato-add-btn:hover {
   background-color: #ddd;
-}
-
-.zapato-add-btn:disabled {
-  background-color: var(--color-gray);
-  color: var(--color-medium-gray);
-  cursor: not-allowed;
 }
 
 /* Sin resultados */
