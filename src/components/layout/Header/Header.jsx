@@ -164,7 +164,6 @@ const CartPanel = () => {
     if (cartItems.length === 0) return;
     
     alert('Procesando pago... (Esta funcionalidad se implementará próximamente)');
-    console.log('Items en el carrito:', cartItems);
   };
 
   return (
@@ -223,6 +222,8 @@ const CartPanel = () => {
 
 // ===== COMPONENTE DE ITEM DEL CARRITO =====
 const CartItem = ({ item, onRemove, onUpdateQuantity }) => {
+  const [imageError, setImageError] = useState(false);
+
   const handleDecrease = () => {
     onUpdateQuantity(item.id, item.selectedSize, item.quantity - 1);
   };
@@ -235,10 +236,29 @@ const CartItem = ({ item, onRemove, onUpdateQuantity }) => {
     onRemove(item.id, item.selectedSize);
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  // Verificar si la imagen es válida
+  const hasValidImage = item.image && !imageError;
+
   return (
     <div className="cart-item">
       <div className="cart-item__image">
-        {item.image}
+        {hasValidImage ? (
+          <img 
+            src={item.image} 
+            alt={item.name}
+            className="cart-item__img"
+            onError={handleImageError}
+            loading="lazy"
+          />
+        ) : (
+          <div className="cart-item__placeholder">
+            <span className="cart-item__placeholder-icon">🧢</span>
+          </div>
+        )}
       </div>
       
       <div className="cart-item__info">

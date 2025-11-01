@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
 import './Gorras.css';
 
+// Importar la imagen
+import gorra1Image from '../assets/images/gorras/31Hats.jpg';
+
 const Gorras = () => {
   const [selectedBrand, setSelectedBrand] = useState('todas');
   const [sortBy, setSortBy] = useState('destacado');
@@ -10,10 +13,10 @@ const Gorras = () => {
   const gorrasData = [
     {
       id: 'gorra-1',
-      model: 'CLASSIC CAP',
+      model: 'New York Crystal',
       brand: '31 Hats',
       price: 49,
-      image: '🧢',
+      image: gorra1Image, // Usar la importación
       color: 'Negro',
       stock: true,
       nuevo: false,
@@ -24,7 +27,7 @@ const Gorras = () => {
       model: 'URBAN SNAPBACK',
       brand: 'Dandy Hats',
       price: 59,
-      image: '🧢',
+      image: '', // Sin imagen
       color: 'Blanco',
       stock: true,
       nuevo: true,
@@ -35,7 +38,7 @@ const Gorras = () => {
       model: 'TRUCKER HAT',
       brand: 'Barba Hats',
       price: 45,
-      image: '🧢',
+      image: '', // Sin imagen
       color: 'Negro/Blanco',
       stock: true,
       nuevo: false,
@@ -46,7 +49,7 @@ const Gorras = () => {
       model: 'VINTAGE BASEBALL',
       brand: 'Otros',
       price: 55,
-      image: '🧢',
+      image: '', // Sin imagen
       color: 'Gris',
       stock: true,
       nuevo: true,
@@ -57,7 +60,7 @@ const Gorras = () => {
       model: 'SPORT CAP',
       brand: '31 Hats',
       price: 52,
-      image: '🧢',
+      image: '', // Sin imagen
       color: 'Negro',
       stock: false,
       nuevo: false,
@@ -68,7 +71,7 @@ const Gorras = () => {
       model: 'MINIMALIST HAT',
       brand: 'Dandy Hats',
       price: 48,
-      image: '🧢',
+      image: '', // Sin imagen
       color: 'Blanco',
       stock: true,
       nuevo: false,
@@ -79,7 +82,7 @@ const Gorras = () => {
       model: 'PREMIUM SNAPBACK',
       brand: 'Barba Hats',
       price: 65,
-      image: '🧢',
+      image: '', // Sin imagen
       color: 'Negro',
       stock: true,
       nuevo: true,
@@ -90,7 +93,7 @@ const Gorras = () => {
       model: 'MESH TRUCKER',
       brand: 'Otros',
       price: 42,
-      image: '🧢',
+      image: '', // Sin imagen
       color: 'Blanco/Negro',
       stock: true,
       nuevo: false,
@@ -187,6 +190,7 @@ const Gorras = () => {
 // ===== COMPONENTE DE TARJETA DE GORRA =====
 const GorraCard = ({ gorra }) => {
   const { addToCart, openCart } = useCart();
+  const [imageError, setImageError] = useState(false);
 
   const handleAddToCart = () => {
     const cartItem = {
@@ -203,6 +207,13 @@ const GorraCard = ({ gorra }) => {
     openCart();
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  // Mostrar placeholder si no hay imagen o si falló la carga
+  const hasValidImage = gorra.image && !imageError;
+
   return (
     <div className={`gorra-card ${!gorra.stock ? 'out-of-stock' : ''}`}>
       
@@ -215,7 +226,19 @@ const GorraCard = ({ gorra }) => {
 
       {/* Imagen */}
       <div className="gorra-image">
-        <span className="gorra-icon">{gorra.image}</span>
+        {hasValidImage ? (
+          <img 
+            src={gorra.image} 
+            alt={`${gorra.brand} ${gorra.model}`}
+            className="gorra-img"
+            onError={handleImageError}
+            loading="lazy"
+          />
+        ) : (
+          <div className="gorra-placeholder">
+            <span className="gorra-icon">🧢</span>
+          </div>
+        )}
       </div>
 
       {/* Información */}
@@ -233,7 +256,6 @@ const GorraCard = ({ gorra }) => {
           </button>
         </div>
       </div>
-
     </div>
   );
 };
