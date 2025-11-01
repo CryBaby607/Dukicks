@@ -6,22 +6,11 @@ import './Home.css';
 const Home = () => {
   return (
     <div className="home">
-      
-      {/* HERO SECTION */}
       <HeroSection />
-
-      {/* PRODUCTOS DESTACADOS */}
-      <FeaturedProducts />
-
-      {/* CATEGORÍAS */}
+      <ExclusiveProducts />
       <Categories />
-
-      {/* CARACTERÍSTICAS */}
       <Features />
-
-      {/* NEWSLETTER */}
       <Newsletter />
-
     </div>
   );
 };
@@ -43,75 +32,71 @@ const HeroSection = () => {
           <Link to="/coleccion" className="btn btn-primary">
             VER COLECCIÓN
           </Link>
-          <Link to="/hombres" className="btn btn-secondary">
-            EXPLORAR
-          </Link>
         </div>
       </div>
     </section>
   );
 };
 
-// ===== FEATURED PRODUCTS COMPONENT =====
-const FeaturedProducts = () => {
-  const products = [
+// ===== SECCIÓN: PRODUCTOS EXCLUSIVOS  =====
+const ExclusiveProducts = () => {
+  const exclusiveProducts = [
     {
       id: 1,
-      title: 'MIDNIGHT RUNNER',
-      subtitle: 'Performance Edition',
-      price: '$189',
-      tag: 'NUEVO',
-      icon: '👟',
-      link: '/coleccion'
+      model: 'NIKE AIR MAG',
+      brand: 'NIKE',
+      image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
     },
     {
       id: 2,
-      title: 'URBAN CLASSIC',
-      subtitle: 'Lifestyle Collection',
-      price: '$159',
-      tag: 'POPULAR',
-      icon: '👟',
-      link: '/hombres'
+      model: 'RED OCTOBER',
+      brand: 'NIKE',
+      image: 'https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2025&q=80',
     },
     {
       id: 3,
-      title: 'SUMMER CAP',
-      subtitle: 'Headwear Series',
-      price: '$49',
-      tag: 'TRENDING',
-      icon: '🧢',
-      link: '/gorras'
+      model: 'AIR YEEZY 2',
+      brand: 'NIKE',
+      image: 'https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2064&q=80',
+    },
+    {
+      id: 4,
+      model: 'DUNK SB',
+      brand: 'NIKE',
+      image: 'https://images.unsplash.com/photo-1600269452121-4f2416e55c28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2065&q=80',
     }
   ];
 
   return (
-    <section className="featured">
+    <section className="exclusive-section">
       <div className="section-header">
-        <h2 className="section-title">EDICIÓN LIMITADA</h2>
-        <div className="section-divider"></div>
+        <h2 className="section-title">EDICIONES EXCLUSIVAS</h2>
       </div>
-
-      <div className="products-grid">
-        {products.map(product => (
-          <ProductCard key={product.id} {...product} />
+      
+      <div className="exclusive-grid">
+        {exclusiveProducts.map((product) => (
+          <ExclusiveCard 
+            key={product.id}
+            {...product} 
+          />
         ))}
       </div>
     </section>
   );
 };
 
-// ===== PRODUCT CARD COMPONENT =====
-const ProductCard = ({ title, subtitle, price, tag, icon, link }) => {
+// ===== EXCLUSIVE CARD COMPONENT =====
+const ExclusiveCard = ({ model, brand, image }) => {
   return (
-    <Link to={link} className="product-card">
-      <div className="product-tag">{tag}</div>
-      <div className="product-icon">{icon}</div>
-      <div className="product-info">
-        <h3 className="product-title">{title}</h3>
-        <p className="product-subtitle">{subtitle}</p>
-        <div className="product-price">{price}</div>
+    <div className="exclusive-card">
+      <div className="exclusive-image">
+        <img src={image} alt={`${brand} ${model}`} />
       </div>
-    </Link>
+      <div className="exclusive-info">
+        <h3 className="exclusive-model">{model}</h3>
+        <p className="exclusive-brand">{brand}</p>
+      </div>
+    </div>
   );
 };
 
@@ -122,67 +107,103 @@ const Categories = () => {
       id: 1,
       title: 'HOMBRES',
       subtitle: 'Zapatillas | Lifestyle',
-      link: '/hombres'
+      link: '/hombres',
+      gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
     },
     {
       id: 2,
       title: 'MUJERES',
       subtitle: 'Zapatillas | Tendencias',
-      link: '/mujeres'
+      link: '/mujeres',
+      gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
     },
     {
       id: 3,
       title: 'GORRAS',
       subtitle: 'Headwear Collection',
-      link: '/gorras'
+      link: '/gorras',
+      gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
     },
     {
       id: 4,
       title: 'COLECCIÓN',
       subtitle: 'Ver Todo',
-      link: '/coleccion'
+      link: '/coleccion',
+      gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
     }
   ];
 
   return (
     <section className="categories">
-      <div className="categories-grid">
-        {categories.map(category => (
-          <CategoryCard key={category.id} {...category} />
-        ))}
+      <div className="categories-container">
+        <div className="categories-header">
+          <h2 className="categories-title">EXPLORA CATEGORÍAS</h2>
+          <p className="categories-subtitle">Encuentra tu estilo perfecto</p>
+        </div>
+        <div className="categories-grid">
+          {categories.map(category => (
+            <CategoryCard key={category.id} {...category} />
+          ))}
+        </div>
       </div>
     </section>
   );
 };
 
 // ===== CATEGORY CARD COMPONENT =====
-const CategoryCard = ({ title, subtitle, link }) => {
+const CategoryCard = ({ title, subtitle, link, gradient }) => {
   return (
     <Link to={link} className="category-card">
-      <h3 className="category-title">{title}</h3>
-      <p className="category-subtitle">{subtitle}</p>
+      <div 
+        className="category-background"
+        style={{ background: gradient }}
+      ></div>
+      <div className="category-content">
+        <h3 className="category-title">{title}</h3>
+        <p className="category-subtitle">{subtitle}</p>
+        <div className="category-arrow">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </div>
+      </div>
     </Link>
   );
 };
 
-// ===== FEATURES COMPONENT =====
 const Features = () => {
   const features = [
     {
       id: 1,
-      icon: '🚚',
+      icon: (
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M20 7h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v3H4c-1.1 0-2 .9-2 2v11c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2z"/>
+          <path d="M12 15l3-3m0 0l3 3m-3-3v8"/>
+        </svg>
+      ),
       title: 'ENVÍO GRATIS',
       description: 'En compras mayores a $500'
     },
     {
       id: 2,
-      icon: '↩️',
+      icon: (
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <path d="M14 2v6h6"/>
+          <path d="M9 15l3 3 6-6"/>
+        </svg>
+      ),
       title: 'DEVOLUCIONES',
       description: '30 días para cambios'
     },
     {
       id: 3,
-      icon: '✓',
+      icon: (
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <path d="M9 12l2 2 4-4"/>
+        </svg>
+      ),
       title: 'GARANTÍA',
       description: 'Productos 100% originales'
     },
@@ -190,14 +211,20 @@ const Features = () => {
 
   return (
     <section className="features">
-      <div className="features-grid">
-        {features.map(feature => (
-          <FeatureItem key={feature.id} {...feature} />
-        ))}
+      <div className="features-container">
+        <div className="features-header">
+          <h2 className="features-title">BENEFICIOS EXCLUSIVOS</h2>
+          <p className="features-subtitle">Tu satisfacción es nuestra prioridad</p>
+        </div>
+        <div className="features-grid">
+          {features.map(feature => (
+            <FeatureItem key={feature.id} {...feature} />
+          ))}
+        </div>
       </div>
     </section>
   );
-};
+}
 
 // ===== FEATURE ITEM COMPONENT =====
 const FeatureItem = ({ icon, title, description }) => {
@@ -216,7 +243,6 @@ const Newsletter = () => {
     e.preventDefault();
     const email = e.target.email.value;
     console.log('Email submitted:', email);
-    // Aquí agregarías la lógica para suscribirse
     alert('¡Gracias por suscribirte!');
     e.target.reset();
   };
