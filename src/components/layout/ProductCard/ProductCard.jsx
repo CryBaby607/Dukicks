@@ -10,15 +10,12 @@ const ProductCard = ({
   addButtonText = 'Agregar'
 }) => {
 
-  // Nombre que se muestra en la tarjeta: SOLO name + model (sin brand)
   const getDisplayName = () => {
     const name = product.name || '';
     const model = product.model || '';
     return `${name} ${model}`.trim();
   };
 
-  // Nombre que se envía al carrito: si product.productName existe úsalo (puede incluir brand),
-  // si no, construye brand + name + model (para tener marca en el carrito)
   const getCartProductName = () => {
     if (product.productName) return product.productName;
     const brand = product.brand || '';
@@ -32,9 +29,7 @@ const ProductCard = ({
     
     switch(category) {
       case 'gorras':
-        return 'Única';
-      case 'playeras-unisex':
-        return product.sizes.includes('M') ? 'M' : product.sizes[0];
+        return 'One Size';
       case 'tenis-mujer':
         return product.sizes.includes(7) ? 7 : product.sizes[0];
       case 'tenis-hombre':
@@ -45,13 +40,11 @@ const ProductCard = ({
 
   const [selectedSize, setSelectedSize] = useState(getDefaultSize());
   const [imageError, setImageError] = useState(false);
-  const [imageLoading, setImageLoading] = useState(true);
   const { addToCart, openCart } = useCart();
 
   const getSizeLabel = () => {
     switch(category) {
       case 'gorras':
-      case 'playeras-unisex':
         return 'Talla:';
       default:
         return 'Talla (US):';
@@ -61,7 +54,6 @@ const ProductCard = ({
   const getCategoryIcon = () => {
     switch(category) {
       case 'gorras': return '🧢';
-      case 'playeras-unisex': return '👕';
       case 'tenis-mujer':
       case 'tenis-hombre':
       default:
@@ -72,7 +64,7 @@ const ProductCard = ({
   const handleAddToCart = () => {
     const cartItem = {
       id: `${product.id}-${selectedSize || 'unique'}`,
-      productName: getCartProductName(), // nombre con marca para el carrito
+      productName: getCartProductName(),
       brand: product.brand,
       name: product.name,
       model: product.model,
@@ -88,10 +80,8 @@ const ProductCard = ({
     openCart();
   };
 
-  const handleImageLoad = () => setImageLoading(false);
   const handleImageError = () => {
     setImageError(true);
-    setImageLoading(false);
   };
 
   const hasValidImage = !!product.image && !imageError;
@@ -99,7 +89,7 @@ const ProductCard = ({
 
   return (
     <div className={`productCard productCard--${category}`}>
-      
+
       <div className="productBadges">
         {product.nuevo && <span className="productBadge badgeNew">NUEVO</span>}
         {product.destacado && <span className="productBadge badgeFeatured">DESTACADO</span>}
@@ -107,17 +97,12 @@ const ProductCard = ({
       </div>
 
       <div className="productImage">
-        {imageLoading && hasValidImage && <div className="productLoading">Cargando...</div>}
-
         {hasValidImage ? (
           <img 
             src={product.image} 
             alt={`${product.brand ? product.brand + ' ' : ''}${displayName}`}
             className="productImg"
-            onLoad={handleImageLoad}
             onError={handleImageError}
-            loading="lazy"
-            style={{ display: imageLoading ? 'none' : 'block' }}
           />
         ) : (
           <div className="productPlaceholder">
@@ -127,17 +112,8 @@ const ProductCard = ({
       </div>
 
       <div className="productInfo">
-        {/* Marca arriba */}
         <h3 className="productBrand">{product.brand?.toUpperCase()}</h3>
-
-        {/* Nombre (solo name + model) — evita duplicar la marca */}
         <p className="productName">{displayName}</p>
-
-        {product.colors && product.colors.length > 0 && (
-          <div className="productColors">
-            <span className="colorsLabel">Colores: {product.colors.length}</span>
-          </div>
-        )}
 
         {showSizes && product.sizes && product.sizes.length > 0 && (
           <div className="productSizes">

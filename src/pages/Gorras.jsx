@@ -1,19 +1,25 @@
 import React from 'react';
-import { useCart } from '../context/CartContext';
 import ProductCard from '../components/layout/ProductCard/ProductCard';
 import './Gorras.css';
 
 // Importar imágenes
 import gorra1Image from '../assets/images/gorras/31Hats.jpg';
+import gorra2Image from '../assets/images/gorras/El-mago.png';
+import gorra3Image from '../assets/images/gorras/31Hats.jpg';
+import gorra4Image from '../assets/images/gorras/31Hats.jpg';
+import gorra5Image from '../assets/images/gorras/31Hats.jpg';
+import gorra6Image from '../assets/images/gorras/31Hats.jpg';
+import gorra7Image from '../assets/images/gorras/31Hats.jpg';
+import gorra8Image from '../assets/images/gorras/31Hats.jpg';
 
 const Gorras = () => {
-  // Datos de gorras
+  // Datos de gorras (solo brand + model)
   const gorrasData = [
     {
       id: 'gorra-1',
-      model: 'New York Crystal',
       brand: '31 Hats',
-      price: 49,
+      model: 'New York Crystal',
+      price: 1449,
       image: gorra1Image,
       color: 'Negro',
       sizes: ['One Size'],
@@ -23,10 +29,10 @@ const Gorras = () => {
     },
     {
       id: 'gorra-2',
-      model: 'URBAN SNAPBACK 2',
+      model: 'El Mago',
       brand: 'Dandy Hats',
-      price: 59,
-      image: '',
+      price: 1959,
+      image: gorra2Image,
       color: 'Blanco',
       sizes: ['One Size'],
       nuevo: true,
@@ -35,10 +41,10 @@ const Gorras = () => {
     },
     {
       id: 'gorra-3',
-      model: 'TRUCKER HAT',
+      model: 'Trucker Hat',
       brand: 'Barba Hats',
       price: 45,
-      image: '',
+      image: 'gorra3Image',
       color: 'Negro/Blanco',
       sizes: ['One Size'],
       nuevo: false,
@@ -47,10 +53,10 @@ const Gorras = () => {
     },
     {
       id: 'gorra-4',
-      model: 'VINTAGE BASEBALL',
+      model: 'Vintage Baseball',
       brand: 'Otros',
       price: 55,
-      image: '',
+      image: 'gorra4Image',
       color: 'Gris',
       sizes: ['One Size'],
       nuevo: true,
@@ -59,10 +65,10 @@ const Gorras = () => {
     },
     {
       id: 'gorra-5',
-      model: 'SPORT CAP',
+      model: 'Sport Cap',
       brand: '31 Hats',
       price: 52,
-      image: '',
+      image: 'gorra5Image',
       color: 'Negro',
       sizes: ['One Size'],
       nuevo: false,
@@ -71,10 +77,10 @@ const Gorras = () => {
     },
     {
       id: 'gorra-6',
-      model: 'MINIMALIST HAT',
+      model: 'Minimalist Hat',
       brand: 'Dandy Hats',
       price: 48,
-      image: '',
+      image: 'gorra5Image',
       color: 'Blanco',
       sizes: ['One Size'],
       nuevo: false,
@@ -83,10 +89,10 @@ const Gorras = () => {
     },
     {
       id: 'gorra-7',
-      model: 'PREMIUM SNAPBACK',
+      model: 'Premium Snapback',
       brand: 'Barba Hats',
       price: 65,
-      image: '',
+      image: 'gorra7Image',
       color: 'Negro',
       sizes: ['One Size'],
       nuevo: true,
@@ -95,10 +101,10 @@ const Gorras = () => {
     },
     {
       id: 'gorra-8',
-      model: 'MESH TRUCKER',
+      model: 'Mesh Trucker',
       brand: 'Otros',
       price: 42,
-      image: '',
+      image: 'gorra8Image',
       color: 'Blanco/Negro',
       sizes: ['One Size'],
       nuevo: false,
@@ -109,27 +115,20 @@ const Gorras = () => {
 
   return (
     <div className="gorras-page">
-      
-      {/* CONTENEDOR PRINCIPAL SOLO CON PRODUCTOS */}
       <div className="gorras-content">
-        
-        {/* ÁREA DE PRODUCTOS SIN FILTROS */}
         <main className="gorras-main">
-          
-          {/* Grid de productos directamente */}
           <div className="gorras-grid">
             {gorrasData.map(gorra => (
               <ProductCard 
                 key={gorra.id}
                 product={gorra}
-                showSizes={false}
+                showSizes={true}
                 addButtonText="Agregar"
+                category="gorras"
               />
             ))}
           </div>
-
         </main>
-
       </div>
     </div>
   );
