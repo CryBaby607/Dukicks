@@ -29,7 +29,7 @@ const HeroSection = () => {
           Diseño, comodidad y autenticidad en cada paso.
         </p>
         <div className="hero-buttons">
-          <Link to="/coleccion" className="btn btn-primary">
+          <Link to="/hombres" className="btn btn-primary">
             VER COLECCIÓN
           </Link>
         </div>
@@ -123,13 +123,6 @@ const Categories = () => {
       subtitle: 'Headwear Collection',
       link: '/gorras',
       gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
-    },
-    {
-      id: 4,
-      title: 'COLECCIÓN',
-      subtitle: 'Ver Todo',
-      link: '/coleccion',
-      gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
     }
   ];
 

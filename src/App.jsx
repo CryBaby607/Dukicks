@@ -11,7 +11,6 @@ import Home from './pages/Home.jsx';
 import Gorras from './pages/Gorras.jsx';
 import Hombres from './pages/Hombres.jsx';
 import Mujeres from './pages/Mujeres.jsx';
-import Coleccion from './pages/Coleccion.jsx';
 import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 
@@ -36,7 +35,6 @@ function App() {
           <Route path="/gorras" element={<Gorras />} /> 
           <Route path="/hombres" element={<Hombres />} />
           <Route path="/mujeres" element={<Mujeres />} />
-          <Route path="/coleccion" element={<Coleccion />} />
           <Route path="/login" element={<Login />} />
           <Route path="/dashboard" element={<Dashboard />} />
           

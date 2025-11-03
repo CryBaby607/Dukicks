@@ -1,355 +1,142 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useCart } from '../context/CartContext';
+import ProductCard from '../components/layout/ProductCard/ProductCard';
 import './Hombres.css';
 
-// Importar imágenes (ajusta las rutas según tu estructura de archivos)
-import gorra1Image from '../assets/images/gorras/31Hats.jpg';
-
 const Hombres = () => {
-  const [selectedBrand, setSelectedBrand] = useState('todas');
-  const [selectedSize, setSelectedSize] = useState('all');
-  const [priceRange, setPriceRange] = useState('all');
-  const [sortBy, setSortBy] = useState('destacado');
-
-  // Datos de zapatillas para hombres con imágenes reales
+  // Datos de zapatillas para hombres - adaptados al formato ProductCard
   const zapatillasData = [
-    {
-      id: 1,
-      model: 'AIR RUNNER PRO',
-      brand: 'Nike',
-      price: 189,
-      image: gorra1Image,
-      sizes: [8, 9, 10, 11, 12],
-      color: 'Negro/Blanco',
-      nuevo: true,
-      destacado: true
-    },
-    {
-      id: 2,
-      model: 'URBAN STREET',
-      brand: 'Adidas',
-      price: 159,
-      image: '',
-      sizes: [8, 9, 10, 11],
-      color: 'Blanco/Gris',
-      nuevo: false,
-      destacado: true
-    },
-    {
-      id: 3,
-      model: 'BASKETBALL ELITE',
-      brand: 'Nike',
-      price: 199,
-      image: '',
-      sizes: [9, 10, 11, 12, 13],
-      color: 'Negro/Rojo',
-      nuevo: true,
-      destacado: true
-    },
-    {
-      id: 4,
-      model: 'CLASSIC LEATHER',
-      brand: 'Reebok',
-      price: 149,
-      image: '',
-      sizes: [8, 9, 10, 11, 12],
-      color: 'Café',
-      nuevo: false,
-      destacado: false
-    },
-    {
-      id: 5,
-      model: 'SPORT TRAINER',
-      brand: 'Puma',
-      price: 169,
-      image: '',
-      sizes: [8, 9, 10, 11],
-      color: 'Negro',
-      nuevo: false,
-      destacado: false
-    },
-    {
-      id: 6,
-      model: 'RUNNING BOOST',
-      brand: 'Adidas',
-      price: 179,
-      image: '',
-      sizes: [9, 10, 11, 12],
-      color: 'Azul/Blanco',
-      nuevo: true,
-      destacado: true
-    },
-    {
-      id: 7,
-      model: 'SKATE PRO',
-      brand: 'Otros',
-      price: 139,
-      image: '',
-      sizes: [8, 9, 10, 11, 12],
-      color: 'Negro/Blanco',
-      nuevo: false,
-      destacado: false
-    },
-    {
-      id: 8,
-      model: 'PERFORMANCE MAX',
-      brand: 'Nike',
-      price: 209,
-      image: '',
-      sizes: [9, 10, 11, 12, 13],
-      color: 'Gris/Verde',
-      nuevo: true,
-      destacado: true
-    }
-  ];
-
-  // Marcas disponibles - 4 MARCAS ESPECÍFICAS
-  const brands = [
-    { value: 'todas', label: 'Todas' },
-    { value: 'Nike', label: 'NIKE' },
-    { value: 'Adidas', label: 'ADIDAS' },
-    { value: 'Puma', label: 'PUMA' },
-    { value: 'Reebok', label: 'REEBOK' },
-    { value: 'Otros', label: 'OTROS' }
-  ];
-
-  // Filtrar zapatillas
-  const filteredZapatillas = zapatillasData.filter(zapato => {
-    const brandMatch = selectedBrand === 'todas' || zapato.brand === selectedBrand;
-    const sizeMatch = selectedSize === 'all' || zapato.sizes.includes(parseInt(selectedSize));
-    const priceMatch = 
-      priceRange === 'all' ||
-      (priceRange === 'low' && zapato.price < 150) ||
-      (priceRange === 'mid' && zapato.price >= 150 && zapato.price <= 180) ||
-      (priceRange === 'high' && zapato.price > 180);
-    
-    return brandMatch && sizeMatch && priceMatch;
-  });
-
-  // Ordenar zapatillas
-  const sortedZapatillas = [...filteredZapatillas].sort((a, b) => {
-    if (sortBy === 'precio-asc') return a.price - b.price;
-    if (sortBy === 'precio-desc') return b.price - a.price;
-    if (sortBy === 'nombre') return a.model.localeCompare(b.model);
-    if (sortBy === 'destacado') return b.destacado - a.destacado;
-    return 0;
-  });
+  {
+    id: 1,
+    name: "Air Force 1",
+    model: "’07",
+    brand: "Nike",
+    price: 2499,
+    image: "https://static.nike.com/a/images/t_prod_ss/w_960,c_limit,f_auto/4081e065-e4a3-47b5-bc68-0f8e4fed0d82/air-force-1-07-white-black.png",
+    sizes: [7, 8, 9, 10, 11, 12],
+    color: "Blanco/Negro",
+    nuevo: true,
+    destacado: true,
+    category: "tenis-hombre"
+  },
+  {
+    id: 2,
+    name: "Air Max 270",
+    model: "Black White",
+    brand: "Nike",
+    price: 3599,
+    image: "https://static.nike.com/a/images/t_prod_ss/w_960,c_limit,f_auto/a48a2aa8-22d0-4df8-a4b7-73bdcf5df76e/air-max-270-black-white.png",
+    sizes: [7.5, 8, 9, 10, 11],
+    color: "Negro/Blanco",
+    nuevo: true,
+    destacado: true,
+    category: "tenis-hombre"
+  },
+  {
+    id: 3,
+    name: "Ultraboost",
+    model: "Light",
+    brand: "Adidas",
+    price: 3899,
+    image: "https://assets.adidas.com/images/w_600,f_auto,q_auto/c21b2d25613b407d9334af8a00524a69_9366/Ultraboost_Light_M_Blanco_ID4443_01_standard.jpg",
+    sizes: [8, 9, 10, 11],
+    color: "Blanco",
+    nuevo: true,
+    destacado: true,
+    category: "tenis-hombre"
+  },
+  {
+    id: 4,
+    name: "Forum Low",
+    model: "Classic",
+    brand: "Adidas",
+    price: 2299,
+    image: "https://assets.adidas.com/images/w_600,f_auto,q_auto/8cbb7b18b6fa43e4b6dfaf8e00d0d1fc_9366/Forum_Low_Blanco_GZ1893_01_standard.jpg",
+    sizes: [7, 8, 9, 10, 11],
+    color: "Blanco/Azul",
+    nuevo: false,
+    destacado: true,
+    category: "tenis-hombre"
+  },
+  {
+    id: 5,
+    name: "Old Skool",
+    model: "Black White",
+    brand: "Vans",
+    price: 1499,
+    image: "https://images.vans.com/is/image/Vans/UYOLDVYBWW-HERO?$583x583$",
+    sizes: [7, 8, 9, 10, 11, 12],
+    color: "Negro/Blanco",
+    nuevo: false,
+    destacado: false,
+    category: "tenis-hombre"
+  },
+  {
+    id: 6,
+    name: "Classic Leather",
+    model: "Gum",
+    brand: "Reebok",
+    price: 1699,
+    image: "https://reebokmexico.vtexassets.com/arquivos/ids/332333-800-auto?v=638040360725370000&width=800&height=auto&aspect=true",
+    sizes: [7, 8, 9, 10, 11],
+    color: "Blanco/Goma",
+    nuevo: false,
+    destacado: false,
+    category: "tenis-hombre"
+  },
+  {
+    id: 7,
+    name: "RS-X",
+    model: "Reinvent",
+    brand: "Puma",
+    price: 2399,
+    image: "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa/global/390777/04/sv01/fnd/PNA/w/800/h/800",
+    sizes: [8, 9, 10, 11],
+    color: "Blanco/Azul",
+    nuevo: true,
+    destacado: true,
+    category: "tenis-hombre"
+  },
+  {
+    id: 8,
+    name: "574",
+    model: "Core",
+    brand: "New Balance",
+    price: 2099,
+    image: "https://nb.scene7.com/is/image/NB/ml574evg_nb_02_i?$pdpflexf2$&wid=730&hei=730",
+    sizes: [7, 8, 9, 10, 11, 12],
+    color: "Gris",
+    nuevo: false,
+    destacado: true,
+    category: "tenis-hombre"
+  }
+];
 
   return (
     <div className="hombres-page">
       
-      {/* CONTENEDOR PRINCIPAL CON SIDEBAR Y PRODUCTOS */}
+      {/* CONTENEDOR PRINCIPAL SOLO CON PRODUCTOS */}
       <div className="hombres-content">
         
-        {/* SIDEBAR DE FILTROS */}
-        <aside className="hombres-sidebar">
-          
-          {/* Marcas */}
-          <div className="filter-group">
-            <h3 className="filter-title">Marca</h3>
-            <div className="filter-options">
-              {brands.map(brand => (
-                <button 
-                  key={brand.value}
-                  className={`filter-btn ${selectedBrand === brand.value ? 'active' : ''}`}
-                  onClick={() => setSelectedBrand(brand.value)}
-                >
-                  {brand.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Tallas */}
-          <div className="filter-group">
-            <h3 className="filter-title">Talla (US)</h3>
-            <select 
-              className="filter-select"
-              value={selectedSize}
-              onChange={(e) => setSelectedSize(e.target.value)}
-            >
-              <option value="all">Todas las tallas</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-              <option value="13">13</option>
-            </select>
-          </div>
-
-          {/* Rango de precio */}
-          <div className="filter-group">
-            <h3 className="filter-title">Precio</h3>
-            <div className="filter-options">
-              <button 
-                className={`filter-btn ${priceRange === 'all' ? 'active' : ''}`}
-                onClick={() => setPriceRange('all')}
-              >
-                Todos
-              </button>
-              <button 
-                className={`filter-btn ${priceRange === 'low' ? 'active' : ''}`}
-                onClick={() => setPriceRange('low')}
-              >
-                Menos de $150
-              </button>
-              <button 
-                className={`filter-btn ${priceRange === 'mid' ? 'active' : ''}`}
-                onClick={() => setPriceRange('mid')}
-              >
-                $150 - $180
-              </button>
-              <button 
-                className={`filter-btn ${priceRange === 'high' ? 'active' : ''}`}
-                onClick={() => setPriceRange('high')}
-              >
-                Más de $180
-              </button>
-            </div>
-          </div>
-
-        </aside>
-
-        {/* ÁREA DE PRODUCTOS */}
+        {/* ÁREA DE PRODUCTOS SIN BARRA DE HERRAMIENTAS */}
         <main className="hombres-main">
           
-          {/* Barra superior con contador y ordenamiento */}
-          <div className="hombres-toolbar">
-            <div className="products-count">
-              {sortedZapatillas.length} {sortedZapatillas.length === 1 ? 'producto' : 'productos'}
-            </div>
-            
-            <div className="hombres-sort">
-              <label htmlFor="sort">Ordenar por:</label>
-              <select 
-                id="sort"
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-              >
-                <option value="destacado">Destacados</option>
-                <option value="nombre">Modelo</option>
-                <option value="precio-asc">Precio: Menor a Mayor</option>
-                <option value="precio-desc">Precio: Mayor a Menor</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Grid de productos */}
+          {/* Grid de productos directamente */}
           <div className="hombres-grid">
-            {sortedZapatillas.map(zapato => (
-              <ZapatoCard key={zapato.id} zapato={zapato} />
+            {zapatillasData.map(zapato => (
+              <ProductCard 
+                key={zapato.id}
+                product={zapato}
+                category="tenis-hombre"
+                showSizes={true}
+                sizeType="US"
+                addButtonText="Agregar"
+              />
             ))}
           </div>
-
-          {/* Sin resultados */}
-          {sortedZapatillas.length === 0 && (
-            <div className="no-results">
-              <p>No se encontraron productos con los filtros seleccionados</p>
-              <button 
-                className="reset-filters-btn"
-                onClick={() => {
-                  setSelectedBrand('todas');
-                  setSelectedSize('all');
-                  setPriceRange('all');
-                }}
-              >
-                Limpiar Filtros
-              </button>
-            </div>
-          )}
 
         </main>
 
-      </div>
-    </div>
-  );
-};
-
-// ===== COMPONENTE DE TARJETA DE ZAPATO =====
-const ZapatoCard = ({ zapato }) => {
-  const [selectedSize, setSelectedSize] = useState(zapato.sizes[0]);
-  const [imageError, setImageError] = useState(false);
-  const { addToCart, openCart } = useCart();
-
-  const handleAddToCart = () => {
-    const cartItem = {
-      id: zapato.id,
-      name: `${zapato.brand.toUpperCase()} ${zapato.model}`,
-      price: zapato.price,
-      image: zapato.image,
-      color: zapato.color,
-      selectedSize: selectedSize,
-      category: 'zapatillas'
-    };
-
-    addToCart(cartItem);
-    openCart(); // Abrir el carrito automáticamente
-  };
-
-  const handleImageError = () => {
-    setImageError(true);
-  };
-
-  // Mostrar placeholder si no hay imagen o si falló la carga
-  const hasValidImage = zapato.image && !imageError;
-
-  return (
-    <div className="zapato-card">
-      
-      {/* Etiquetas */}
-      <div className="zapato-badges">
-        {zapato.nuevo && <span className="badge badge-new">NUEVO</span>}
-        {zapato.destacado && <span className="badge badge-featured">DESTACADO</span>}
-      </div>
-
-      {/* Imagen */}
-      <div className="zapato-image">
-        {hasValidImage ? (
-          <img 
-            src={zapato.image} 
-            alt={`${zapato.brand} ${zapato.model}`}
-            className="zapato-img"
-            onError={handleImageError}
-            loading="lazy"
-          />
-        ) : (
-          <div className="zapato-placeholder">
-            <span className="zapato-icon">👟</span>
-          </div>
-        )}
-      </div>
-
-      {/* Información */}
-      <div className="zapato-info">
-        <h3 className="zapato-brand">{zapato.brand.toUpperCase()}</h3>
-        <p className="zapato-model">{zapato.model}</p>
-        
-        {/* Selector de tallas */}
-        <div className="zapato-sizes">
-          <label className="size-label">Talla (US):</label>
-          <div className="size-options">
-            {zapato.sizes.map(size => (
-              <button
-                key={size}
-                className={`size-btn ${selectedSize === size ? 'active' : ''}`}
-                onClick={() => setSelectedSize(size)}
-              >
-                {size}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="zapato-footer">
-          <span className="zapato-price">${zapato.price}</span>
-          <button 
-            className="zapato-add-btn"
-            onClick={handleAddToCart}
-          >
-            Agregar
-          </button>
-        </div>
       </div>
     </div>
   );

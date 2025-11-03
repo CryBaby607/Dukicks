@@ -1,309 +1,66 @@
 /* ===== PÁGINA DE GORRAS ===== */
 .gorras-page {
   width: 100%;
-  background-color: var(--color-black);
-  color: var(--color-white);
   min-height: 100vh;
-}
-
-/* ===== FILTROS Y ORDENAMIENTO ===== */
-.gorras-filters {
-  padding: var(--spacing-lg) var(--spacing-md);
-  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
   background-color: #ffffff;
-  position: sticky;
-  top: 60px;
-  z-index: 100;
+  font-family: var(--font-primary);
 }
 
-.gorras-filters-container {
-  max-width: 1400px;
-  margin: 0 auto;
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.gorras-content {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-md);
-  flex-wrap: wrap;
-}
-
-/* Categorías */
-.gorras-categories {
-  display: flex;
-  gap: var(--spacing-sm);
-  flex-wrap: wrap;
   flex: 1;
-}
-
-.category-btn {
-  padding: 10px var(--spacing-md);
-  background-color: transparent;
-  color: #333333;
-  border: 1px solid #cccccc;
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-  white-space: nowrap;
-}
-
-.category-btn:hover {
-  background-color: #000000;
-  color: #ffffff;
-  border-color: #000000;
-}
-
-.category-btn.active {
-  background-color: #000000;
-  color: #ffffff;
-  border-color: #000000;
-}
-
-/* Ordenamiento */
-.gorras-sort {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-}
-
-.gorras-sort label {
-  font-size: var(--font-size-sm);
-  color: #333333;
-  white-space: nowrap;
-}
-
-.gorras-sort select {
-  padding: 10px 15px;
-  background-color: #f5f5f5;
-  color: #000000;
-  border: 1px solid #cccccc;
-  font-size: var(--font-size-sm);
-  cursor: pointer;
-  outline: none;
-  transition: border-color var(--transition-fast);
-}
-
-.gorras-sort select:focus {
-  border-color: #000000;
-}
-
-/* ===== PRODUCTOS ===== */
-.gorras-products {
-  padding: var(--spacing-xl) var(--spacing-md);
+  max-width: 100%;
   background-color: #ffffff;
+  margin-top: 60px; /* Espacio para el header */
 }
 
-.gorras-products-container {
-  max-width: 1400px;
-  margin: 0 auto;
+/* ===== ÁREA PRINCIPAL DE PRODUCTOS ===== */
+.gorras-main {
+  flex: 1;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: var(--spacing-xl) var(--spacing-md);
 }
 
-.products-count {
-  font-size: var(--font-size-sm);
-  color: #666666;
-  margin-bottom: var(--spacing-md);
-  letter-spacing: 1px;
-}
-
-/* Grid de gorras */
+/* ===== GRID DE PRODUCTOS ===== */
 .gorras-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
 }
 
-/* Tarjeta de gorra */
-.gorra-card {
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  transition: all var(--transition-normal);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-.gorra-card:hover {
+/* Estilos específicos para ProductCard en la página de gorras */
+.gorras-page .productCard--gorras:hover {
+  border-color: #ff9900;
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
-  border-color: #000000;
 }
 
-/* Etiquetas */
-.gorra-badges {
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.badge {
-  padding: 5px 12px;
-  font-size: 0.7rem;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 1px;
-  width: fit-content;
-}
-
-.badge-new {
-  background-color: #000000;
+/* Ajustes para las badges de categoría en gorras */
+.gorras-page .badgeCategory--gorras {
+  background-color: #ff9900;
   color: #ffffff;
-}
-
-.badge-featured {
-  background-color: var(--color-gold);
-  color: #000000;
-}
-
-/* Imagen */
-.gorra-image {
-  aspect-ratio: 4/3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #e0e0e0;
-  overflow: hidden;
-  position: relative;
-}
-
-.gorra-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--transition-normal);
-}
-
-.gorra-card:hover .gorra-img {
-  transform: scale(1.05);
-}
-
-/* Placeholder mientras carga la imagen */
-.gorra-image::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
-  z-index: -1;
-}
-
-/* Placeholder cuando la imagen falla - SIMPLIFICADO */
-.gorra-placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
-}
-
-.gorra-icon {
-  font-size: 4rem;
-  opacity: 0.3;
-}
-
-/* Información */
-.gorra-info {
-  padding: var(--spacing-md);
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  background-color: #ffffff;
-}
-
-.gorra-brand {
-  font-size: 1rem;
-  font-weight: var(--font-weight-bold);
-  letter-spacing: 1px;
-  margin-bottom: 5px;
-  color: #000000;
-  text-transform: uppercase;
-}
-
-.gorra-model {
-  font-size: 1.1rem;
-  font-weight: var(--font-weight-semibold);
-  color: #666666;
-  margin-bottom: auto;
-  letter-spacing: 0.5px;
-}
-
-.gorra-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: var(--spacing-md);
-  padding-top: 15px;
-  border-top: 1px solid #e0e0e0;
-}
-
-.gorra-price {
-  font-size: 1.5rem;
-  font-weight: var(--font-weight-bold);
-  color: #000000;
-}
-
-.gorra-add-btn {
-  padding: 10px var(--spacing-md);
-  background-color: #000000;
-  color: #ffffff;
-  border: none;
-  font-size: 0.85rem;
-  font-weight: var(--font-weight-semibold);
-  letter-spacing: 1px;
-  cursor: pointer;
-  transition: all var(--transition-fast);
-}
-
-.gorra-add-btn:hover {
-  background-color: #333333;
-}
-
-/* Sin resultados */
-.no-results {
-  text-align: center;
-  padding: var(--spacing-xl) var(--spacing-md);
-  color: #666666;
-}
-
-.no-results p {
-  font-size: 1.1rem;
 }
 
 /* ===== RESPONSIVE ===== */
 
 /* Tablet (max-width: 768px) */
 @media (max-width: 768px) {
-  .gorras-filters {
-    padding: var(--spacing-md) 15px;
-    top: 55px;
+  .gorras-content {
+    margin-top: 0;
   }
 
-  .gorras-filters-container {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .gorras-categories {
-    order: 2;
-    justify-content: center;
-  }
-
-  .gorras-sort {
-    order: 1;
-    justify-content: space-between;
-    width: 100%;
-  }
-
-  .gorras-sort select {
-    flex: 1;
+  .gorras-main {
+    padding: var(--spacing-lg) 15px;
   }
 
   .gorras-grid {
@@ -314,76 +71,12 @@
 
 /* Móvil (max-width: 600px) */
 @media (max-width: 600px) {
-  .gorras-filters {
-    padding: 15px;
-  }
-
-  .gorras-categories {
-    gap: 8px;
-  }
-
-  .category-btn {
-    padding: 8px 15px;
-    font-size: 0.8rem;
-  }
-
-  .gorras-products {
+  .gorras-main {
     padding: var(--spacing-md) 15px;
   }
 
   .gorras-grid {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
-  }
-
-  .gorra-image {
-    aspect-ratio: 16/9;
-  }
-
-  .gorra-icon {
-    font-size: 3rem;
-  }
-
-  .gorra-brand {
-    font-size: 0.9rem;
-  }
-
-  .gorra-model {
-    font-size: 1rem;
-  }
-
-  .gorra-price {
-    font-size: 1.3rem;
-  }
-
-  .gorra-add-btn {
-    padding: 10px 15px;
-    font-size: 0.8rem;
-  }
-}
-
-/* Móvil pequeño (max-width: 400px) */
-@media (max-width: 400px) {
-  .category-btn {
-    padding: 8px 12px;
-    font-size: 0.75rem;
-  }
-
-  .gorra-info {
-    padding: 15px;
-  }
-
-  .gorra-footer {
-    flex-direction: column;
-    gap: var(--spacing-sm);
-    align-items: stretch;
-  }
-
-  .gorra-add-btn {
-    width: 100%;
-  }
-
-  .gorra-icon {
-    font-size: 2.5rem;
   }
 }
