@@ -3,6 +3,8 @@ import { useCart } from '../context/CartContext';
 import ProductCard from '../components/layout/ProductCard/ProductCard';
 import './Mujeres.css';
 
+import gorra1Image from '../assets/images/gorras/31Hats.jpg';
+
 const Mujeres = () => {
   // Datos de zapatillas para mujeres - adaptados al formato ProductCard
 const zapatillasData = [
@@ -11,7 +13,7 @@ const zapatillasData = [
     brand: 'Nike',
     model: 'Air Max 270',
     price: 179,
-    image: '',
+    image: gorra1Image,
     sizes: [5, 6, 7, 8, 9],
     color: 'Rosa/Blanco',
     colorCode: 'rosa',

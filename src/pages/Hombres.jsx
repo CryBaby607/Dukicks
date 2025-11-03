@@ -3,16 +3,18 @@ import { useCart } from '../context/CartContext';
 import ProductCard from '../components/layout/ProductCard/ProductCard';
 import './Hombres.css';
 
+import gorra1Image from '../assets/images/gorras/31Hats.jpg';
+
 const Hombres = () => {
   // Datos de zapatillas para hombres - adaptados al formato ProductCard
   const zapatillasData = [
   {
     id: 1,
+    brand: "Nike",
     name: "Air Force 1",
     model: "’07",
-    brand: "Nike",
     price: 2499,
-    image: "https://static.nike.com/a/images/t_prod_ss/w_960,c_limit,f_auto/4081e065-e4a3-47b5-bc68-0f8e4fed0d82/air-force-1-07-white-black.png",
+    image: gorra1Image,
     sizes: [7, 8, 9, 10, 11, 12],
     color: "Blanco/Negro",
     nuevo: true,
