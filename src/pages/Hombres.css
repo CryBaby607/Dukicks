@@ -56,7 +56,7 @@
 /* Tablet (max-width: 768px) */
 @media (max-width: 768px) {
   .hombres-content {
-    margin-top: 0;
+    margin-top: 60px; 
   }
 
   .hombres-main {
@@ -71,6 +71,10 @@
 
 /* Móvil (max-width: 600px) */
 @media (max-width: 600px) {
+    .hombres-content {
+    margin-top: 60px; 
+  }
+
   .hombres-main {
     padding: var(--spacing-md) 15px;
   }

@@ -1,6 +1,4 @@
-// src/components/layout/Header/Header.jsx
-
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '../../../context/CartContext';
 import './Header.css';
@@ -8,13 +6,68 @@ import './Header.css';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const searchRef = useRef(null);
+
   const { 
     isCartOpen, 
     toggleCart, 
     closeCart: closeCartPanel,
     getTotalItems 
   } = useCart();
+
+  // Cargar productos al iniciar
+  useEffect(() => {
+    const savedProducts = localStorage.getItem('dukicks_all_products');
+    if (savedProducts) {
+      try {
+        setAllProducts(JSON.parse(savedProducts));
+      } catch (error) {
+        console.error('Error al cargar productos:', error);
+      }
+    }
+  }, []);
+
+  // Buscar productos
+  useEffect(() => {
+    if (searchQuery.trim() === '') {
+      setSearchResults([]);
+      return;
+    }
+
+    const query = searchQuery.toLowerCase();
+    const results = allProducts.filter(product => {
+      const brand = (product.brand || '').toLowerCase();
+      const model = (product.model || '').toLowerCase();
+      const color = (product.color || '').toLowerCase();
+      const category = (product.category || '').toLowerCase();
+
+      return (
+        brand.includes(query) ||
+        model.includes(query) ||
+        color.includes(query) ||
+        category.includes(query)
+      );
+    }).slice(0, 8); // Límitar a 8 resultados
+
+    setSearchResults(results);
+  }, [searchQuery, allProducts]);
+
+  // Cerrar búsqueda al hacer clic fuera
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setIsSearchOpen(false);
+      }
+    };
+
+    if (isSearchOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isSearchOpen]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -35,7 +88,29 @@ const Header = () => {
   };
 
   const closeMenu = () => setIsMenuOpen(false);
-  const closeSearch = () => setIsSearchOpen(false);
+
+  const closeSearch = () => {
+    setIsSearchOpen(false);
+    setSearchQuery('');
+    setSearchResults([]);
+  };
+
+  const handleProductClick = (product) => {
+    closeSearch();
+    const category = product.category === 'gorras' ? 'gorras' : 
+                     product.category === 'tenis-hombre' ? 'hombres' :
+                     'mujeres';
+    window.location.href = `/${category}`;
+  };
+
+  const getCategoryLabel = (category) => {
+    switch(category) {
+      case 'gorras': return '🧢 Gorras';
+      case 'tenis-hombre': return '👟 Hombres';
+      case 'tenis-mujer': return '👟 Mujeres';
+      default: return category;
+    }
+  };
 
   return (
     <header className="header">
@@ -56,13 +131,96 @@ const Header = () => {
       {/* Actions */}
       <div className="header__actions">
 
-        {/* Search */}
-        <button className="header__search-btn" onClick={toggleSearch}>
-          <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </svg>
-        </button>
+        {/* Search - Nueva implementación */}
+        <div ref={searchRef} className="header__search-wrapper">
+          <button className="header__search-btn" onClick={toggleSearch}>
+            <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.3-4.3"></path>
+            </svg>
+          </button>
+
+          {/* Search Dropdown */}
+          {isSearchOpen && (
+            <div className="header__search-dropdown">
+              <div className="header__search-input-wrapper">
+                <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <path d="m21 21-4.3-4.3"></path>
+                </svg>
+                <input
+                  type="text"
+                  className="header__search-input"
+                  placeholder="Buscar marca, modelo, color..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  autoFocus
+                />
+                {searchQuery && (
+                  <button 
+                    className="header__search-clear"
+                    onClick={() => {
+                      setSearchQuery('');
+                      setSearchResults([]);
+                    }}
+                  >
+                    ✕
+                  </button>
+                )}
+              </div>
+
+              {/* Results */}
+              <div className="header__search-results">
+                {searchQuery.trim() === '' ? (
+                  <div className="header__search-empty">
+                    <p>Escribe para buscar productos</p>
+                  </div>
+                ) : searchResults.length === 0 ? (
+                  <div className="header__search-empty">
+                    <p>No se encontraron resultados para "{searchQuery}"</p>
+                  </div>
+                ) : (
+                  <>
+                    <div className="header__search-items">
+                      {searchResults.map((product) => (
+                        <button
+                          key={product.id}
+                          className="header__search-item"
+                          onClick={() => handleProductClick(product)}
+                        >
+                          <div className="search-item__image">
+                            {product.image ? (
+                              <img src={product.image} alt={product.model} onError={(e) => e.target.style.display = 'none'} />
+                            ) : (
+                              <span>👟</span>
+                            )}
+                          </div>
+                          <div className="search-item__info">
+                            <p className="search-item__brand">{product.brand}</p>
+                            <p className="search-item__model">{product.model}</p>
+                            <div className="search-item__meta">
+                              <span className="search-item__price">${product.price}</span>
+                              <span className="search-item__category">
+                                {getCategoryLabel(product.category)}
+                              </span>
+                            </div>
+                          </div>
+                        </button>
+                      ))}
+                    </div>
+                    {searchResults.length > 0 && (
+                      <div className="header__search-footer">
+                        <p className="search-footer__text">
+                          Mostrando {searchResults.length} de {allProducts.length} productos
+                        </p>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* User */}
         <Link to="/login" className="header__user-btn">
@@ -96,26 +254,9 @@ const Header = () => {
       {/* Cart Panel */}
       <CartPanel />
 
-      {/* Search Bar */}
-      <div className={`header__search-bar ${isSearchOpen ? 'header__search-bar--active' : ''}`}>
-        <div className="header__search-container">
-          <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </svg>
-          <input type="text" className="header__search-input" placeholder="Buscar productos..." autoFocus />
-          <button className="header__search-close" onClick={closeSearch}>
-            <svg width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        </div>
-      </div>
-
       {/* Overlay */}
       {(isMenuOpen || isCartOpen || isSearchOpen) && (
-        <div className="header__overlay" onClick={() => { closeMenu(); closeCartPanel(); closeSearch(); }}></div>
+        <div className="header__overlay" onClick={() => { setIsMenuOpen(false); closeCartPanel(); closeSearch(); }}></div>
       )}
     </header>
   );
@@ -133,23 +274,22 @@ const CartPanel = () => {
     clearCart
   } = useCart();
 
-  // ✅ WhatsApp checkout
   const handleCheckout = () => {
     if (cartItems.length === 0) return;
 
-    const phoneNumber = "5219613019859"; // ✅ Tu número con formato correcto
+    const phoneNumber = "5219613019859";
     
     let message = `Hola, quiero realizar la siguiente compra:`;
 
     cartItems.forEach(item => {
-      message += `• *${item.productName}*%0A`;
-      if (item.color) message += `  Color: ${item.color}%0A`;
-      message += `  Talla: ${item.selectedSize}%0A`;
-      message += `  Cantidad: ${item.quantity}%0A`;
-      message += `  Precio: $${item.price}%0A%0A`;
+      message += `%0A• *${item.productName}*`;
+      if (item.color) message += `%0A  Color: ${item.color}`;
+      message += `%0A  Talla: ${item.selectedSize}`;
+      message += `%0A  Cantidad: ${item.quantity}`;
+      message += `%0A  Precio: $${item.price}`;
     });
 
-    message += ` *Total: $${getTotalPrice().toFixed(2)}*%0A%0A`;
+    message += `%0A%0A*Total: $${getTotalPrice().toFixed(2)}*`;
 
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank");
   };
