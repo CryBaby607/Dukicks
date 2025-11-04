@@ -1,5 +1,3 @@
-// src/App.jsx
-
 // 1. Importa los componentes de React Router
 import { Routes, Route, useLocation } from 'react-router-dom';
 // 2. Importa el componente Header y Footer
@@ -13,7 +11,6 @@ import Hombres from './pages/Hombres.jsx';
 import Mujeres from './pages/Mujeres.jsx';
 import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
-
 
 function App() {
   const location = useLocation();

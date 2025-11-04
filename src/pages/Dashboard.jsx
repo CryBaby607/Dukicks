@@ -1,204 +1,167 @@
-// src/pages/Dashboard.jsx
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useCallback } from 'react';
 import './Dashboard.css';
 
+// ===== DASHBOARD CON CARGA DE IMÁGENES =====
 const Dashboard = () => {
-  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [filterCategory, setFilterCategory] = useState('all');
+  const [sortBy, setSortBy] = useState('reciente');
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
-
-  // Verificar autenticación
-  useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAdminAuthenticated');
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
-  }, [navigate]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [stats, setStats] = useState({ total: 0, inStock: 0, outOfStock: 0 });
 
   // Cargar productos iniciales
   useEffect(() => {
     loadProducts();
   }, []);
 
-  // Filtrar productos
+  // Filtrar y ordenar productos
   useEffect(() => {
-    if (filterCategory === 'all') {
-      setFilteredProducts(products);
-    } else {
-      setFilteredProducts(products.filter(p => p.category === filterCategory));
+    let result = [...products];
+
+    if (filterCategory !== 'all') {
+      result = result.filter(p => p.category === filterCategory);
     }
-  }, [filterCategory, products]);
+
+    if (searchTerm) {
+      result = result.filter(p => 
+        p.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    switch(sortBy) {
+      case 'precio-asc':
+        result.sort((a, b) => a.price - b.price);
+        break;
+      case 'precio-desc':
+        result.sort((a, b) => b.price - a.price);
+        break;
+      case 'nombre':
+        result.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      default:
+        result.sort((a, b) => b.id - a.id);
+    }
+
+    setFilteredProducts(result);
+  }, [filterCategory, products, searchTerm, sortBy]);
+
+  // Actualizar estadísticas
+  useEffect(() => {
+    const inStock = products.filter(p => p.stock).length;
+    setStats({
+      total: products.length,
+      inStock,
+      outOfStock: products.length - inStock
+    });
+  }, [products]);
 
   const loadProducts = () => {
     setIsLoading(true);
-    // Simular carga desde localStorage o API
-    const savedProducts = localStorage.getItem('products');
-    if (savedProducts) {
-      setProducts(JSON.parse(savedProducts));
-    } else {
-      // Productos iniciales de ejemplo
-      const initialProducts = [
-        {
-          id: 1,
-          name: 'AIR RUNNER PRO',
-          category: 'zapatillas',
-          subcategory: 'hombres',
-          price: 189,
-          stock: true,
-          image: '👟',
-          description: 'Zapatillas de alto rendimiento'
-        },
-        {
-          id: 2,
-          name: 'CLASSIC CAP',
-          category: 'gorras',
-          subcategory: 'unisex',
-          price: 49,
-          stock: true,
-          image: '🧢',
-          description: 'Gorra clásica premium'
-        },
-        {
-          id: 3,
-          name: 'MIDNIGHT LOGO TEE',
-          category: 'playeras',
-          subcategory: 'unisex',
-          price: 45,
-          stock: true,
-          image: '👕',
-          description: 'Playera con logo bordado'
-        }
-      ];
-      setProducts(initialProducts);
-      localStorage.setItem('products', JSON.stringify(initialProducts));
-    }
-    setIsLoading(false);
+    setTimeout(() => {
+      const savedProducts = localStorage.getItem('dashboard_products');
+      if (savedProducts) {
+        setProducts(JSON.parse(savedProducts));
+      } else {
+        const initialProducts = [
+          {
+            id: 1,
+            name: 'AIR RUNNER PRO',
+            category: 'zapatillas',
+            subcategory: 'hombres',
+            price: 189,
+            stock: true,
+            image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop',
+            description: 'Zapatillas de alto rendimiento con tecnología air'
+          },
+          {
+            id: 2,
+            name: 'CLASSIC CAP',
+            category: 'gorras',
+            subcategory: 'unisex',
+            price: 49,
+            stock: true,
+            image: 'https://images.unsplash.com/photo-1595777707802-c8b0adf82475?w=400&h=400&fit=crop',
+            description: 'Gorra clásica premium de algodón'
+          }
+        ];
+        setProducts(initialProducts);
+        localStorage.setItem('dashboard_products', JSON.stringify(initialProducts));
+      }
+      setIsLoading(false);
+    }, 500);
   };
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     localStorage.removeItem('isAdminAuthenticated');
     localStorage.removeItem('adminUsername');
-    navigate('/login');
-  };
+    window.location.href = '/login';
+  }, []);
 
-  const handleAddProduct = () => {
+  const handleAddProduct = useCallback(() => {
     setEditingProduct(null);
     setShowModal(true);
-  };
+  }, []);
 
-  const handleEditProduct = (product) => {
+  const handleEditProduct = useCallback((product) => {
     setEditingProduct(product);
     setShowModal(true);
-  };
+  }, []);
 
-  const handleDeleteProduct = (productId) => {
+  const handleDeleteProduct = useCallback((productId) => {
     if (window.confirm('¿Estás seguro de eliminar este producto?')) {
       const updatedProducts = products.filter(p => p.id !== productId);
       setProducts(updatedProducts);
-      localStorage.setItem('products', JSON.stringify(updatedProducts));
+      localStorage.setItem('dashboard_products', JSON.stringify(updatedProducts));
     }
-  };
+  }, [products]);
 
-  const handleSaveProduct = (productData) => {
+  const handleSaveProduct = useCallback((productData) => {
     let updatedProducts;
     
     if (editingProduct) {
-      // Editar producto existente
       updatedProducts = products.map(p => 
         p.id === editingProduct.id ? { ...productData, id: editingProduct.id } : p
       );
     } else {
-      // Crear nuevo producto
-      const newProduct = {
-        ...productData,
-        id: Date.now()
-      };
+      const newProduct = { ...productData, id: Date.now() };
       updatedProducts = [...products, newProduct];
     }
 
     setProducts(updatedProducts);
-    localStorage.setItem('products', JSON.stringify(updatedProducts));
+    localStorage.setItem('dashboard_products', JSON.stringify(updatedProducts));
     setShowModal(false);
-  };
+  }, [products, editingProduct]);
 
-  const username = localStorage.getItem('adminUsername');
+  const username = localStorage.getItem('adminUsername') || 'Admin';
 
   return (
-    <div className="dashboard-page">
-      
-      {/* Header del Dashboard */}
-      <header className="dashboard-header">
-        <div className="dashboard-header-content">
-          <div className="dashboard-title-section">
-            <h1>Panel de Control</h1>
-            <p className="dashboard-welcome">Bienvenido, {username}</p>
-          </div>
-          <div className="dashboard-actions">
-            <button className="logout-btn" onClick={handleLogout}>
-              Cerrar Sesión
-            </button>
-          </div>
+    <div className="dashboard">
+      <DashboardHeader username={username} onLogout={handleLogout} />
+
+      <main className="dashboard-main">
+        <div className="dashboard-container">
+          <StatsGrid stats={stats} />
+
+          <ProductsSection
+            products={filteredProducts}
+            isLoading={isLoading}
+            filterCategory={filterCategory}
+            searchTerm={searchTerm}
+            sortBy={sortBy}
+            onFilterChange={setFilterCategory}
+            onSearchChange={setSearchTerm}
+            onSortChange={setSortBy}
+            onAddProduct={handleAddProduct}
+            onEditProduct={handleEditProduct}
+            onDeleteProduct={handleDeleteProduct}
+          />
         </div>
-      </header>
-
-      {/* Contenido Principal */}
-      <main className="dashboard-content">
-        
-        {/* Sección de Productos */}
-        <section className="products-section">
-          
-          <div className="section-header">
-            <h2 className="section-title">Productos</h2>
-            <button className="add-product-btn" onClick={handleAddProduct}>
-              <span>+</span> Agregar Producto
-            </button>
-          </div>
-
-          {/* Filtros */}
-          <div className="products-filters">
-            <select
-              className="filter-select"
-              value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-            >
-              <option value="all">Todas las categorías</option>
-              <option value="zapatillas">Zapatillas</option>
-              <option value="gorras">Gorras</option>
-              <option value="playeras">Playeras</option>
-            </select>
-          </div>
-
-          {/* Tabla de Productos */}
-          {isLoading ? (
-            <div className="empty-state">
-              <p>Cargando productos...</p>
-            </div>
-          ) : filteredProducts.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-state-icon">📦</div>
-              <p>No hay productos en esta categoría</p>
-              <button className="add-product-btn" onClick={handleAddProduct}>
-                Agregar Primer Producto
-              </button>
-            </div>
-          ) : (
-            <ProductsTable
-              products={filteredProducts}
-              onEdit={handleEditProduct}
-              onDelete={handleDeleteProduct}
-            />
-          )}
-
-        </section>
-
       </main>
 
-      {/* Modal de Producto */}
       {showModal && (
         <ProductModal
           product={editingProduct}
@@ -206,69 +169,213 @@ const Dashboard = () => {
           onClose={() => setShowModal(false)}
         />
       )}
-
     </div>
   );
 };
 
-// ===== COMPONENTE DE TABLA DE PRODUCTOS =====
-const ProductsTable = ({ products, onEdit, onDelete }) => {
+// ===== HEADER =====
+const DashboardHeader = ({ username, onLogout }) => (
+  <header className="dashboard-header">
+    <div className="header-content">
+      <div>
+        <h1 className="header-title">Panel de Control</h1>
+        <p className="header-subtitle">Bienvenido, {username}</p>
+      </div>
+      <button
+        onClick={onLogout}
+        className="logout-btn"
+      >
+        Cerrar Sesión
+      </button>
+    </div>
+  </header>
+);
+
+// ===== GRID DE ESTADÍSTICAS =====
+const StatsGrid = ({ stats }) => {
+  const statCards = [
+    { label: 'Total Productos', value: stats.total, color: '#0066cc' },
+    { label: 'En Stock', value: stats.inStock, color: '#4caf50' },
+    { label: 'Agotados', value: stats.outOfStock, color: '#ff6b6b' }
+  ];
+
   return (
-    <div className="products-table-container">
-      <table className="products-table">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Categoría</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {products.map(product => (
-            <tr key={product.id}>
-              <td data-label="Producto">
-                <div className="product-cell">
-                  <div className="product-image">{product.image}</div>
-                  <div className="product-info">
-                    <span className="product-name">{product.name}</span>
-                    <span className="product-category">{product.subcategory}</span>
-                  </div>
-                </div>
-              </td>
-              <td data-label="Categoría">{product.category}</td>
-              <td data-label="Precio">${product.price}</td>
-              <td data-label="Stock">
-                <span className={`stock-badge ${product.stock ? 'in-stock' : 'out-of-stock'}`}>
-                  {product.stock ? 'En Stock' : 'Agotado'}
-                </span>
-              </td>
-              <td data-label="Acciones">
-                <div className="actions-cell">
-                  <button
-                    className="action-btn"
-                    onClick={() => onEdit(product)}
-                  >
-                    Editar
-                  </button>
-                  <button
-                    className="action-btn delete"
-                    onClick={() => onDelete(product.id)}
-                  >
-                    Eliminar
-                  </button>
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="stats-grid">
+      {statCards.map((stat, idx) => (
+        <div
+          key={idx}
+          className="stat-card"
+          style={{ borderLeftColor: stat.color }}
+        >
+          <div className="stat-content">
+            <div>
+              <p className="stat-label">{stat.label}</p>
+              <p className="stat-value" style={{ color: stat.color }}>
+                {stat.value}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };
 
-// ===== COMPONENTE DE MODAL DE PRODUCTO =====
+// ===== SECCIÓN DE PRODUCTOS =====
+const ProductsSection = ({
+  products,
+  isLoading,
+  filterCategory,
+  searchTerm,
+  sortBy,
+  onFilterChange,
+  onSearchChange,
+  onSortChange,
+  onAddProduct,
+  onEditProduct,
+  onDeleteProduct
+}) => (
+  <div className="products-section">
+    <div className="products-header">
+      <h2 className="products-title">Productos</h2>
+      <button
+        onClick={onAddProduct}
+        className="add-product-btn"
+      >
+        + Agregar Producto
+      </button>
+    </div>
+
+    <div className="products-controls">
+      <input
+        type="text"
+        placeholder="Buscar productos..."
+        value={searchTerm}
+        onChange={(e) => onSearchChange(e.target.value)}
+        className="search-input"
+      />
+
+      <select
+        value={filterCategory}
+        onChange={(e) => onFilterChange(e.target.value)}
+        className="filter-select"
+      >
+        <option value="all">Todas las categorías</option>
+        <option value="zapatillas">Zapatillas</option>
+        <option value="gorras">Gorras</option>
+      </select>
+
+      <select
+        value={sortBy}
+        onChange={(e) => onSortChange(e.target.value)}
+        className="sort-select"
+      >
+        <option value="reciente">Más Reciente</option>
+        <option value="precio-asc">Precio: Menor a Mayor</option>
+        <option value="precio-desc">Precio: Mayor a Menor</option>
+        <option value="nombre">Nombre</option>
+      </select>
+    </div>
+
+    {isLoading ? (
+      <div className="loading-state">
+        Cargando productos...
+      </div>
+    ) : products.length === 0 ? (
+      <div className="empty-state">
+        <p className="empty-title">📦 No hay productos</p>
+        <p className="empty-subtitle">Comienza agregando tu primer producto</p>
+      </div>
+    ) : (
+      <ProductsTable
+        products={products}
+        onEdit={onEditProduct}
+        onDelete={onDeleteProduct}
+      />
+    )}
+  </div>
+);
+
+// ===== TABLA DE PRODUCTOS =====
+const ProductsTable = ({ products, onEdit, onDelete }) => (
+  <div className="table-container">
+    <table className="products-table">
+      <thead>
+        <tr className="table-header">
+          <th>Imagen</th>
+          <th>Producto</th>
+          <th>Categoría</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {products.map((product, idx) => (
+          <tr
+            key={product.id}
+            className={`table-row ${idx % 2 === 0 ? 'even' : 'odd'}`}
+          >
+            <td>
+              <ProductImage image={product.image} alt={product.name} />
+            </td>
+            <td>
+              <div>
+                <p className="product-name">{product.name}</p>
+                <p className="product-subcategory">{product.subcategory}</p>
+              </div>
+            </td>
+            <td className="product-category">{product.category}</td>
+            <td className="product-price">${product.price}</td>
+            <td>
+              <span className={`stock-badge ${product.stock ? 'in-stock' : 'out-of-stock'}`}>
+                {product.stock ? 'En Stock' : 'Agotado'}
+              </span>
+            </td>
+            <td>
+              <div className="action-buttons">
+                <button
+                  onClick={() => onEdit(product)}
+                  className="edit-btn"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => onDelete(product.id)}
+                  className="delete-btn"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+);
+
+// ===== COMPONENTE DE IMAGEN CON FALLBACK =====
+const ProductImage = ({ image, alt }) => {
+  const [imageError, setImageError] = useState(false);
+
+  return (
+    <div className="product-image-container">
+      {!imageError && image ? (
+        <img
+          src={image}
+          alt={alt}
+          onError={() => setImageError(true)}
+          className="product-image"
+        />
+      ) : (
+        <span className="image-fallback">👟</span>
+      )}
+    </div>
+  );
+};
+
+// ===== MODAL DE PRODUCTO CON CARGA DE IMAGEN =====
 const ProductModal = ({ product, onSave, onClose }) => {
   const [formData, setFormData] = useState({
     name: product?.name || '',
@@ -276,9 +383,12 @@ const ProductModal = ({ product, onSave, onClose }) => {
     subcategory: product?.subcategory || 'hombres',
     price: product?.price || '',
     stock: product?.stock !== undefined ? product.stock : true,
-    image: product?.image || '👟',
-    description: product?.description || ''
+    image: product?.image || '',
+    description: product?.description || '',
+    sizes: product?.sizes || []
   });
+
+  const [imagePreview, setImagePreview] = useState(product?.image || null);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -288,8 +398,27 @@ const ProductModal = ({ product, onSave, onClose }) => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+        setFormData(prev => ({
+          ...prev,
+          image: reader.result
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (!formData.name || !formData.price || !formData.image) {
+      alert('Por favor completa todos los campos requeridos');
+      return;
+    }
+
     onSave({
       ...formData,
       price: parseFloat(formData.price)
@@ -298,53 +427,125 @@ const ProductModal = ({ product, onSave, onClose }) => {
 
   return (
     <>
-      <div className="modal-overlay" onClick={onClose}></div>
-      <div className="modal-container">
+      <div
+        onClick={onClose}
+        className="modal-overlay"
+      />
+      <div className="modal">
+        {/* Header */}
         <div className="modal-header">
-          <h2>{product ? 'Editar Producto' : 'Nuevo Producto'}</h2>
-          <button className="modal-close" onClick={onClose}>×</button>
+          <h2 className="modal-title">
+            {product ? 'Editar Producto' : 'Nuevo Producto'}
+          </h2>
+          <button
+            onClick={onClose}
+            className="modal-close-btn"
+          >
+            ✕
+          </button>
         </div>
-        
-        <form className="modal-form" onSubmit={handleSubmit}>
+
+        {/* Form */}
+        <div className="modal-content">
           
-          <div className="form-row">
-            <div className="form-group">
-              <label className="form-label">Nombre</label>
+          {/* Preview de Imagen */}
+          <div className="image-upload-section">
+            <label className="section-label">
+              Imagen del Producto *
+            </label>
+            <div className="image-preview">
+              {imagePreview ? (
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="preview-image"
+                  onError={() => setImagePreview(null)}
+                />
+              ) : (
+                <span className="preview-placeholder">📸</span>
+              )}
+            </div>
+
+            {/* Solo subida de archivo */}
+            <div 
+              className="file-upload-area"
+              onDragEnter={e => {
+                e.stopPropagation();
+                e.target.style.borderColor = '#0066cc';
+                e.target.style.backgroundColor = '#f0f8ff';
+              }}
+              onDragLeave={e => {
+                e.target.style.borderColor = '#ddd';
+                e.target.style.backgroundColor = '#f9f9f9';
+              }}
+              onDrop={e => {
+                e.stopPropagation();
+                e.preventDefault();
+                const files = e.dataTransfer.files;
+                if (files[0]) {
+                  const event = { target: { files } };
+                  handleImageUpload(event);
+                }
+              }}
+            >
+              <p className="upload-text">
+                Arrastra una imagen aquí o haz clic para seleccionar
+              </p>
               <input
-                type="text"
-                name="name"
-                className="form-input"
-                value={formData.name}
-                onChange={handleChange}
-                required
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                id="file-input"
               />
+              <label htmlFor="file-input" className="file-input-label">
+                Seleccionar archivo
+              </label>
+              <p className="file-format-info">
+                Formatos aceptados: JPG, PNG, WebP
+              </p>
             </div>
           </div>
 
+          {/* Información del Producto */}
+          <div className="form-field">
+            <label className="field-label">
+              Nombre *
+            </label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="Ej: Air Runner Pro"
+              className="text-input"
+            />
+          </div>
+
           <div className="form-row">
-            <div className="form-group">
-              <label className="form-label">Categoría</label>
+            <div className="form-field">
+              <label className="field-label">
+                Categoría
+              </label>
               <select
                 name="category"
-                className="form-input"
                 value={formData.category}
                 onChange={handleChange}
-                required
+                className="select-input"
               >
                 <option value="zapatillas">Zapatillas</option>
                 <option value="gorras">Gorras</option>
-                <option value="playeras">Playeras</option>
               </select>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Subcategoría</label>
+            <div className="form-field">
+              <label className="field-label">
+                Subcategoría
+              </label>
               <select
                 name="subcategory"
-                className="form-input"
                 value={formData.subcategory}
                 onChange={handleChange}
-                required
+                className="select-input"
               >
                 <option value="hombres">Hombres</option>
                 <option value="mujeres">Mujeres</option>
@@ -354,70 +555,157 @@ const ProductModal = ({ product, onSave, onClose }) => {
           </div>
 
           <div className="form-row">
-            <div className="form-group">
-              <label className="form-label">Precio</label>
+            <div className="form-field">
+              <label className="field-label">
+                Precio *
+              </label>
               <input
                 type="number"
                 name="price"
-                className="form-input"
                 value={formData.price}
                 onChange={handleChange}
                 min="0"
                 step="0.01"
-                required
+                placeholder="0.00"
+                className="text-input"
               />
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Emoji/Icono</label>
-              <input
-                type="text"
-                name="image"
-                className="form-input"
-                value={formData.image}
-                onChange={handleChange}
-                maxLength="2"
-                required
-              />
+            <div className="form-field">
+              <label className="field-label">
+                Stock
+              </label>
+              <select
+                name="stock"
+                value={formData.stock ? 'inStock' : 'outOfStock'}
+                onChange={(e) => setFormData(prev => ({ ...prev, stock: e.target.value === 'inStock' }))}
+                className="select-input"
+              >
+                <option value="inStock">En Stock</option>
+                <option value="outOfStock">Agotado</option>
+              </select>
             </div>
           </div>
 
-          <div className="form-group">
-            <label className="form-label">Descripción</label>
+          <div className="form-field">
+            <label className="field-label">
+              Descripción
+            </label>
             <textarea
               name="description"
-              className="form-textarea"
               value={formData.description}
               onChange={handleChange}
-              rows="3"
-              required
+              placeholder="Describe el producto..."
+              rows="4"
+              className="textarea-input"
             />
           </div>
 
-          <div className="form-group checkbox-group">
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                name="stock"
-                checked={formData.stock}
-                onChange={handleChange}
-              />
-              <span>Producto en stock</span>
-            </label>
-          </div>
+          {/* Selector de Tallas */}
+          <SizesSelector 
+            category={formData.category} 
+            selectedSizes={formData.sizes}
+            onSizesChange={(sizes) => setFormData(prev => ({ ...prev, sizes }))}
+          />
 
           <div className="modal-actions">
-            <button type="button" className="btn-cancel" onClick={onClose}>
+            <button
+              type="button"
+              onClick={onClose}
+              className="cancel-btn"
+            >
               Cancelar
             </button>
-            <button type="submit" className="btn-save">
+            <button
+              onClick={handleSubmit}
+              className="save-btn"
+            >
               {product ? 'Guardar Cambios' : 'Crear Producto'}
             </button>
           </div>
-
-        </form>
+        </div>
       </div>
     </>
+  );
+};
+
+// ===== SELECTOR DE TALLAS =====
+const SizesSelector = ({ category, selectedSizes, onSizesChange }) => {
+  const getSizeOptions = () => {
+    switch(category) {
+      case 'zapatillas':
+        return [5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 13, 14, 15];
+      case 'gorras':
+        return ['One Size'];
+      default:
+        return [];
+    }
+  };
+
+  const sizeOptions = getSizeOptions();
+
+  const toggleSize = (size) => {
+    if (selectedSizes.includes(size)) {
+      onSizesChange(selectedSizes.filter(s => s !== size));
+    } else {
+      onSizesChange([...selectedSizes, size].sort((a, b) => {
+        if (typeof a === 'string' && typeof b === 'string') return a.localeCompare(b);
+        return Number(a) - Number(b);
+      }));
+    }
+  };
+
+  const selectAll = () => {
+    onSizesChange(sizeOptions);
+  };
+
+  const clearAll = () => {
+    onSizesChange([]);
+  };
+
+  return (
+    <div className="sizes-selector">
+      <div className="sizes-header">
+        <label className="sizes-label">
+          Tallas disponibles
+        </label>
+        <div className="sizes-actions">
+          <button
+            type="button"
+            onClick={selectAll}
+            className="select-all-btn"
+          >
+            Seleccionar todo
+          </button>
+          <button
+            type="button"
+            onClick={clearAll}
+            className="clear-all-btn"
+          >
+            Limpiar
+          </button>
+        </div>
+      </div>
+
+      <div className="sizes-grid">
+        {sizeOptions.map(size => (
+          <button
+            key={size}
+            type="button"
+            onClick={() => toggleSize(size)}
+            className={`size-btn ${selectedSizes.includes(size) ? 'selected' : ''}`}
+          >
+            {size}
+          </button>
+        ))}
+      </div>
+
+      {selectedSizes.length > 0 && (
+        <p className="sizes-count">
+          {selectedSizes.length} talla{selectedSizes.length !== 1 ? 's' : ''} seleccionada{selectedSizes.length !== 1 ? 's' : ''}
+        </p>
+      )}
+    </div>
   );
 };
 

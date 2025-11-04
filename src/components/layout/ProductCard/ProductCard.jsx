@@ -90,10 +90,11 @@ const ProductCard = ({
   return (
     <div className={`productCard productCard--${category}`}>
 
+      {/* ✅ CORREGIDO: Ahora usa product.features */}
       <div className="productBadges">
-        {product.nuevo && <span className="productBadge badgeNew">NUEVO</span>}
-        {product.destacado && <span className="productBadge badgeFeatured">DESTACADO</span>}
-        {product.oferta && <span className="productBadge badgeSale">OFERTA</span>}
+        {product.features?.nuevo && <span className="productBadge badgeNew">NUEVO</span>}
+        {product.features?.destacado && <span className="productBadge badgeFeatured">DESTACADO</span>}
+        {product.features?.oferta && <span className="productBadge badgeSale">OFERTA</span>}
       </div>
 
       <div className="productImage">
