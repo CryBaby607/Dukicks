@@ -146,13 +146,6 @@ const Dashboard = () => {
     setShowModal(false);
   }, [products, editingProduct]);
 
-  const handleResetData = () => {
-    if (window.confirm('⚠️ ¿Estás seguro? Esto restaurará todos los productos a los valores originales y eliminará los productos agregados.')) {
-      loadInitialProducts();
-      alert('✅ Datos restaurados correctamente');
-    }
-  };
-
   const username = localStorage.getItem('adminUsername') || 'Admin';
 
   return (
@@ -175,7 +168,6 @@ const Dashboard = () => {
             onAddProduct={handleAddProduct}
             onEditProduct={handleEditProduct}
             onDeleteProduct={handleDeleteProduct}
-            onResetData={handleResetData}
           />
         </div>
       </main>
@@ -245,16 +237,12 @@ const ProductsSection = ({
   onSortChange,
   onAddProduct,
   onEditProduct,
-  onDeleteProduct,
-  onResetData
+  onDeleteProduct
 }) => (
   <div className="products-section">
     <div className="products-header">
       <h2 className="products-title">Gestión de Productos</h2>
       <div style={{ display: 'flex', gap: '10px' }}>
-        <button onClick={onResetData} className="reset-btn" title="Restaurar datos originales">
-          🔄 Restaurar
-        </button>
         <button onClick={onAddProduct} className="add-product-btn">
           + Agregar Producto
         </button>
