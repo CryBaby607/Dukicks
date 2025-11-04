@@ -118,6 +118,7 @@
   margin: 0;
   font-size: 1.5rem;
   font-weight: 300;
+  color: #000000;
 }
 
 .add-product-btn {
@@ -155,6 +156,11 @@
   background-color: #fff;
   flex: 2;
   min-width: 200px;
+  color: #000000;
+}
+
+.search-input::placeholder {
+  color: #666666;
 }
 
 .filter-select,
@@ -167,6 +173,89 @@
   cursor: pointer;
   flex: 1;
   min-width: 150px;
+  color: #000000;
+}
+
+/* ===== INPUTS DEL MODAL CON FONDO BLANCO Y LETRAS NEGRAS ===== */
+.text-input,
+.select-input,
+.textarea-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.text-input::placeholder,
+.textarea-input::placeholder {
+  color: #666666;
+  opacity: 1;
+}
+
+.text-input:focus,
+.select-input:focus,
+.textarea-input:focus {
+  border-color: #0066cc;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
+}
+
+.textarea-input {
+  font-family: inherit;
+  resize: vertical;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.select-input {
+  background-color: #ffffff;
+  color: #000000;
+  cursor: pointer;
+}
+
+.select-input option {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* ===== ETIQUETAS DE CHECKBOXES EN NEGRO ===== */
+.sizes-selector label,
+.form-field label {
+  color: #000000;
+}
+
+.form-field label span {
+  color: #000000;
+  font-weight: 500;
+}
+
+.form-field label[style*="display: flex"] {
+  color: #000000;
+}
+
+.form-field label[style*="display: flex"] span {
+  color: #000000 !important;
+}
+
+/* ===== TÍTULO DE TALLAS EN NEGRO ===== */
+.sizes-label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #000000;
+}
+
+.sizes-selector {
+  color: #000000;
+}
+
+.sizes-count {
+  margin: 10px 0 0 0;
+  font-size: 0.85rem;
+  color: #000000;
 }
 
 /* ===== ESTADOS DE CARGA ===== */
@@ -240,6 +329,7 @@
   margin: 0;
   font-weight: 500;
   font-size: 0.95rem;
+  color: #000000;
 }
 
 .product-subcategory {
@@ -256,6 +346,7 @@
 .product-price {
   font-size: 0.9rem;
   font-weight: 600;
+  color: #000000;
 }
 
 /* ===== BADGE DE STOCK ===== */
@@ -483,61 +574,6 @@
   margin-bottom: 20px;
 }
 
-.text-input,
-.select-input,
-.textarea-input {
-  width: 100%;
-  padding: 12px 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  box-sizing: border-box;
-}
-
-.textarea-input {
-  font-family: inherit;
-  resize: vertical;
-}
-
-/* ===== ACCIONES DEL MODAL ===== */
-.modal-actions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  border-top: 1px solid #e0e0e0;
-  padding-top: 20px;
-}
-
-.cancel-btn,
-.save-btn {
-  padding: 10px 20px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.cancel-btn {
-  background-color: transparent;
-  border: 1px solid #ddd;
-}
-
-.cancel-btn:hover {
-  background-color: #f0f0f0;
-}
-
-.save-btn {
-  background-color: #000;
-  color: #fff;
-  border: none;
-  font-weight: 600;
-}
-
-.save-btn:hover {
-  background-color: #333;
-}
-
 /* ===== SELECTOR DE TALLAS ===== */
 .sizes-selector {
   margin-bottom: 20px;
@@ -552,11 +588,6 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
-}
-
-.sizes-label {
-  font-weight: 600;
-  font-size: 0.95rem;
 }
 
 .sizes-actions {
@@ -613,10 +644,45 @@
   border-color: #000;
 }
 
-.sizes-count {
-  margin: 10px 0 0 0;
-  font-size: 0.85rem;
-  color: #666;
+/* ===== ACCIONES DEL MODAL ===== */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 20px;
+}
+
+.cancel-btn,
+.save-btn {
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.cancel-btn {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  color: #000000; 
+}
+
+.cancel-btn:hover {
+  background-color: #f0f0f0;
+   color: #000000;
+}
+
+.save-btn {
+  background-color: #000;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+}
+
+.save-btn:hover {
+  background-color: #333;
 }
 
 /* ===== RESPONSIVE ===== */

@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './Dashboard.css';
+// Importar datos reales
+import { gorrasData } from '../data/products/gorrasData';
+import { hombresData } from '../data/products/hombresData';
+import { mujeresData } from '../data/products/mujeresData';
 
-// ===== DASHBOARD CON CARGA DE IMÁGENES =====
 const Dashboard = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -11,9 +14,9 @@ const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [stats, setStats] = useState({ total: 0, inStock: 0, outOfStock: 0 });
+  const [stats, setStats] = useState({ total: 0, gorras: 0, hombres: 0, mujeres: 0 });
 
-  // Cargar productos iniciales
+  // Cargar productos al iniciar
   useEffect(() => {
     loadProducts();
   }, []);
@@ -27,9 +30,10 @@ const Dashboard = () => {
     }
 
     if (searchTerm) {
-      result = result.filter(p => 
-        p.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+      result = result.filter(p => {
+        const searchString = `${p.brand} ${p.model}`.toLowerCase();
+        return searchString.includes(searchTerm.toLowerCase());
+      });
     }
 
     switch(sortBy) {
@@ -40,10 +44,10 @@ const Dashboard = () => {
         result.sort((a, b) => b.price - a.price);
         break;
       case 'nombre':
-        result.sort((a, b) => a.name.localeCompare(b.name));
+        result.sort((a, b) => `${a.brand} ${a.model}`.localeCompare(`${b.brand} ${b.model}`));
         break;
       default:
-        result.sort((a, b) => b.id - a.id);
+        result.sort((a, b) => b.id.localeCompare(a.id));
     }
 
     setFilteredProducts(result);
@@ -51,48 +55,53 @@ const Dashboard = () => {
 
   // Actualizar estadísticas
   useEffect(() => {
-    const inStock = products.filter(p => p.stock).length;
+    const gorras = products.filter(p => p.category === 'gorras').length;
+    const hombres = products.filter(p => p.category === 'tenis-hombre').length;
+    const mujeres = products.filter(p => p.category === 'tenis-mujer').length;
+    
     setStats({
       total: products.length,
-      inStock,
-      outOfStock: products.length - inStock
+      gorras,
+      hombres,
+      mujeres
     });
   }, [products]);
 
   const loadProducts = () => {
     setIsLoading(true);
-    setTimeout(() => {
-      const savedProducts = localStorage.getItem('dashboard_products');
-      if (savedProducts) {
+    
+    // Intentar cargar desde localStorage
+    const savedProducts = localStorage.getItem('dukicks_all_products');
+    
+    if (savedProducts) {
+      try {
         setProducts(JSON.parse(savedProducts));
-      } else {
-        const initialProducts = [
-          {
-            id: 1,
-            name: 'AIR RUNNER PRO',
-            category: 'zapatillas',
-            subcategory: 'hombres',
-            price: 189,
-            stock: true,
-            image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop',
-            description: 'Zapatillas de alto rendimiento con tecnología air'
-          },
-          {
-            id: 2,
-            name: 'CLASSIC CAP',
-            category: 'gorras',
-            subcategory: 'unisex',
-            price: 49,
-            stock: true,
-            image: 'https://images.unsplash.com/photo-1595777707802-c8b0adf82475?w=400&h=400&fit=crop',
-            description: 'Gorra clásica premium de algodón'
-          }
-        ];
-        setProducts(initialProducts);
-        localStorage.setItem('dashboard_products', JSON.stringify(initialProducts));
+      } catch (error) {
+        console.error('Error al cargar productos guardados:', error);
+        loadInitialProducts();
       }
-      setIsLoading(false);
-    }, 500);
+    } else {
+      loadInitialProducts();
+    }
+    
+    setIsLoading(false);
+  };
+
+  const loadInitialProducts = () => {
+    // Combinar todos los productos de data
+    const allProducts = [
+      ...gorrasData,
+      ...hombresData,
+      ...mujeresData
+    ];
+    
+    setProducts(allProducts);
+    localStorage.setItem('dukicks_all_products', JSON.stringify(allProducts));
+  };
+
+  const saveProducts = (updatedProducts) => {
+    setProducts(updatedProducts);
+    localStorage.setItem('dukicks_all_products', JSON.stringify(updatedProducts));
   };
 
   const handleLogout = useCallback(() => {
@@ -114,8 +123,7 @@ const Dashboard = () => {
   const handleDeleteProduct = useCallback((productId) => {
     if (window.confirm('¿Estás seguro de eliminar este producto?')) {
       const updatedProducts = products.filter(p => p.id !== productId);
-      setProducts(updatedProducts);
-      localStorage.setItem('dashboard_products', JSON.stringify(updatedProducts));
+      saveProducts(updatedProducts);
     }
   }, [products]);
 
@@ -127,14 +135,23 @@ const Dashboard = () => {
         p.id === editingProduct.id ? { ...productData, id: editingProduct.id } : p
       );
     } else {
-      const newProduct = { ...productData, id: Date.now() };
+      const newProduct = { 
+        ...productData, 
+        id: `${productData.category}-${Date.now()}` 
+      };
       updatedProducts = [...products, newProduct];
     }
 
-    setProducts(updatedProducts);
-    localStorage.setItem('dashboard_products', JSON.stringify(updatedProducts));
+    saveProducts(updatedProducts);
     setShowModal(false);
   }, [products, editingProduct]);
+
+  const handleResetData = () => {
+    if (window.confirm('⚠️ ¿Estás seguro? Esto restaurará todos los productos a los valores originales y eliminará los productos agregados.')) {
+      loadInitialProducts();
+      alert('✅ Datos restaurados correctamente');
+    }
+  };
 
   const username = localStorage.getItem('adminUsername') || 'Admin';
 
@@ -158,6 +175,7 @@ const Dashboard = () => {
             onAddProduct={handleAddProduct}
             onEditProduct={handleEditProduct}
             onDeleteProduct={handleDeleteProduct}
+            onResetData={handleResetData}
           />
         </div>
       </main>
@@ -178,13 +196,10 @@ const DashboardHeader = ({ username, onLogout }) => (
   <header className="dashboard-header">
     <div className="header-content">
       <div>
-        <h1 className="header-title">Panel de Control</h1>
+        <h1 className="header-title">Panel de Control - DUKICKS</h1>
         <p className="header-subtitle">Bienvenido, {username}</p>
       </div>
-      <button
-        onClick={onLogout}
-        className="logout-btn"
-      >
+      <button onClick={onLogout} className="logout-btn">
         Cerrar Sesión
       </button>
     </div>
@@ -195,18 +210,15 @@ const DashboardHeader = ({ username, onLogout }) => (
 const StatsGrid = ({ stats }) => {
   const statCards = [
     { label: 'Total Productos', value: stats.total, color: '#0066cc' },
-    { label: 'En Stock', value: stats.inStock, color: '#4caf50' },
-    { label: 'Agotados', value: stats.outOfStock, color: '#ff6b6b' }
+    { label: 'Gorras', value: stats.gorras, color: '#ff9900' },
+    { label: 'Hombres', value: stats.hombres, color: '#4facfe' },
+    { label: 'Mujeres', value: stats.mujeres, color: '#f093fb' }
   ];
 
   return (
     <div className="stats-grid">
       {statCards.map((stat, idx) => (
-        <div
-          key={idx}
-          className="stat-card"
-          style={{ borderLeftColor: stat.color }}
-        >
+        <div key={idx} className="stat-card" style={{ borderLeftColor: stat.color }}>
           <div className="stat-content">
             <div>
               <p className="stat-label">{stat.label}</p>
@@ -233,23 +245,26 @@ const ProductsSection = ({
   onSortChange,
   onAddProduct,
   onEditProduct,
-  onDeleteProduct
+  onDeleteProduct,
+  onResetData
 }) => (
   <div className="products-section">
     <div className="products-header">
-      <h2 className="products-title">Productos</h2>
-      <button
-        onClick={onAddProduct}
-        className="add-product-btn"
-      >
-        + Agregar Producto
-      </button>
+      <h2 className="products-title">Gestión de Productos</h2>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <button onClick={onResetData} className="reset-btn" title="Restaurar datos originales">
+          🔄 Restaurar
+        </button>
+        <button onClick={onAddProduct} className="add-product-btn">
+          + Agregar Producto
+        </button>
+      </div>
     </div>
 
     <div className="products-controls">
       <input
         type="text"
-        placeholder="Buscar productos..."
+        placeholder="Buscar por marca o modelo..."
         value={searchTerm}
         onChange={(e) => onSearchChange(e.target.value)}
         className="search-input"
@@ -261,8 +276,9 @@ const ProductsSection = ({
         className="filter-select"
       >
         <option value="all">Todas las categorías</option>
-        <option value="zapatillas">Zapatillas</option>
         <option value="gorras">Gorras</option>
+        <option value="tenis-hombre">Hombres</option>
+        <option value="tenis-mujer">Mujeres</option>
       </select>
 
       <select
@@ -278,13 +294,15 @@ const ProductsSection = ({
     </div>
 
     {isLoading ? (
-      <div className="loading-state">
-        Cargando productos...
-      </div>
+      <div className="loading-state">Cargando productos...</div>
     ) : products.length === 0 ? (
       <div className="empty-state">
-        <p className="empty-title">📦 No hay productos</p>
-        <p className="empty-subtitle">Comienza agregando tu primer producto</p>
+        <p className="empty-title"> No hay productos</p>
+        <p className="empty-subtitle">
+          {searchTerm || filterCategory !== 'all' 
+            ? 'Intenta cambiar los filtros de búsqueda'
+            : 'Comienza agregando tu primer producto'}
+        </p>
       </div>
     ) : (
       <ProductsTable
@@ -306,44 +324,59 @@ const ProductsTable = ({ products, onEdit, onDelete }) => (
           <th>Producto</th>
           <th>Categoría</th>
           <th>Precio</th>
-          <th>Stock</th>
+          <th>Tallas</th>
+          <th>Badges</th>
           <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
         {products.map((product, idx) => (
-          <tr
-            key={product.id}
-            className={`table-row ${idx % 2 === 0 ? 'even' : 'odd'}`}
-          >
+          <tr key={product.id} className={`table-row ${idx % 2 === 0 ? 'even' : 'odd'}`}>
             <td>
-              <ProductImage image={product.image} alt={product.name} />
+              <ProductImage image={product.image} alt={`${product.brand} ${product.model}`} />
             </td>
             <td>
               <div>
-                <p className="product-name">{product.name}</p>
-                <p className="product-subcategory">{product.subcategory}</p>
+                <p className="product-name">{product.brand} {product.model}</p>
+                <p className="product-subcategory">{product.color}</p>
               </div>
             </td>
-            <td className="product-category">{product.category}</td>
+            <td className="product-category">
+              {product.category === 'gorras' && '🧢 Gorras'}
+              {product.category === 'tenis-hombre' && '👟 Hombres'}
+              {product.category === 'tenis-mujer' && '👟 Mujeres'}
+            </td>
             <td className="product-price">${product.price}</td>
             <td>
-              <span className={`stock-badge ${product.stock ? 'in-stock' : 'out-of-stock'}`}>
-                {product.stock ? 'En Stock' : 'Agotado'}
+              <span style={{ fontSize: '0.85rem', color: '#666' }}>
+                {product.sizes?.length || 0} tallas
               </span>
             </td>
             <td>
+              <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                {product.features?.nuevo && (
+                  <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: '#000', color: '#fff', borderRadius: '3px' }}>
+                    NUEVO
+                  </span>
+                )}
+                {product.features?.destacado && (
+                  <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: '#FFD700', color: '#000', borderRadius: '3px' }}>
+                    DESTACADO
+                  </span>
+                )}
+                {product.features?.oferta && (
+                  <span style={{ fontSize: '0.7rem', padding: '2px 6px', background: '#FF4444', color: '#fff', borderRadius: '3px' }}>
+                    OFERTA
+                  </span>
+                )}
+              </div>
+            </td>
+            <td>
               <div className="action-buttons">
-                <button
-                  onClick={() => onEdit(product)}
-                  className="edit-btn"
-                >
+                <button onClick={() => onEdit(product)} className="edit-btn">
                   Editar
                 </button>
-                <button
-                  onClick={() => onDelete(product.id)}
-                  className="delete-btn"
-                >
+                <button onClick={() => onDelete(product.id)} className="delete-btn">
                   Eliminar
                 </button>
               </div>
@@ -355,7 +388,7 @@ const ProductsTable = ({ products, onEdit, onDelete }) => (
   </div>
 );
 
-// ===== COMPONENTE DE IMAGEN CON FALLBACK =====
+// ===== COMPONENTE DE IMAGEN =====
 const ProductImage = ({ image, alt }) => {
   const [imageError, setImageError] = useState(false);
 
@@ -375,27 +408,43 @@ const ProductImage = ({ image, alt }) => {
   );
 };
 
-// ===== MODAL DE PRODUCTO CON CARGA DE IMAGEN =====
+// ===== MODAL DE PRODUCTO =====
 const ProductModal = ({ product, onSave, onClose }) => {
   const [formData, setFormData] = useState({
-    name: product?.name || '',
-    category: product?.category || 'zapatillas',
-    subcategory: product?.subcategory || 'hombres',
+    brand: product?.brand || '',
+    model: product?.model || '',
+    category: product?.category || 'tenis-hombre',
     price: product?.price || '',
-    stock: product?.stock !== undefined ? product.stock : true,
     image: product?.image || '',
-    description: product?.description || '',
-    sizes: product?.sizes || []
+    color: product?.color || '',
+    sizes: product?.sizes || [],
+    features: {
+      nuevo: product?.features?.nuevo || false,
+      destacado: product?.features?.destacado || false,
+      oferta: product?.features?.oferta || false
+    }
   });
 
   const [imagePreview, setImagePreview] = useState(product?.image || null);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }));
+    
+    if (name.startsWith('features.')) {
+      const featureName = name.split('.')[1];
+      setFormData(prev => ({
+        ...prev,
+        features: {
+          ...prev.features,
+          [featureName]: checked
+        }
+      }));
+    } else {
+      setFormData(prev => ({
+        ...prev,
+        [name]: type === 'checkbox' ? checked : value
+      }));
+    }
   };
 
   const handleImageUpload = (e) => {
@@ -414,8 +463,8 @@ const ProductModal = ({ product, onSave, onClose }) => {
   };
 
   const handleSubmit = () => {
-    if (!formData.name || !formData.price || !formData.image) {
-      alert('Por favor completa todos los campos requeridos');
+    if (!formData.brand || !formData.model || !formData.price) {
+      alert('Por favor completa: Marca, Modelo y Precio');
       return;
     }
 
@@ -427,32 +476,19 @@ const ProductModal = ({ product, onSave, onClose }) => {
 
   return (
     <>
-      <div
-        onClick={onClose}
-        className="modal-overlay"
-      />
+      <div onClick={onClose} className="modal-overlay" />
       <div className="modal">
-        {/* Header */}
         <div className="modal-header">
           <h2 className="modal-title">
             {product ? 'Editar Producto' : 'Nuevo Producto'}
           </h2>
-          <button
-            onClick={onClose}
-            className="modal-close-btn"
-          >
-            ✕
-          </button>
+          <button onClick={onClose} className="modal-close-btn">✕</button>
         </div>
 
-        {/* Form */}
         <div className="modal-content">
-          
           {/* Preview de Imagen */}
           <div className="image-upload-section">
-            <label className="section-label">
-              Imagen del Producto *
-            </label>
+            <label className="section-label">Imagen del Producto</label>
             <div className="image-preview">
               {imagePreview ? (
                 <img
@@ -466,28 +502,7 @@ const ProductModal = ({ product, onSave, onClose }) => {
               )}
             </div>
 
-            {/* Solo subida de archivo */}
-            <div 
-              className="file-upload-area"
-              onDragEnter={e => {
-                e.stopPropagation();
-                e.target.style.borderColor = '#0066cc';
-                e.target.style.backgroundColor = '#f0f8ff';
-              }}
-              onDragLeave={e => {
-                e.target.style.borderColor = '#ddd';
-                e.target.style.backgroundColor = '#f9f9f9';
-              }}
-              onDrop={e => {
-                e.stopPropagation();
-                e.preventDefault();
-                const files = e.dataTransfer.files;
-                if (files[0]) {
-                  const event = { target: { files } };
-                  handleImageUpload(event);
-                }
-              }}
-            >
+            <div className="file-upload-area">
               <p className="upload-text">
                 Arrastra una imagen aquí o haz clic para seleccionar
               </p>
@@ -500,65 +515,54 @@ const ProductModal = ({ product, onSave, onClose }) => {
               <label htmlFor="file-input" className="file-input-label">
                 Seleccionar archivo
               </label>
-              <p className="file-format-info">
-                Formatos aceptados: JPG, PNG, WebP
-              </p>
+              <p className="file-format-info">Formatos: JPG, PNG, WebP</p>
             </div>
           </div>
 
           {/* Información del Producto */}
-          <div className="form-field">
-            <label className="field-label">
-              Nombre *
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Ej: Air Runner Pro"
-              className="text-input"
-            />
+          <div className="form-row">
+            <div className="form-field">
+              <label className="field-label">Marca *</label>
+              <input
+                type="text"
+                name="brand"
+                value={formData.brand}
+                onChange={handleChange}
+                placeholder="Ej: Nike"
+                className="text-input"
+              />
+            </div>
+
+            <div className="form-field">
+              <label className="field-label">Modelo *</label>
+              <input
+                type="text"
+                name="model"
+                value={formData.model}
+                onChange={handleChange}
+                placeholder="Ej: Air Force 1"
+                className="text-input"
+              />
+            </div>
           </div>
 
           <div className="form-row">
             <div className="form-field">
-              <label className="field-label">
-                Categoría
-              </label>
+              <label className="field-label">Categoría</label>
               <select
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
                 className="select-input"
               >
-                <option value="zapatillas">Zapatillas</option>
+                <option value="tenis-hombre">Hombres</option>
+                <option value="tenis-mujer">Mujeres</option>
                 <option value="gorras">Gorras</option>
               </select>
             </div>
 
             <div className="form-field">
-              <label className="field-label">
-                Subcategoría
-              </label>
-              <select
-                name="subcategory"
-                value={formData.subcategory}
-                onChange={handleChange}
-                className="select-input"
-              >
-                <option value="hombres">Hombres</option>
-                <option value="mujeres">Mujeres</option>
-                <option value="unisex">Unisex</option>
-              </select>
-            </div>
-          </div>
-
-          <div className="form-row">
-            <div className="form-field">
-              <label className="field-label">
-                Precio *
-              </label>
+              <label className="field-label">Precio *</label>
               <input
                 type="number"
                 name="price"
@@ -570,35 +574,52 @@ const ProductModal = ({ product, onSave, onClose }) => {
                 className="text-input"
               />
             </div>
-
-            <div className="form-field">
-              <label className="field-label">
-                Stock
-              </label>
-              <select
-                name="stock"
-                value={formData.stock ? 'inStock' : 'outOfStock'}
-                onChange={(e) => setFormData(prev => ({ ...prev, stock: e.target.value === 'inStock' }))}
-                className="select-input"
-              >
-                <option value="inStock">En Stock</option>
-                <option value="outOfStock">Agotado</option>
-              </select>
-            </div>
           </div>
 
           <div className="form-field">
-            <label className="field-label">
-              Descripción
-            </label>
-            <textarea
-              name="description"
-              value={formData.description}
+            <label className="field-label">Color</label>
+            <input
+              type="text"
+              name="color"
+              value={formData.color}
               onChange={handleChange}
-              placeholder="Describe el producto..."
-              rows="4"
-              className="textarea-input"
+              placeholder="Ej: Negro/Blanco"
+              className="text-input"
             />
+          </div>
+
+          {/* Features / Badges */}
+          <div className="form-field">
+            <label className="field-label">Características</label>
+            <div style={{ display: 'flex', gap: '15px', flexWrap: 'wrap' }}>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <input
+                  type="checkbox"
+                  name="features.nuevo"
+                  checked={formData.features.nuevo}
+                  onChange={handleChange}
+                />
+                <span>Nuevo</span>
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <input
+                  type="checkbox"
+                  name="features.destacado"
+                  checked={formData.features.destacado}
+                  onChange={handleChange}
+                />
+                <span>Destacado</span>
+              </label>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <input
+                  type="checkbox"
+                  name="features.oferta"
+                  checked={formData.features.oferta}
+                  onChange={handleChange}
+                />
+                <span>Oferta</span>
+              </label>
+            </div>
           </div>
 
           {/* Selector de Tallas */}
@@ -609,17 +630,10 @@ const ProductModal = ({ product, onSave, onClose }) => {
           />
 
           <div className="modal-actions">
-            <button
-              type="button"
-              onClick={onClose}
-              className="cancel-btn"
-            >
+            <button type="button" onClick={onClose} className="cancel-btn">
               Cancelar
             </button>
-            <button
-              onClick={handleSubmit}
-              className="save-btn"
-            >
+            <button onClick={handleSubmit} className="save-btn">
               {product ? 'Guardar Cambios' : 'Crear Producto'}
             </button>
           </div>
@@ -633,7 +647,8 @@ const ProductModal = ({ product, onSave, onClose }) => {
 const SizesSelector = ({ category, selectedSizes, onSizesChange }) => {
   const getSizeOptions = () => {
     switch(category) {
-      case 'zapatillas':
+      case 'tenis-hombre':
+      case 'tenis-mujer':
         return [5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 13, 14, 15];
       case 'gorras':
         return ['One Size'];
@@ -666,22 +681,12 @@ const SizesSelector = ({ category, selectedSizes, onSizesChange }) => {
   return (
     <div className="sizes-selector">
       <div className="sizes-header">
-        <label className="sizes-label">
-          Tallas disponibles
-        </label>
+        <label className="sizes-label">Tallas disponibles</label>
         <div className="sizes-actions">
-          <button
-            type="button"
-            onClick={selectAll}
-            className="select-all-btn"
-          >
+          <button type="button" onClick={selectAll} className="select-all-btn">
             Seleccionar todo
           </button>
-          <button
-            type="button"
-            onClick={clearAll}
-            className="clear-all-btn"
-          >
+          <button type="button" onClick={clearAll} className="clear-all-btn">
             Limpiar
           </button>
         </div>
