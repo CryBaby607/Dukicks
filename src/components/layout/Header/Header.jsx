@@ -277,7 +277,7 @@ const CartPanel = () => {
   const handleCheckout = () => {
     if (cartItems.length === 0) return;
 
-    const phoneNumber = "5219613019859";
+    const phoneNumber = "5219611567875";
     
     let message = `Hola, quiero realizar la siguiente compra:`;
 
